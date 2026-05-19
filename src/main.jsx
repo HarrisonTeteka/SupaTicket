@@ -1,11 +1,13 @@
-// src/main.jsx
-import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "./app/App.jsx";
-import "./index.css";
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import AppShell from './app/AppShell';
+import { Providers } from './app/providers';
+import './styles/globals.css';
 
-ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <Providers>
+      <AppShell />
+    </Providers>
+  </StrictMode>
 );

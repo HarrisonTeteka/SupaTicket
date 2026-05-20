@@ -1,1 +1,48 @@
- 
+import { useNavigate } from 'react-router-dom';
+import { Paperclip } from 'lucide-react';
+import { StatusBadge } from './StatusBadge';
+import { PriorityBadge } from './PriorityBadge';
+import { formatRelative, formatTicketNumber } from '../tickets.utils';
+
+/** One ticket in the list view. Clicking navigates to the detail page. */
+export function TicketRow({ ticket }) {
+  const navigate = useNavigate();
+  const attachmentCount = ticket.attachments?.length ?? 0;
+
+  return (
+    <button
+      type="button"
+      onClick={() => navigate(`/tickets/${ticket.id}`)}
+      className="w-full text-left bg-white border border-gray-200 rounded-2xl p-4 hover:border-[#12344d] hover:shadow-md transition-all flex items-center gap-4"
+    >
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2 mb-1">
+          <span className="text-xs font-bold text-gray-400">
+            {formatTicketNumber(ticket.ticket_number)}
+          </span>
+          <span className="text-xs text-gray-300">·</span>
+          <span className="text-xs text-gray-400">{ticket.category}</span>
+        </div>
+        <h3 className="font-bold text-[#12344d] truncate">{ticket.title}</h3>
+        <p className="text-sm text-gray-500 truncate mt-0.5">{ticket.description}</p>
+      </div>
+
+      <div className="flex items-center gap-3 shrink-0">
+        {attachmentCount > 0 && (
+          <span className="flex items-center gap-1 text-xs text-gray-400">
+            <Paperclip size={13} />
+            {attachmentCount}
+          </span>
+        )}
+        <PriorityBadge priority={ticket.priority} />
+        <StatusBadge status={ticket.status} />
+        <div className="text-right w-28">
+          <p className="text-xs font-bold text-[#12344d] truncate">
+            {ticket.assignee_name || 'Unassigned'}
+          </p>
+          <p className="text-[11px] text-gray-400">{formatRelative(ticket.created_at)}</p>
+        </div>
+      </div>
+    </button>
+  );
+}

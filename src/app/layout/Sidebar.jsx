@@ -2,6 +2,7 @@ import { NavLink } from 'react-router-dom';
 import { LayoutDashboard, Layers, Plus, Settings, Ticket } from 'lucide-react';
 import { useAuth } from '../../features/auth/components/AuthGate';
 import { ProfileMenu } from '../../features/auth/components/ProfileMenu';
+import { useNewTicketModal } from '../../features/tickets/hooks/useNewTicketModal';
 
 /**
  * Dark navy sidebar that mirrors Gemini's visual language. Navigation is
@@ -9,6 +10,7 @@ import { ProfileMenu } from '../../features/auth/components/ProfileMenu';
  */
 export function Sidebar() {
   const { isAdmin } = useAuth();
+  const { openNewTicket } = useNewTicketModal();
 
   return (
     <aside className="w-20 bg-[#12344d] flex flex-col items-center py-6 shrink-0 space-y-8 z-20 shadow-xl relative">
@@ -21,10 +23,9 @@ export function Sidebar() {
       <nav className="flex flex-col gap-6">
         <NavItem to="/dashboard" icon={LayoutDashboard} label="Dashboard" />
         <NavItem to="/tickets" icon={Layers} label="Tickets" />
-        {/* "Raise ticket" — wired in Phase 2 */}
         <button
           type="button"
-          onClick={() => window.dispatchEvent(new CustomEvent('supaticket:new-ticket'))}
+          onClick={() => openNewTicket()}
           className="p-3 rounded-xl transition-all text-white/50 hover:text-white"
           title="Raise Ticket"
         >

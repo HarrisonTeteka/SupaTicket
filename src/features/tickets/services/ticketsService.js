@@ -1,0 +1,150 @@
+import { supabase } from '../../../lib/supabase';
+import { looksLikeTicketNumber } from '../tickets.utils';
+
+/**
+ * All network-touching ticket operations. Components and hooks call these
+ * instead of using the supabase client directly.
+ */
+
+// Explicit column list — excludes the generated `fts` tsvector column.
+const TICKET_COLUMNS =
+  'id, ticket_number, title, description, category, priority, status, ' +
+  'parent_id, assigned_to, assignee_name, attachments, custom_data, ' +
+  'created_by, creator_name, created_at, updated_at';
+
+/**
+ * List tickets, newest first. `filters` keys: status, priority, assigned_to,
+ * category. `parentId` of `null` returns only top-level tickets; a uuid
+ * returns that ticket's sub-tickets.
+ */
+export async function listTickets(filters = {}) {
+  let query = supabase
+    .from('tickets')
+    .select(TICKET_COLUMNS)
+    .order('created_at', { ascending: false });
+
+  if (filters.status) query = query.eq('status', filters.status);
+  if (filters.priority) query = query.eq('priority', filters.priority);
+  if (filters.assigned_to) query = query.eq('assigned_to', filters.assigned_to);
+  if (filters.category) query = query.eq('category', filters.category);
+
+  if (filters.parentId === null) query = query.is('parent_id', null);
+  else if (filters.parentId) query = query.eq('parent_id', filters.parentId);
+
+  const { data, error } = await query;
+  if (error) throw error;
+  return data ?? [];
+}
+
+export async function getTicket(id) {
+  const { data, error } = await supabase
+    .from('tickets')
+    .select(TICKET_COLUMNS)
+    .eq('id', id)
+    .maybeSingle();
+  if (error) throw error;
+  return data;
+}
+
+export async function listSubTickets(parentId) {
+  return listTickets({ parentId });
+}
+
+/**
+ * Insert a ticket. `actor` is the current user's profile ({ id, name }); it
+ * stamps created_by / creator_name (denormalised so display survives a user
+ * deletion — see PHASES.md).
+ */
+export async function createTicket(input, actor) {
+  const row = {
+    title: input.title.trim(),
+    description: input.description.trim(),
+    category: input.category,
+    priority: input.priority || 'Medium',
+    status: input.status || 'Open',
+    parent_id: input.parent_id || null,
+    assigned_to: input.assigned_to || null,
+    assignee_name: input.assignee_name || null,
+    custom_data: input.custom_data || {},
+    created_by: actor?.id ?? null,
+    creator_name: actor?.name ?? null,
+  };
+  const { data, error } = await supabase
+    .from('tickets')
+    .insert(row)
+    .select(TICKET_COLUMNS)
+    .single();
+  if (error) throw error;
+  return data;
+}
+
+/**
+ * Patch a ticket. Pass only the fields that change. When `assigned_to`
+ * changes, also pass `assignee_name` so the denormalised copy stays in sync.
+ */
+export async function updateTicket(id, patch) {
+  const { data, error } = await supabase
+    .from('tickets')
+    .update(patch)
+    .eq('id', id)
+    .select(TICKET_COLUMNS)
+    .single();
+  if (error) throw error;
+  return data;
+}
+
+export async function deleteTicket(id) {
+  const { error } = await supabase.from('tickets').delete().eq('id', id);
+  if (error) throw error;
+}
+
+/** Workspace ticket categories (from the app_config singleton row). */
+export async function listCategories() {
+  const { data, error } = await supabase
+    .from('app_config')
+    .select('categories')
+    .eq('id', 1)
+    .maybeSingle();
+  if (error) throw error;
+  return data?.categories ?? [];
+}
+
+/** Active profiles a ticket can be assigned to. */
+export async function listAssignees() {
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('id, name, email, department')
+    .eq('status', 'active')
+    .order('name');
+  if (error) throw error;
+  return data ?? [];
+}
+
+/**
+ * Search tickets for the topbar: an all-digit query is matched exactly
+ * against ticket_number; anything else is a full-text query over `fts`.
+ */
+export async function searchTickets(query) {
+  const q = String(query).trim();
+  if (!q) return [];
+
+  const columns = 'id, ticket_number, title, status, priority';
+
+  if (looksLikeTicketNumber(q)) {
+    const { data, error } = await supabase
+      .from('tickets')
+      .select(columns)
+      .eq('ticket_number', Number(q))
+      .limit(10);
+    if (error) throw error;
+    return data ?? [];
+  }
+
+  const { data, error } = await supabase
+    .from('tickets')
+    .select(columns)
+    .textSearch('fts', q, { type: 'websearch' })
+    .limit(10);
+  if (error) throw error;
+  return data ?? [];
+}

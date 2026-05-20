@@ -68,13 +68,21 @@ export function useUserProfile(userId) {
           table: 'profiles',
           filter: `id=eq.${userId}`,
         },
-        (payload) => {
+        async (payload) => {
           if (cancelled) return;
           if (payload.eventType === 'DELETE') {
             setProfile(null);
-          } else if (payload.new) {
-            setProfile(payload.new);
+            return;
           }
+          // Don't trust payload.new — realtime payloads can have a different
+          // shape than the original select (RLS column filtering, partial
+          // columns). Re-fetch with the same select to stay consistent.
+          const { data } = await supabase
+            .from('profiles')
+            .select(PROFILE_COLUMNS)
+            .eq('id', userId)
+            .maybeSingle();
+          if (!cancelled && data) setProfile(data);
         }
       )
       .subscribe();

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { supabase } from '../../../lib/supabase';
 import { listTickets } from '../services/ticketsService';
 
@@ -17,14 +17,12 @@ export function useTickets(filters = {}) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Latest filters in a ref so the realtime handler always refetches with the
-  // current filters without needing to re-subscribe.
-  const filtersRef = useRef(filters);
-  filtersRef.current = filters;
+  // Filters are compared by content, not identity.
+  const filterKey = JSON.stringify(filters);
 
   const refetch = useCallback(async () => {
     try {
-      const data = await listTickets(filtersRef.current);
+      const data = await listTickets(JSON.parse(filterKey));
       setTickets(data);
       setError(null);
     } catch (err) {
@@ -32,45 +30,43 @@ export function useTickets(filters = {}) {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [filterKey]);
 
-  // Refetch whenever the filter values change.
-  const filterKey = JSON.stringify(filters);
   useEffect(() => {
     let cancelled = false;
-    setLoading(true);
-    listTickets(filtersRef.current)
-      .then((data) => {
+
+    const load = async () => {
+      try {
+        const data = await listTickets(JSON.parse(filterKey));
         if (!cancelled) {
           setTickets(data);
           setError(null);
         }
-      })
-      .catch((err) => {
+      } catch (err) {
         if (!cancelled) setError(err);
-      })
-      .finally(() => {
+      } finally {
         if (!cancelled) setLoading(false);
-      });
-    return () => {
-      cancelled = true;
+      }
     };
-  }, [filterKey]);
 
-  // One realtime subscription for the lifetime of the hook.
-  useEffect(() => {
+    load();
+
+    // Re-subscribed when the filters change — cheap, and keeps the realtime
+    // handler refetching with the current filters.
     const channel = supabase
       .channel('tickets:list')
       .on(
         'postgres_changes',
         { event: '*', schema: 'public', table: 'tickets' },
-        () => refetch()
+        load
       )
       .subscribe();
+
     return () => {
+      cancelled = true;
       supabase.removeChannel(channel);
     };
-  }, [refetch]);
+  }, [filterKey]);
 
   return { tickets, loading, error, refetch };
 }

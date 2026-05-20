@@ -12,16 +12,16 @@ export function useComments(ticketId) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!ticketId) {
-      setComments([]);
-      setLoading(false);
-      return undefined;
-    }
-
     let cancelled = false;
-    setLoading(true);
 
     const reload = async () => {
+      if (!ticketId) {
+        if (!cancelled) {
+          setComments([]);
+          setLoading(false);
+        }
+        return;
+      }
       try {
         const data = await listComments(ticketId);
         if (!cancelled) {
@@ -36,6 +36,8 @@ export function useComments(ticketId) {
     };
 
     reload();
+
+    if (!ticketId) return undefined;
 
     const channel = supabase
       .channel(`comments:${ticketId}`)

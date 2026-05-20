@@ -25,28 +25,32 @@ export function useTicket(id) {
   }, [id]);
 
   useEffect(() => {
-    if (!id) {
-      setTicket(null);
-      setLoading(false);
-      return undefined;
-    }
-
     let cancelled = false;
-    setLoading(true);
 
-    getTicket(id)
-      .then((data) => {
+    const load = async () => {
+      if (!id) {
+        if (!cancelled) {
+          setTicket(null);
+          setLoading(false);
+        }
+        return;
+      }
+      try {
+        const data = await getTicket(id);
         if (!cancelled) {
           setTicket(data);
           setError(null);
         }
-      })
-      .catch((err) => {
+      } catch (err) {
         if (!cancelled) setError(err);
-      })
-      .finally(() => {
+      } finally {
         if (!cancelled) setLoading(false);
-      });
+      }
+    };
+
+    load();
+
+    if (!id) return undefined;
 
     const channel = supabase
       .channel(`ticket:${id}`)

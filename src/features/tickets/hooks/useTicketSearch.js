@@ -11,16 +11,17 @@ export function useTicketSearch(query, delay = 200) {
 
   useEffect(() => {
     const q = String(query || '').trim();
-    if (!q) {
-      setResults([]);
-      setLoading(false);
-      return undefined;
-    }
-
     let cancelled = false;
-    setLoading(true);
 
-    const timer = setTimeout(async () => {
+    const run = async () => {
+      if (!q) {
+        if (!cancelled) {
+          setResults([]);
+          setLoading(false);
+        }
+        return;
+      }
+      setLoading(true);
       try {
         const data = await searchTickets(q);
         if (!cancelled) setResults(data);
@@ -29,7 +30,9 @@ export function useTicketSearch(query, delay = 200) {
       } finally {
         if (!cancelled) setLoading(false);
       }
-    }, delay);
+    };
+
+    const timer = setTimeout(run, delay);
 
     return () => {
       cancelled = true;

@@ -14,7 +14,7 @@ const BUCKET = 'ticket-attachments';
  * Returns the new attachments array.
  */
 export async function uploadAttachment(ticket, file) {
-  const safeName = file.name.replace(/[^\w.\-]+/g, '_');
+  const safeName = file.name.replace(/[^\w.-]+/g, '_');
   const path = `${ticket.id}/${crypto.randomUUID()}-${safeName}`;
 
   const { error: uploadError } = await supabase.storage

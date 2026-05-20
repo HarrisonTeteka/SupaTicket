@@ -6,6 +6,7 @@ import { Badge } from '../../shared/components/Badge';
 import { useTicketSearch } from '../../features/tickets/hooks/useTicketSearch';
 import { StatusBadge } from '../../features/tickets/components/StatusBadge';
 import { formatTicketNumber } from '../../features/tickets/tickets.utils';
+import { NotificationBell } from '../../features/notifications/components/NotificationBell';
 
 /**
  * Top header bar. `title` is supplied per-page by PageContainer. The search
@@ -73,6 +74,7 @@ export function Topbar({ title }) {
             </div>
           )}
         </div>
+        <NotificationBell />
       </div>
     </header>
   );

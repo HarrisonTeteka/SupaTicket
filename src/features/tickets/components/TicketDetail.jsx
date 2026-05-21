@@ -21,6 +21,7 @@ import {
   formatDateTime,
   formatTicketNumber,
 } from '../tickets.utils';
+import { useAppConfig } from '../../admin/hooks/useAppConfig';
 
 /**
  * Full ticket detail view: editable title meta, description, comments thread,
@@ -31,6 +32,14 @@ export function TicketDetail({ ticket, onLocalChange }) {
   const { isAdmin } = useAuth();
   const navigate = useNavigate();
   const { comments, loading: commentsLoading } = useComments(ticket.id);
+  const { config } = useAppConfig();
+  const customFields = config.custom_fields;
+
+  const renderCustomValue = (field, value) => {
+    if (field.type === 'checkbox') return value ? 'Yes' : 'No';
+    if (value === undefined || value === null || value === '') return '—';
+    return String(value);
+  };
 
   const [editingDesc, setEditingDesc] = useState(false);
   const [desc, setDesc] = useState(ticket.description);
@@ -164,6 +173,26 @@ export function TicketDetail({ ticket, onLocalChange }) {
                 <p className="text-sm text-gray-700 whitespace-pre-wrap">{ticket.description}</p>
               )}
             </div>
+
+            {customFields.length > 0 && (
+              <div className="mt-5 pt-5 border-t border-gray-100">
+                <h3 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-3">
+                  Custom fields
+                </h3>
+                <dl className="grid grid-cols-2 gap-x-6 gap-y-3">
+                  {customFields.map((f) => (
+                    <div key={f.id}>
+                      <dt className="text-[11px] text-gray-400 font-bold uppercase tracking-wide">
+                        {f.label}
+                      </dt>
+                      <dd className="text-sm text-gray-700 mt-0.5">
+                        {renderCustomValue(f, ticket.custom_data?.[f.id])}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            )}
           </div>
 
           <div className="bg-white border border-gray-200 rounded-2xl p-6 space-y-4">

@@ -3,13 +3,13 @@ import { Input, Textarea } from '../../../shared/components/Input';
 import { Select } from '../../../shared/components/Select';
 import { Button } from '../../../shared/components/Button';
 import { AssigneePicker } from './AssigneePicker';
-import { useCategories } from '../hooks/useCategories';
+import { useAppConfig } from '../../admin/hooks/useAppConfig';
 import { TICKET_PRIORITIES } from '../tickets.utils';
 
 /**
  * Shared create/edit form for a ticket. `initial` seeds the fields (and may
- * carry a `parent_id` for sub-tickets). `onSubmit` receives a clean values
- * object; the caller owns the network call and the `submitting` flag.
+ * carry a `parent_id` for sub-tickets). Categories and custom fields come
+ * from app_config via useAppConfig, so admin edits propagate live.
  */
 export function TicketForm({
   initial = {},
@@ -18,7 +18,10 @@ export function TicketForm({
   submitLabel = 'Create ticket',
   onCancel,
 }) {
-  const categories = useCategories();
+  const { config } = useAppConfig();
+  const categories = config.categories;
+  const customFields = config.custom_fields;
+
   const [title, setTitle] = useState(initial.title || '');
   const [description, setDescription] = useState(initial.description || '');
   const [category, setCategory] = useState(initial.category || '');
@@ -28,13 +31,24 @@ export function TicketForm({
       ? { id: initial.assigned_to, name: initial.assignee_name }
       : null
   );
+  const [customData, setCustomData] = useState(initial.custom_data || {});
   const [errors, setErrors] = useState({});
+
+  const setField = (id, value) =>
+    setCustomData((prev) => ({ ...prev, [id]: value }));
 
   const validate = () => {
     const next = {};
     if (!title.trim()) next.title = 'Title is required.';
     if (!description.trim()) next.description = 'Description is required.';
     if (!category) next.category = 'Pick a category.';
+    customFields.forEach((f) => {
+      if (!f.required) return;
+      const v = customData[f.id];
+      const missing =
+        f.type === 'checkbox' ? !v : v === undefined || v === null || v === '';
+      if (missing) next[`cf_${f.id}`] = `${f.label} is required.`;
+    });
     setErrors(next);
     return Object.keys(next).length === 0;
   };
@@ -42,6 +56,11 @@ export function TicketForm({
   const submit = (e) => {
     e.preventDefault();
     if (!validate()) return;
+    // Keep only custom_data keys that match a current field definition.
+    const cleanCustomData = {};
+    customFields.forEach((f) => {
+      if (customData[f.id] !== undefined) cleanCustomData[f.id] = customData[f.id];
+    });
     onSubmit({
       title,
       description,
@@ -50,6 +69,7 @@ export function TicketForm({
       assigned_to: assignee?.id ?? null,
       assignee_name: assignee?.name ?? null,
       parent_id: initial.parent_id ?? null,
+      custom_data: cleanCustomData,
     });
   };
 
@@ -94,6 +114,21 @@ export function TicketForm({
         valueName={assignee?.name}
         onChange={setAssignee}
       />
+
+      {customFields.length > 0 && (
+        <div className="space-y-4 pt-3 border-t border-gray-100">
+          {customFields.map((f) => (
+            <CustomFieldInput
+              key={f.id}
+              field={f}
+              value={customData[f.id]}
+              error={errors[`cf_${f.id}`]}
+              onChange={setField}
+            />
+          ))}
+        </div>
+      )}
+
       <div className="flex justify-end gap-3 pt-2">
         {onCancel && (
           <Button type="button" variant="ghost" onClick={onCancel}>
@@ -105,5 +140,52 @@ export function TicketForm({
         </Button>
       </div>
     </form>
+  );
+}
+
+/** Renders one admin-defined custom field by its type. */
+function CustomFieldInput({ field, value, error, onChange }) {
+  const label = field.required ? `${field.label} *` : field.label;
+
+  if (field.type === 'checkbox') {
+    return (
+      <div>
+        <label className="flex items-center gap-2 text-sm font-bold text-gray-600">
+          <input
+            type="checkbox"
+            checked={!!value}
+            onChange={(e) => onChange(field.id, e.target.checked)}
+          />
+          {label}
+        </label>
+        {error && <p className="text-xs text-red-600 mt-1.5">{error}</p>}
+      </div>
+    );
+  }
+
+  if (field.type === 'select') {
+    return (
+      <Select
+        label={label}
+        placeholder="Select..."
+        options={field.options || []}
+        value={value ?? ''}
+        error={error}
+        onChange={(e) => onChange(field.id, e.target.value)}
+      />
+    );
+  }
+
+  const inputType =
+    field.type === 'number' ? 'number' : field.type === 'date' ? 'date' : 'text';
+
+  return (
+    <Input
+      label={label}
+      type={inputType}
+      value={value ?? ''}
+      error={error}
+      onChange={(e) => onChange(field.id, e.target.value)}
+    />
   );
 }

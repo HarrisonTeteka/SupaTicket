@@ -3,10 +3,11 @@ import { useAuth } from '../features/auth/components/AuthGate';
 import { PageContainer } from './layout/PageContainer';
 import TicketsPage from '../features/tickets/pages/TicketsPage';
 import TicketDetailPage from '../features/tickets/pages/TicketDetailPage';
+import AdminPage from '../features/admin/pages/AdminPage';
 
 /**
- * Route table. Real feature pages drop in here as we build each phase.
- * Phase 2 wires the Tickets feature; Dashboard and Admin remain placeholders.
+ * Route table. Phases 2-4 wire the Tickets and Admin features; Dashboard
+ * remains a placeholder pending a separate scoping pass.
  */
 export function AppRouter() {
   const { isAdmin } = useAuth();
@@ -43,7 +44,7 @@ export function AppRouter() {
           path="/admin/*"
           element={
             <PageContainer title="System Settings">
-              <AdminPlaceholder />
+              <AdminPage />
             </PageContainer>
           }
         />
@@ -58,20 +59,8 @@ function DashboardPlaceholder() {
     <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-8">
       <h2 className="text-lg font-bold mb-2">Welcome to SupaTicket</h2>
       <p className="text-sm text-gray-500">
-        Phase 1 + 2 are live: auth, shell and the Tickets feature. Dashboard
-        widgets land in a later phase.
-      </p>
-    </div>
-  );
-}
-
-function AdminPlaceholder() {
-  return (
-    <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-8">
-      <h2 className="text-lg font-bold mb-2">System Settings</h2>
-      <p className="text-sm text-gray-500">
-        Coming in Phase 4: staff directory, categories, departments, custom
-        fields, logs.
+        Phases 1-4 are live: auth, tickets, notifications and admin settings.
+        Dashboard widgets land in a later pass.
       </p>
     </div>
   );

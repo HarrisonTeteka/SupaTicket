@@ -2,16 +2,16 @@ import { useState } from 'react';
 import { User as UserIcon, LogOut } from 'lucide-react';
 import { useAuth } from './AuthGate';
 import { signOut } from '../services/authService';
+import { EditProfileModal } from '../../admin/components/EditProfileModal';
 
 /**
  * Sidebar avatar + popover menu. Lives at the top of the dark sidebar.
- *
- * "Edit Profile" is wired in Phase 4 (Users feature). For now it just
- * surfaces a notice so the menu still looks complete.
+ * "Edit Profile" opens the shared EditProfileModal in self mode.
  */
 export function ProfileMenu() {
   const { profile } = useAuth();
   const [open, setOpen] = useState(false);
+  const [editing, setEditing] = useState(false);
 
   if (!profile) return null;
 
@@ -53,8 +53,7 @@ export function ProfileMenu() {
             <button
               onClick={() => {
                 setOpen(false);
-                // Phase 4 will hook this up to the real edit-profile modal.
-                window.alert('Profile editing will be available in Phase 4.');
+                setEditing(true);
               }}
               className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition-colors font-semibold text-left mb-1"
             >
@@ -69,6 +68,14 @@ export function ProfileMenu() {
             </button>
           </div>
         </>
+      )}
+
+      {editing && (
+        <EditProfileModal
+          mode="self"
+          profile={profile}
+          onClose={() => setEditing(false)}
+        />
       )}
     </div>
   );

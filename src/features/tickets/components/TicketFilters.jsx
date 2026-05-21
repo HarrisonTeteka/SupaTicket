@@ -1,6 +1,6 @@
 import { Select } from '../../../shared/components/Select';
 import { Button } from '../../../shared/components/Button';
-import { useCategories } from '../hooks/useCategories';
+import { useAppConfig } from '../../admin/hooks/useAppConfig';
 import { TICKET_PRIORITIES, TICKET_STATUSES } from '../tickets.utils';
 
 /**
@@ -9,7 +9,8 @@ import { TICKET_PRIORITIES, TICKET_STATUSES } from '../tickets.utils';
  * filters object (keys omitted when "all" is selected).
  */
 export function TicketFilters({ filters, onChange, assignees = [] }) {
-  const categories = useCategories();
+  const { config } = useAppConfig();
+  const categories = config.categories;
 
   const set = (key) => (e) => {
     const next = { ...filters };

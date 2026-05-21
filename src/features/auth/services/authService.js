@@ -1,5 +1,6 @@
 import { supabase } from '../../../lib/supabase';
 import { deriveNameFromEmail } from './auth.utils';
+import { logAction } from '../../admin/services/systemLogsService';
 
 /**
  * All network-touching auth operations live here. Hooks and components
@@ -13,6 +14,7 @@ export async function signInWithEmail({ email, password }) {
     password,
   });
   if (error) throw error;
+  logAction('auth.login', email.trim());
   return data;
 }
 

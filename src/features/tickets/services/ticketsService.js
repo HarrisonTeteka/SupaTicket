@@ -1,5 +1,6 @@
 import { supabase } from '../../../lib/supabase';
 import { looksLikeTicketNumber } from '../tickets.utils';
+import { logAction } from '../../admin/services/systemLogsService';
 
 /**
  * All network-touching ticket operations. Components and hooks call these
@@ -75,6 +76,7 @@ export async function createTicket(input, actor) {
     .select(TICKET_COLUMNS)
     .single();
   if (error) throw error;
+  logAction('ticket.create', `#${data.ticket_number}`);
   return data;
 }
 
@@ -90,23 +92,21 @@ export async function updateTicket(id, patch) {
     .select(TICKET_COLUMNS)
     .single();
   if (error) throw error;
+  logAction('ticket.update', `#${data.ticket_number}`);
   return data;
 }
 
 export async function deleteTicket(id) {
+  // Capture the ticket number first so the audit log entry is meaningful.
+  const { data: existing } = await supabase
+    .from('tickets')
+    .select('ticket_number')
+    .eq('id', id)
+    .maybeSingle();
+
   const { error } = await supabase.from('tickets').delete().eq('id', id);
   if (error) throw error;
-}
-
-/** Workspace ticket categories (from the app_config singleton row). */
-export async function listCategories() {
-  const { data, error } = await supabase
-    .from('app_config')
-    .select('categories')
-    .eq('id', 1)
-    .maybeSingle();
-  if (error) throw error;
-  return data?.categories ?? [];
+  logAction('ticket.delete', existing ? `#${existing.ticket_number}` : id);
 }
 
 /** Active profiles a ticket can be assigned to. */

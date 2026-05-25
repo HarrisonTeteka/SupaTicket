@@ -59,7 +59,7 @@ export function useUserProfile(userId) {
 
     // Live updates to the user's own profile row (role/status changes by admin, etc.)
     const channel = supabase
-      .channel(`profile:${userId}`)
+      .channel(`profile:${userId}:${crypto.randomUUID()}`)
       .on(
         'postgres_changes',
         {

@@ -12,6 +12,7 @@ import { CommentForm } from './CommentForm';
 import { AttachmentList } from './AttachmentList';
 import { AttachmentUploader } from './AttachmentUploader';
 import { SubTicketList } from './SubTicketList';
+import { SatisfactionRating } from './SatisfactionRating';
 import { Select } from '../../../shared/components/Select';
 import { Button } from '../../../shared/components/Button';
 import { Textarea } from '../../../shared/components/Input';
@@ -29,7 +30,7 @@ import { useAppConfig } from '../../admin/hooks/useAppConfig';
  * updated ticket immediately (realtime confirms it shortly after).
  */
 export function TicketDetail({ ticket, onLocalChange }) {
-  const { isAdmin } = useAuth();
+  const { isAdmin, profile } = useAuth();
   const navigate = useNavigate();
   const { comments, loading: commentsLoading } = useComments(ticket.id);
   const { config } = useAppConfig();
@@ -240,6 +241,16 @@ export function TicketDetail({ ticket, onLocalChange }) {
               </p>
               <p>{formatDateTime(ticket.created_at)}</p>
             </div>
+
+            {ticket.status === 'Resolved' && (
+              <div className="pt-3 border-t border-gray-100">
+                <SatisfactionRating
+                  ticket={ticket}
+                  canRate={profile?.id === ticket.created_by}
+                  onRated={onLocalChange}
+                />
+              </div>
+            )}
           </div>
 
           <div className="bg-white border border-gray-200 rounded-2xl p-5 space-y-3">

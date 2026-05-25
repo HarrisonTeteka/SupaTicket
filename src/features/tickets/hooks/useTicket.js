@@ -53,7 +53,7 @@ export function useTicket(id) {
     if (!id) return undefined;
 
     const channel = supabase
-      .channel(`ticket:${id}`)
+      .channel(`ticket:${id}:${crypto.randomUUID()}`)
       .on(
         'postgres_changes',
         { event: '*', schema: 'public', table: 'tickets', filter: `id=eq.${id}` },

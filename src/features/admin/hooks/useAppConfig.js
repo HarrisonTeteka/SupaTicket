@@ -36,7 +36,7 @@ export function useAppConfig() {
     load();
 
     const channel = supabase
-      .channel('app_config')
+      .channel(`app_config:${crypto.randomUUID()}`)
       .on(
         'postgres_changes',
         { event: '*', schema: 'public', table: 'app_config' },

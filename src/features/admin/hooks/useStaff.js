@@ -27,7 +27,7 @@ export function useStaff() {
     load();
 
     const channel = supabase
-      .channel('staff:profiles')
+      .channel(`staff:profiles:${crypto.randomUUID()}`)
       .on(
         'postgres_changes',
         { event: '*', schema: 'public', table: 'profiles' },

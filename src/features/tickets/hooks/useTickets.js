@@ -54,7 +54,7 @@ export function useTickets(filters = {}) {
     // Re-subscribed when the filters change — cheap, and keeps the realtime
     // handler refetching with the current filters.
     const channel = supabase
-      .channel('tickets:list')
+      .channel(`tickets:list:${crypto.randomUUID()}`)
       .on(
         'postgres_changes',
         { event: '*', schema: 'public', table: 'tickets' },

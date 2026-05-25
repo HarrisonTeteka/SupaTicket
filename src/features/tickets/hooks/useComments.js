@@ -40,7 +40,7 @@ export function useComments(ticketId) {
     if (!ticketId) return undefined;
 
     const channel = supabase
-      .channel(`comments:${ticketId}`)
+      .channel(`comments:${ticketId}:${crypto.randomUUID()}`)
       .on(
         'postgres_changes',
         {

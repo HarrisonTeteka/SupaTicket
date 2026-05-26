@@ -18,6 +18,7 @@ import { Select } from '../../../shared/components/Select';
 import { Button } from '../../../shared/components/Button';
 import { Textarea } from '../../../shared/components/Input';
 import {
+  TERMINAL_STATUSES,
   TICKET_PRIORITIES,
   TICKET_STATUSES,
   formatDateTime,
@@ -47,6 +48,7 @@ export function TicketDetail({ ticket, onLocalChange }) {
   const [desc, setDesc] = useState(ticket.description);
   const [savingField, setSavingField] = useState(null);
   const [actionError, setActionError] = useState('');
+  const isTerminal = TERMINAL_STATUSES.includes(ticket?.status);
 
   const patch = async (field, values) => {
     setSavingField(field);
@@ -99,6 +101,11 @@ export function TicketDetail({ ticket, onLocalChange }) {
         <ArrowLeft size={15} /> Back to tickets
       </button>
 
+      {isTerminal && (
+        <p className="text-sm text-gray-500">
+          This ticket is resolved and cannot be edited.
+        </p>
+      )}
       {actionError && (
         <div className="p-3 bg-red-50 border border-red-100 text-red-700 text-sm rounded-xl">
           {actionError}
@@ -140,7 +147,7 @@ export function TicketDetail({ ticket, onLocalChange }) {
                 <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest">
                   Description
                 </h3>
-                {!editingDesc && (
+                {!editingDesc && !isTerminal && (
                   <button
                     type="button"
                     onClick={() => {
@@ -222,14 +229,14 @@ export function TicketDetail({ ticket, onLocalChange }) {
               label="Status"
               options={TICKET_STATUSES}
               value={ticket.status}
-              disabled={savingField === 'status'}
+              disabled={savingField === 'status' || isTerminal}
               onChange={(e) => patch('status', { status: e.target.value })}
             />
             <Select
               label="Priority"
               options={TICKET_PRIORITIES}
               value={ticket.priority}
-              disabled={savingField === 'priority'}
+              disabled={savingField === 'priority' || isTerminal}
               onChange={(e) => patch('priority', { priority: e.target.value })}
             />
             <AssigneePicker
@@ -237,11 +244,13 @@ export function TicketDetail({ ticket, onLocalChange }) {
               value={ticket.assigned_to}
               valueName={ticket.assignee_name}
               onChange={handleAssignee}
+              disabled={isTerminal}
             />
             <TagInput
               label="Tags"
               value={ticket.tags || []}
               onChange={(next) => patch('tags', { tags: next })}
+              disabled={isTerminal}
             />
             <div className="pt-3 border-t border-gray-100 text-xs text-gray-400 space-y-1">
               <p>

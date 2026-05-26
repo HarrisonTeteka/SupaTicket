@@ -1,5 +1,5 @@
 import { supabase } from '../../../lib/supabase';
-import { looksLikeTicketNumber } from '../tickets.utils';
+import { looksLikeTicketNumber, TERMINAL_STATUSES } from '../tickets.utils';
 import { logAction } from '../../../shared/services/systemLogsService';
 
 /**
@@ -90,6 +90,16 @@ export async function createTicket(input, actor) {
  * changes, also pass `assignee_name` so the denormalised copy stays in sync.
  */
 export async function updateTicket(id, patch) {
+  const { data: current, error: fetchError } = await supabase
+    .from('tickets')
+    .select('status')
+    .eq('id', id)
+    .single();
+  if (fetchError) throw fetchError;
+  if (TERMINAL_STATUSES.includes(current.status)) {
+    throw new Error('This ticket is resolved or closed and cannot be edited.');
+  }
+
   const { data, error } = await supabase
     .from('tickets')
     .update(patch)

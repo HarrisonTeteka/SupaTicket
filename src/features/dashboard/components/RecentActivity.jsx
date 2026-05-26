@@ -9,7 +9,7 @@ export function RecentActivity({ tickets }) {
 
   return (
     <div className="bg-white border border-gray-200 rounded-2xl p-5">
-      <h3 className="flex items-center gap-2 text-sm font-black text-[#336021] uppercase tracking-wide mb-4">
+      <h3 className="flex items-center gap-2 text-sm font-semibold text-[#336021] uppercase tracking-wide mb-4">
         <Activity size={15} /> Recent tickets
       </h3>
       {tickets.length === 0 ? (

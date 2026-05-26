@@ -48,7 +48,7 @@ export function StaffDirectory() {
       <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
         <table className="w-full">
           <thead>
-            <tr className="bg-gray-50 text-left text-xs font-black text-gray-400 uppercase tracking-widest">
+            <tr className="bg-gray-50 text-left text-xs font-semibold text-gray-400 uppercase tracking-widest">
               <th className="px-4 py-3">Name</th>
               <th className="px-4 py-3">Role</th>
               <th className="px-4 py-3">Department</th>

@@ -2,21 +2,40 @@ import { NavLink } from 'react-router-dom';
 import { Flame, LayoutDashboard, Layers, Plus, Settings } from 'lucide-react';
 import { useAuth } from '../../features/auth/components/AuthGate';
 import { useNewTicketModal } from '../../features/tickets/hooks/useNewTicketModal';
+import { useMobileNav } from './useMobileNav';
 
 /**
- * Dark moss-green sidebar carrying the SupaMoto brand chrome. Navigation is
- * route-based (react-router) instead of an in-memory `view` state.
+ * Dark moss-green sidebar carrying the SupaMoto brand chrome.
+ *
+ * Layout: brand flame + primary nav at the top; admin Settings pinned
+ * to the bottom via `mt-auto`.
+ *
+ * Responsive: on `md+` the sidebar sits in normal flex flow (80px wide).
+ * On `<md` it becomes a fixed drawer that slides in from the left, driven by
+ * the MobileNav context. The MobileNavBackdrop in AppShell handles the
+ * click-outside-to-close behavior; the context auto-closes on route change.
  */
 export function Sidebar() {
   const { isAdmin } = useAuth();
   const { openNewTicket } = useNewTicketModal();
+  const { isOpen } = useMobileNav();
 
   return (
-    <aside className="w-20 bg-[#336021] flex flex-col items-center py-6 shrink-0 space-y-8 z-20 shadow-xl relative">
-      <div className="p-2 bg-[#F58202] rounded-xl text-white shadow-md shadow-[#F58202]/30">
+    <aside
+      className={[
+        'fixed md:static inset-y-0 left-0 z-40',
+        'w-20 bg-[#336021] flex flex-col items-center py-6 shrink-0 shadow-xl',
+        'transition-transform duration-200 ease-out',
+        isOpen ? 'translate-x-0' : '-translate-x-full',
+        'md:translate-x-0',
+      ].join(' ')}
+    >
+      {/* Brand flame */}
+      <div className="p-2 bg-[#F58202] rounded-xl text-white shadow-md shadow-[#F58202]/30 mb-8">
         <Flame size={22} fill="currentColor" />
       </div>
 
+      {/* Primary nav */}
       <nav className="flex flex-col gap-3">
         <NavItem to="/dashboard" icon={LayoutDashboard} label="Dashboard" />
         <NavItem to="/tickets" icon={Layers} label="Tickets" />
@@ -28,8 +47,12 @@ export function Sidebar() {
         >
           <Plus size={24} />
         </button>
-        {isAdmin && <NavItem to="/admin" icon={Settings} label="Settings" />}
       </nav>
+
+      {/* Bottom cluster: admin Settings */}
+      <div className="mt-auto flex flex-col items-center gap-3">
+        {isAdmin && <NavItem to="/admin" icon={Settings} label="Settings" />}
+      </div>
     </aside>
   );
 }

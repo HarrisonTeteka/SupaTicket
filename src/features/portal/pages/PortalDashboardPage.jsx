@@ -52,7 +52,7 @@ export default function PortalDashboardPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
-        <h1 className="text-xl font-black">My Tickets</h1>
+        <h1 className="text-xl font-semibold">My Tickets</h1>
         <p className="text-sm text-gray-500">
           {tickets.length} ticket{tickets.length === 1 ? '' : 's'}
         </p>

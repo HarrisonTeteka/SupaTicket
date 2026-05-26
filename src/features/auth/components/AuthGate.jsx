@@ -82,9 +82,9 @@ function AuthScreen() {
           <img
             src="/supamoto-logo.svg"
             alt="SupaMoto"
-            className="h-14 mb-4 drop-shadow-sm"
+            className="h-14 mb-4"
           />
-          <h1 className="text-2xl font-black text-[#336021]">SupaTicket</h1>
+          <h1 className="text-2xl font-semibold text-[#336021]">SupaTicket</h1>
           <p className="text-sm text-gray-500 mt-1">
             {mode === 'signin' ? 'Sign in to your workspace' : 'Create your workspace account'}
           </p>
@@ -197,7 +197,7 @@ function TabButton({ active, onClick, children }) {
 function Field({ label, icon: Icon, children }) {
   return (
     <div>
-      <label className="text-xs font-black text-gray-400 uppercase tracking-widest block mb-2">
+      <label className="text-xs font-semibold text-gray-400 uppercase tracking-widest block mb-2">
         {label}
       </label>
       <div className="relative">

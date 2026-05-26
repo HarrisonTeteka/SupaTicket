@@ -20,7 +20,7 @@ export function Select({
       {label && (
         <label
           htmlFor={selectId}
-          className="text-xs font-black text-gray-400 uppercase tracking-widest block mb-2"
+          className="text-xs font-semibold text-gray-400 uppercase tracking-widest block mb-2"
         >
           {label}
         </label>

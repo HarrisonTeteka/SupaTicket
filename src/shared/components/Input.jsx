@@ -1,6 +1,6 @@
 import { cn } from '../utils/classNames';
 
-const LABEL = 'text-xs font-black text-gray-400 uppercase tracking-widest block mb-2';
+const LABEL = 'text-xs font-semibold text-gray-400 uppercase tracking-widest block mb-2';
 const FIELD =
   'w-full rounded-xl border outline-none focus:ring-2 focus:ring-[#F58202] bg-gray-50 focus:bg-white transition-all';
 

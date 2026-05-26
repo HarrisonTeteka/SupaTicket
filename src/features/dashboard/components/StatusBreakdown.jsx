@@ -8,7 +8,7 @@ export function StatusBreakdown({ byStatus }) {
 
   return (
     <div className="bg-white border border-gray-200 rounded-2xl p-5">
-      <h3 className="text-sm font-black text-[#336021] uppercase tracking-wide mb-4">
+      <h3 className="text-sm font-semibold text-[#336021] uppercase tracking-wide mb-4">
         By status
       </h3>
       {total === 0 ? (

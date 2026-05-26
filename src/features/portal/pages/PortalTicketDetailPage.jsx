@@ -134,7 +134,7 @@ export default function PortalTicketDetailPage() {
               <span>·</span>
               <span>{ticket.category}</span>
             </div>
-            <h1 className="text-xl font-black text-[#336021]">{ticket.title}</h1>
+            <h1 className="text-xl font-semibold text-[#336021]">{ticket.title}</h1>
           </div>
           <div className="flex items-center gap-1.5 shrink-0">
             <PriorityBadge priority={ticket.priority} />
@@ -166,7 +166,7 @@ export default function PortalTicketDetailPage() {
       </div>
 
       <div className="bg-white border border-gray-200 rounded-2xl p-6 space-y-4">
-        <h3 className="text-sm font-black text-[#336021] uppercase tracking-wide">
+        <h3 className="text-sm font-semibold text-[#336021] uppercase tracking-wide">
           Replies {comments.length > 0 && `(${comments.length})`}
         </h3>
 

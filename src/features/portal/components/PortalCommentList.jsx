@@ -15,10 +15,10 @@ export function PortalCommentList({ comments = [], loading }) {
       {comments.map((c) => (
         <div key={c.id} className="bg-gray-50 rounded-xl p-3">
           <div className="flex items-center gap-2 mb-1">
-            <div className="w-6 h-6 rounded-full bg-[#12344d] text-white text-[10px] font-bold flex items-center justify-center">
+            <div className="w-6 h-6 rounded-full bg-[#336021] text-white text-[10px] font-bold flex items-center justify-center">
               {(c.author_name || '?').charAt(0).toUpperCase()}
             </div>
-            <span className="text-xs font-bold text-[#12344d]">
+            <span className="text-xs font-bold text-[#336021]">
               {c.author_name || 'Support'}
             </span>
             <span className="text-[11px] text-gray-400">{formatRelative(c.created_at)}</span>

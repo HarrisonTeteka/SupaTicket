@@ -1,11 +1,20 @@
 import { useSearchParams } from 'react-router-dom';
-import { Building2, Mail, ScrollText, SlidersHorizontal, Tags, Users } from 'lucide-react';
+import {
+  Building2,
+  FileBarChart2,
+  Mail,
+  ScrollText,
+  SlidersHorizontal,
+  Tags,
+  Users,
+} from 'lucide-react';
 import { StaffDirectory } from '../components/StaffDirectory';
 import { CategoriesEditor } from '../components/CategoriesEditor';
 import { DepartmentsEditor } from '../components/DepartmentsEditor';
 import { CustomFieldsBuilder } from '../components/CustomFieldsBuilder';
 import { EmailSettingsEditor } from '../components/EmailSettingsEditor';
 import { SystemLogsView } from '../components/SystemLogsView';
+import ReportsPage from '../../reports/pages/ReportsPage';
 
 const TABS = [
   { id: 'staff', label: 'Staff', icon: Users },
@@ -13,6 +22,7 @@ const TABS = [
   { id: 'departments', label: 'Departments', icon: Building2 },
   { id: 'fields', label: 'Custom Fields', icon: SlidersHorizontal },
   { id: 'email', label: 'Email', icon: Mail },
+  { id: 'reports', label: 'Reports', icon: FileBarChart2 },
   { id: 'logs', label: 'Logs', icon: ScrollText },
 ];
 
@@ -34,7 +44,7 @@ export default function AdminPage() {
               onClick={() => setParams({ tab: t.id })}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold transition-all ${
                 active === t.id
-                  ? 'bg-white text-[#12344d] shadow-sm'
+                  ? 'bg-white text-[#336021] shadow-sm'
                   : 'text-gray-500 hover:text-gray-800'
               }`}
             >
@@ -49,6 +59,7 @@ export default function AdminPage() {
       {active === 'departments' && <DepartmentsEditor />}
       {active === 'fields' && <CustomFieldsBuilder />}
       {active === 'email' && <EmailSettingsEditor />}
+      {active === 'reports' && <ReportsPage />}
       {active === 'logs' && <SystemLogsView />}
     </div>
   );

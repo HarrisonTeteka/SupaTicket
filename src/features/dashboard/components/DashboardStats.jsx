@@ -6,6 +6,7 @@ import {
   Star,
   UserCheck,
   Zap,
+  Layers,
 } from 'lucide-react';
 import { StatCard } from '../../../shared/components/StatCard';
 import { formatDuration } from '../selectors/dashboardSelectors';
@@ -17,8 +18,8 @@ export function DashboardStats({ metrics }) {
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-      <StatCard icon={Inbox} tone="navy" label="Open tickets" value={metrics.open} />
-      <StatCard icon={UserCheck} tone="indigo" label="My open" value={metrics.myOpen} />
+      <StatCard icon={Inbox} tone="moss" label="Open tickets" value={metrics.open} />
+      <StatCard icon={UserCheck} tone="tangerine" label="My open" value={metrics.myOpen} />
       <StatCard
         icon={AlertCircle}
         tone="amber"
@@ -27,7 +28,7 @@ export function DashboardStats({ metrics }) {
       />
       <StatCard
         icon={CheckCircle2}
-        tone="emerald"
+        tone="green"
         label="Resolved this week"
         value={metrics.resolvedThisWeek}
       />
@@ -45,12 +46,12 @@ export function DashboardStats({ metrics }) {
       />
       <StatCard
         icon={Star}
-        tone="amber"
+        tone="cream"
         label="CSAT"
         value={csat}
         hint={metrics.csatCount > 0 ? `${metrics.csatCount} rated` : 'No ratings yet'}
       />
-      <StatCard icon={Inbox} tone="gray" label="Total tickets" value={metrics.total} />
+      <StatCard icon={Layers} tone="gray" label="Total tickets" value={metrics.total} />
     </div>
   );
 }

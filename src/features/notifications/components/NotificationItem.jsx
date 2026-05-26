@@ -8,10 +8,10 @@ export function NotificationItem({ notification, onMarkRead, onRemove }) {
   return (
     <div
       className={`group flex items-start gap-2 px-4 py-3 border-b border-gray-50 last:border-0 ${
-        read ? 'bg-white' : 'bg-indigo-50/50'
+        read ? 'bg-white' : 'bg-[#F58202]/5'
       }`}
     >
-      {!read && <span className="mt-1.5 w-2 h-2 rounded-full bg-indigo-500 shrink-0" />}
+      {!read && <span className="mt-1.5 w-2 h-2 rounded-full bg-[#F58202] shrink-0" />}
       <div className={`flex-1 min-w-0 ${read ? 'pl-4' : ''}`}>
         <p className="text-sm text-gray-700">{message}</p>
         <p className="text-[11px] text-gray-400 mt-0.5">{formatRelative(created_at)}</p>

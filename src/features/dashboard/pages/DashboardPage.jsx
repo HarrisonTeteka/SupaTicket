@@ -9,8 +9,10 @@ import { RecentActivity } from '../components/RecentActivity';
 
 /** Agent dashboard: live KPIs, backlog breakdowns and quick lists. */
 export default function DashboardPage() {
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
   const { tickets, metrics, loading } = useDashboardMetrics();
+
+  const firstName = profile?.name?.split(' ')[0] || 'there';
 
   if (loading) {
     return (
@@ -18,7 +20,7 @@ export default function DashboardPage() {
         {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => (
           <div
             key={i}
-            className="h-20 bg-white border border-gray-200 rounded-2xl animate-pulse"
+            className="h-24 bg-white border border-gray-200 rounded-2xl animate-pulse"
           />
         ))}
       </div>
@@ -27,7 +29,45 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
+      {/* Welcome hero with brand gradient — explicit inline gradient so it
+          renders even if Tailwind hasn't generated the gradient utility yet. */}
+      <div
+        className="relative overflow-hidden rounded-2xl p-7 shadow-xl shadow-[#336021]/20"
+        style={{
+          background: 'linear-gradient(135deg, #336021 0%, #264918 60%, #1a3014 100%)',
+        }}
+      >
+        <div className="relative z-10">
+          <p
+            className="text-[11px] font-bold uppercase tracking-widest mb-2"
+            style={{ color: 'rgba(255,255,255,0.7)' }}
+          >
+            SupaMoto · SupaTicket
+          </p>
+          <h1
+            className="text-3xl font-black drop-shadow-sm"
+            style={{ color: '#ffffff' }}
+          >
+            Welcome back, {firstName}.
+          </h1>
+          <p
+            className="text-sm mt-2"
+            style={{ color: 'rgba(255,255,255,0.85)' }}
+          >
+            Here's what's happening across the workspace today.
+          </p>
+        </div>
+        <img
+          src="/supamoto-logo-white.svg"
+          alt=""
+          aria-hidden="true"
+          className="absolute -right-4 -bottom-6 h-36 pointer-events-none select-none"
+          style={{ opacity: 0.15 }}
+        />
+      </div>
+
       <DashboardStats metrics={metrics} />
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <StatusBreakdown byStatus={metrics.byStatus} />
         <PriorityBreakdown byPriority={metrics.byPriority} />

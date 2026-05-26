@@ -38,7 +38,7 @@ function RoleAwareShell() {
 function StaffShell() {
   return (
     <NewTicketModalProvider>
-      <div className="flex h-screen bg-[#f5f7f9] text-[#12344d] overflow-hidden">
+      <div className="flex h-screen bg-[#f5f7f9] text-[#336021] overflow-hidden">
         <Sidebar />
         <AppRouter />
       </div>

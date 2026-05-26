@@ -21,7 +21,7 @@ export const MAX_ATTACHMENT_BYTES = 10 * 1024 * 1024;
 
 const STATUS_STYLES = {
   Open: 'bg-blue-100 text-blue-700',
-  Pending: 'bg-purple-100 text-purple-700',
+  Pending: 'bg-[#F9EDCC] text-[#9E2A2B]',
   'In Progress': 'bg-amber-100 text-amber-700',
   Escalated: 'bg-red-100 text-red-700',
   Resolved: 'bg-emerald-100 text-emerald-700',

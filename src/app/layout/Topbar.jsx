@@ -30,8 +30,12 @@ export function Topbar({ title }) {
   return (
     <header className="h-16 bg-white border-b border-gray-200 px-8 flex items-center justify-between shadow-sm shrink-0">
       <div className="flex items-center gap-4">
-        <h1 className="text-xl font-bold tracking-tight capitalize">{title}</h1>
-        {isAdmin && <Badge className="bg-indigo-100 text-indigo-700">Admin Mode</Badge>}
+        <h1 className="text-xl font-black tracking-tight capitalize text-[#336021]">{title}</h1>
+        {isAdmin && (
+          <Badge className="bg-[#F58202]/10 text-[#F58202] border border-[#F58202]/20">
+            Admin Mode
+          </Badge>
+        )}
       </div>
       <div className="flex items-center gap-4">
         <div className="relative">
@@ -65,7 +69,7 @@ export function Topbar({ title }) {
                   <span className="text-xs font-bold text-gray-400 shrink-0">
                     {formatTicketNumber(t.ticket_number)}
                   </span>
-                  <span className="text-sm text-[#12344d] font-medium truncate flex-1">
+                  <span className="text-sm text-[#336021] font-medium truncate flex-1">
                     {t.title}
                   </span>
                   <StatusBadge status={t.status} />

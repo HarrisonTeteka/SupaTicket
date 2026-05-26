@@ -28,7 +28,7 @@ export function Select({
       <select
         id={selectId}
         className={cn(
-          'w-full px-4 py-3 rounded-xl border outline-none focus:ring-2 focus:ring-indigo-500',
+          'w-full px-4 py-3 rounded-xl border outline-none focus:ring-2 focus:ring-[#F58202]',
           'bg-gray-50 focus:bg-white transition-all',
           error ? 'border-red-300' : 'border-gray-200',
           className

@@ -1,5 +1,5 @@
 import { useState, createContext, useContext, useMemo } from 'react';
-import { Ticket, Mail, Lock, UserPlus, LogIn, User as UserIcon } from 'lucide-react';
+import { Mail, Lock, UserPlus, LogIn, User as UserIcon } from 'lucide-react';
 import { useAuthSession } from '../hooks/useAuthSession';
 import { useUserProfile } from '../hooks/useUserProfile';
 import { signInWithEmail, signUpWithEmail } from '../services/authService';
@@ -76,13 +76,15 @@ function AuthScreen() {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-[#f5f7f9] text-[#12344d] p-4">
-      <div className="w-full max-w-md bg-white rounded-3xl shadow-xl border border-gray-100 p-8 space-y-6">
+    <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-[#f5f7f9] via-white to-[#F9EDCC]/40 text-[#336021] p-4">
+      <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl border border-gray-100 p-8 space-y-6">
         <div className="flex flex-col items-center text-center">
-          <div className="w-16 h-16 bg-[#12344d] text-white rounded-2xl flex items-center justify-center mb-4 shadow-lg">
-            <Ticket size={32} />
-          </div>
-          <h1 className="text-2xl font-black">SupaTicket</h1>
+          <img
+            src="/supamoto-logo.svg"
+            alt="SupaMoto"
+            className="h-14 mb-4 drop-shadow-sm"
+          />
+          <h1 className="text-2xl font-black text-[#336021]">SupaTicket</h1>
           <p className="text-sm text-gray-500 mt-1">
             {mode === 'signin' ? 'Sign in to your workspace' : 'Create your workspace account'}
           </p>
@@ -104,7 +106,7 @@ function AuthScreen() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Jane Doe"
-                className="w-full pl-11 pr-4 py-3 rounded-xl border border-gray-200 outline-none focus:ring-2 focus:ring-indigo-500 bg-gray-50 focus:bg-white transition-all"
+                className="w-full pl-11 pr-4 py-3 rounded-xl border border-gray-200 outline-none focus:ring-2 focus:ring-[#F58202] bg-gray-50 focus:bg-white transition-all"
                 autoComplete="name"
               />
             </Field>
@@ -117,7 +119,7 @@ function AuthScreen() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@company.com"
-              className="w-full pl-11 pr-4 py-3 rounded-xl border border-gray-200 outline-none focus:ring-2 focus:ring-indigo-500 bg-gray-50 focus:bg-white transition-all"
+              className="w-full pl-11 pr-4 py-3 rounded-xl border border-gray-200 outline-none focus:ring-2 focus:ring-[#F58202] bg-gray-50 focus:bg-white transition-all"
               autoComplete="email"
             />
           </Field>
@@ -130,7 +132,7 @@ function AuthScreen() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="At least 6 characters"
-              className="w-full pl-11 pr-4 py-3 rounded-xl border border-gray-200 outline-none focus:ring-2 focus:ring-indigo-500 bg-gray-50 focus:bg-white transition-all"
+              className="w-full pl-11 pr-4 py-3 rounded-xl border border-gray-200 outline-none focus:ring-2 focus:ring-[#F58202] bg-gray-50 focus:bg-white transition-all"
               autoComplete={mode === 'signin' ? 'current-password' : 'new-password'}
             />
           </Field>
@@ -163,7 +165,7 @@ function AuthScreen() {
           <button
             type="submit"
             disabled={busy}
-            className="w-full py-3 bg-[#12344d] text-white rounded-xl font-bold hover:bg-[#0d273a] transition-all shadow-lg disabled:opacity-50"
+            className="w-full py-3 bg-[#F58202] text-white rounded-xl font-bold hover:bg-[#d97002] transition-all shadow-lg shadow-[#F58202]/30 disabled:opacity-50"
           >
             {busy ? 'Working...' : mode === 'signin' ? 'Sign In' : 'Create Account'}
           </button>
@@ -184,7 +186,7 @@ function TabButton({ active, onClick, children }) {
       type="button"
       onClick={onClick}
       className={`flex-1 py-2 rounded-lg text-sm font-bold transition-all ${
-        active ? 'bg-white text-[#12344d] shadow-sm' : 'text-gray-500 hover:text-gray-800'
+        active ? 'bg-white text-[#336021] shadow-sm' : 'text-gray-500 hover:text-gray-800'
       }`}
     >
       {children}

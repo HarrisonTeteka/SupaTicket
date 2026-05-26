@@ -39,13 +39,13 @@ export function AttachmentList({ ticket, onChange }) {
         <li key={a.path} className="flex items-center gap-3 bg-gray-50 rounded-xl px-3 py-2">
           <FileText size={16} className="text-gray-400 shrink-0" />
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-bold text-[#12344d] truncate">{a.name}</p>
+            <p className="text-sm font-bold text-[#336021] truncate">{a.name}</p>
             <p className="text-[11px] text-gray-400">{formatBytes(a.size)}</p>
           </div>
           <button
             type="button"
             onClick={() => open(a.path)}
-            className="p-1.5 text-gray-400 hover:text-[#12344d]"
+            className="p-1.5 text-gray-400 hover:text-[#336021]"
             title="Open"
           >
             <Download size={15} />

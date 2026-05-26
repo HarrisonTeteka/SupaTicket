@@ -7,7 +7,7 @@ import { Textarea } from '../../../shared/components/Input';
 
 /** Composer for a new comment on a ticket. */
 export function CommentForm({ ticketId }) {
-  const { profile } = useAuth();
+  const { profile, isCustomer } = useAuth();
   const [text, setText] = useState('');
   const [internal, setInternal] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -41,14 +41,18 @@ export function CommentForm({ ticketId }) {
       />
       {error && <p className="text-xs text-red-600">{error}</p>}
       <div className="flex items-center justify-between gap-3">
-        <label className="flex items-center gap-2 text-xs font-bold text-gray-500 cursor-pointer">
-          <input
-            type="checkbox"
-            checked={internal}
-            onChange={(e) => setInternal(e.target.checked)}
-          />
-          Internal note (staff only)
-        </label>
+        {isCustomer ? (
+          <span />
+        ) : (
+          <label className="flex items-center gap-2 text-xs font-bold text-gray-500 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={internal}
+              onChange={(e) => setInternal(e.target.checked)}
+            />
+            Internal note (staff only)
+          </label>
+        )}
         <Button type="submit" loading={busy} disabled={!text.trim()}>
           <Send size={14} /> {internal ? 'Post internal note' : 'Comment'}
         </Button>

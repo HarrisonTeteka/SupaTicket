@@ -6,12 +6,15 @@ import { logAction } from './systemLogsService';
  * EditProfileModal.
  */
 
-const COLUMNS = 'id, name, email, role, status, department, created_at, updated_at';
+const COLUMNS =
+  'id, name, email, role, status, department, email_notifications, created_at, updated_at';
 
+/** Staff and admins (customers are managed separately and excluded). */
 export async function listStaff() {
   const { data, error } = await supabase
     .from('profiles')
     .select(COLUMNS)
+    .in('role', ['staff', 'admin'])
     .order('name');
   if (error) throw error;
   return data ?? [];

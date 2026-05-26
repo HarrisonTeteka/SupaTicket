@@ -1,10 +1,10 @@
 import { cn } from '../utils/classNames';
 
 const VARIANTS = {
-  primary: 'bg-[#12344d] text-white hover:bg-[#0d273a] shadow-lg',
-  secondary: 'bg-gray-100 text-[#12344d] hover:bg-gray-200',
-  ghost: 'bg-transparent text-gray-500 hover:text-[#12344d] hover:bg-gray-100',
-  danger: 'bg-red-600 text-white hover:bg-red-700 shadow-lg',
+  primary: 'bg-[#F58202] text-white hover:bg-[#d97002] shadow-lg shadow-[#F58202]/30',
+  secondary: 'bg-gray-100 text-[#336021] hover:bg-gray-200',
+  ghost: 'bg-transparent text-gray-500 hover:text-[#336021] hover:bg-gray-100',
+  danger: 'bg-[#9E2A2B] text-white hover:bg-[#7e2122] shadow-lg shadow-[#9E2A2B]/30',
 };
 
 const SIZES = {

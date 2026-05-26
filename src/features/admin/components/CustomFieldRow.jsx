@@ -10,7 +10,7 @@ export function CustomFieldRow({ field, onDelete }) {
   return (
     <div className="flex items-center gap-3 bg-gray-50 rounded-xl px-3 py-2.5">
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-bold text-[#12344d]">
+        <p className="text-sm font-bold text-[#336021]">
           {field.label}
           {field.required && <span className="text-red-500 ml-1">*</span>}
         </p>

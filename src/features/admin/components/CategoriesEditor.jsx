@@ -37,7 +37,7 @@ export function CategoriesEditor() {
   return (
     <div className="bg-white border border-gray-200 rounded-2xl p-6 space-y-4 max-w-xl">
       <div>
-        <h3 className="text-sm font-black text-[#12344d] uppercase tracking-wide">
+        <h3 className="text-sm font-black text-[#336021] uppercase tracking-wide">
           Ticket Categories
         </h3>
         <p className="text-xs text-gray-400 mt-0.5">
@@ -60,7 +60,7 @@ export function CategoriesEditor() {
           categories.map((c) => (
             <span
               key={c}
-              className="flex items-center gap-1.5 bg-gray-100 text-[#12344d] text-sm font-bold pl-3 pr-1.5 py-1.5 rounded-lg"
+              className="flex items-center gap-1.5 bg-gray-100 text-[#336021] text-sm font-bold pl-3 pr-1.5 py-1.5 rounded-lg"
             >
               {c}
               <button

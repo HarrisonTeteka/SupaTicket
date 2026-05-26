@@ -54,7 +54,7 @@ export function AssigneePicker({ value, valueName, onChange, label }) {
         onClick={toggle}
         className="w-full flex items-center justify-between px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 hover:bg-white text-sm transition-all"
       >
-        <span className={cn('font-medium', selected ? 'text-[#12344d]' : 'text-gray-400')}>
+        <span className={cn('font-medium', selected ? 'text-[#336021]' : 'text-gray-400')}>
           {display}
         </span>
         <ChevronDown size={16} className="text-gray-400" />
@@ -88,7 +88,7 @@ export function AssigneePicker({ value, valueName, onChange, label }) {
                 className="w-full flex items-center justify-between gap-2 px-3 py-2 text-sm hover:bg-gray-50"
               >
                 <span className="truncate">
-                  <span className="font-bold text-[#12344d]">{p.name}</span>{' '}
+                  <span className="font-bold text-[#336021]">{p.name}</span>{' '}
                   <span className="text-gray-400 text-xs">{p.email}</span>
                 </span>
                 {p.id === value && <Check size={14} className="text-emerald-500 shrink-0" />}

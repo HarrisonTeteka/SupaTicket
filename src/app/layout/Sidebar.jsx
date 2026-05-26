@@ -1,11 +1,11 @@
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Layers, Plus, Settings, Ticket } from 'lucide-react';
+import { Flame, LayoutDashboard, Layers, Plus, Settings } from 'lucide-react';
 import { useAuth } from '../../features/auth/components/AuthGate';
 import { ProfileMenu } from '../../features/auth/components/ProfileMenu';
 import { useNewTicketModal } from '../../features/tickets/hooks/useNewTicketModal';
 
 /**
- * Dark navy sidebar that mirrors Gemini's visual language. Navigation is
+ * Dark moss-green sidebar carrying the SupaMoto brand chrome. Navigation is
  * route-based (react-router) instead of an in-memory `view` state.
  */
 export function Sidebar() {
@@ -13,20 +13,20 @@ export function Sidebar() {
   const { openNewTicket } = useNewTicketModal();
 
   return (
-    <aside className="w-20 bg-[#12344d] flex flex-col items-center py-6 shrink-0 space-y-8 z-20 shadow-xl relative">
+    <aside className="w-20 bg-[#336021] flex flex-col items-center py-6 shrink-0 space-y-8 z-20 shadow-xl relative">
       <ProfileMenu />
 
-      <div className="p-2 bg-white/10 rounded-lg text-white">
-        <Ticket size={24} />
+      <div className="p-2 bg-[#F58202] rounded-xl text-white shadow-md shadow-[#F58202]/30">
+        <Flame size={22} fill="currentColor" />
       </div>
 
-      <nav className="flex flex-col gap-6">
+      <nav className="flex flex-col gap-3">
         <NavItem to="/dashboard" icon={LayoutDashboard} label="Dashboard" />
         <NavItem to="/tickets" icon={Layers} label="Tickets" />
         <button
           type="button"
           onClick={() => openNewTicket()}
-          className="p-3 rounded-xl transition-all text-white/50 hover:text-white"
+          className="p-3 rounded-xl transition-all text-white/60 hover:text-white hover:bg-white/10"
           title="Raise Ticket"
         >
           <Plus size={24} />
@@ -44,11 +44,13 @@ function NavItem({ to, icon: Icon, label }) {
       title={label}
       className={({ isActive }) =>
         `p-3 rounded-xl transition-all ${
-          isActive ? 'bg-[#2d4e68] text-white' : 'text-white/50 hover:text-white'
+          isActive
+            ? 'bg-[#F58202] text-white shadow-md shadow-[#F58202]/30'
+            : 'text-white/60 hover:text-white hover:bg-white/10'
         }`
       }
     >
-      <Icon size={24} />
+      <Icon size={22} />
     </NavLink>
   );
 }

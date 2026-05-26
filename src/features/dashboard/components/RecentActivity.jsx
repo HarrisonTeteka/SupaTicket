@@ -9,7 +9,7 @@ export function RecentActivity({ tickets }) {
 
   return (
     <div className="bg-white border border-gray-200 rounded-2xl p-5">
-      <h3 className="flex items-center gap-2 text-sm font-black text-[#12344d] uppercase tracking-wide mb-4">
+      <h3 className="flex items-center gap-2 text-sm font-black text-[#336021] uppercase tracking-wide mb-4">
         <Activity size={15} /> Recent tickets
       </h3>
       {tickets.length === 0 ? (
@@ -26,7 +26,7 @@ export function RecentActivity({ tickets }) {
               <span className="text-xs font-bold text-gray-400 shrink-0">
                 {formatTicketNumber(t.ticket_number)}
               </span>
-              <span className="flex-1 text-sm text-[#12344d] font-medium truncate">
+              <span className="flex-1 text-sm text-[#336021] font-medium truncate">
                 {t.title}
               </span>
               <StatusBadge status={t.status} />

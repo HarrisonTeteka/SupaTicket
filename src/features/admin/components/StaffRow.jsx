@@ -10,11 +10,11 @@ export function StaffRow({ profile, currentUserId, onEdit, onArchive, onRestore,
     <tr className="border-b border-gray-50 last:border-0">
       <td className="px-4 py-3">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-indigo-500 text-white text-xs font-bold flex items-center justify-center shrink-0">
+          <div className="w-8 h-8 rounded-full bg-[#F58202] text-white text-xs font-bold flex items-center justify-center shrink-0">
             {profile.name?.charAt(0).toUpperCase() || '?'}
           </div>
           <div className="min-w-0">
-            <p className="text-sm font-bold text-[#12344d] truncate">{profile.name}</p>
+            <p className="text-sm font-bold text-[#336021] truncate">{profile.name}</p>
             <p className="text-xs text-gray-400 truncate">{profile.email}</p>
           </div>
         </div>
@@ -23,7 +23,7 @@ export function StaffRow({ profile, currentUserId, onEdit, onArchive, onRestore,
         <Badge
           className={
             profile.role === 'admin'
-              ? 'bg-indigo-100 text-indigo-700'
+              ? 'bg-[#F58202]/15 text-[#F58202]'
               : 'bg-gray-100 text-gray-600'
           }
         >
@@ -45,7 +45,7 @@ export function StaffRow({ profile, currentUserId, onEdit, onArchive, onRestore,
           <button
             type="button"
             onClick={() => onEdit(profile)}
-            className="p-1.5 text-gray-400 hover:text-[#12344d]"
+            className="p-1.5 text-gray-400 hover:text-[#336021]"
             title="Edit"
           >
             <Pencil size={15} />

@@ -13,7 +13,7 @@ export function TicketRow({ ticket }) {
     <button
       type="button"
       onClick={() => navigate(`/tickets/${ticket.id}`)}
-      className="w-full text-left bg-white border border-gray-200 rounded-2xl p-4 hover:border-[#12344d] hover:shadow-md transition-all flex items-center gap-4"
+      className="w-full text-left bg-white border border-gray-200 rounded-2xl p-4 hover:border-[#336021] hover:shadow-md transition-all flex items-center gap-4"
     >
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-1 flex-wrap">
@@ -22,10 +22,15 @@ export function TicketRow({ ticket }) {
           </span>
           <span className="text-xs text-gray-300">·</span>
           <span className="text-xs text-gray-400">{ticket.category}</span>
+          {ticket.creator_role === 'customer' && (
+            <span className="text-[10px] font-bold bg-[#336021]/10 text-[#336021] px-1.5 py-0.5 rounded">
+              Customer
+            </span>
+          )}
           {(ticket.tags || []).slice(0, 3).map((t) => (
             <span
               key={t}
-              className="text-[10px] font-bold bg-indigo-100 text-indigo-700 px-1.5 py-0.5 rounded"
+              className="text-[10px] font-bold bg-[#F58202]/10 text-[#F58202] px-1.5 py-0.5 rounded"
             >
               {t}
             </span>
@@ -36,7 +41,7 @@ export function TicketRow({ ticket }) {
             </span>
           )}
         </div>
-        <h3 className="font-bold text-[#12344d] truncate">{ticket.title}</h3>
+        <h3 className="font-bold text-[#336021] truncate">{ticket.title}</h3>
         <p className="text-sm text-gray-500 truncate mt-0.5">{ticket.description}</p>
       </div>
 
@@ -50,7 +55,7 @@ export function TicketRow({ ticket }) {
         <PriorityBadge priority={ticket.priority} />
         <StatusBadge status={ticket.status} />
         <div className="text-right w-28">
-          <p className="text-xs font-bold text-[#12344d] truncate">
+          <p className="text-xs font-bold text-[#336021] truncate">
             {ticket.assignee_name || 'Unassigned'}
           </p>
           <p className="text-[11px] text-gray-400">{formatRelative(ticket.created_at)}</p>

@@ -2,7 +2,7 @@ import { cn } from '../utils/classNames';
 
 const LABEL = 'text-xs font-black text-gray-400 uppercase tracking-widest block mb-2';
 const FIELD =
-  'w-full rounded-xl border outline-none focus:ring-2 focus:ring-indigo-500 bg-gray-50 focus:bg-white transition-all';
+  'w-full rounded-xl border outline-none focus:ring-2 focus:ring-[#F58202] bg-gray-50 focus:bg-white transition-all';
 
 /** Single-line text input with optional label, leading icon and error text. */
 export function Input({ label, icon: Icon, error, className = '', id, ...rest }) {

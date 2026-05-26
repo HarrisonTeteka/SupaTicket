@@ -1,6 +1,19 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Tailwind v4 entry — must match @tailwindcss/vite v4 in vite.config.js.
+   The old `@tailwind base/components/utilities` v3 directives are silently
+   ignored by the v4 plugin, which is why standard utilities were missing. */
+@import "tailwindcss";
+
+/* SupaMoto brand tokens — exposed as Tailwind v4 theme colours so you can
+   use them as `bg-brand-tangerine` / `text-brand-moss` etc. The arbitrary
+   `bg-[#F58202]` values used throughout the codebase also keep working. */
+@theme {
+  --color-brand-tangerine: #f58202;
+  --color-brand-tangerine-dark: #d97002;
+  --color-brand-moss: #336021;
+  --color-brand-moss-dark: #264918;
+  --color-brand-auburn: #9e2a2b;
+  --color-brand-cream: #f9edcc;
+}
 
 html,
 body,
@@ -13,6 +26,6 @@ body {
   font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
     'Helvetica Neue', Arial, sans-serif;
   background: #f5f7f9;
-  color: #12344d;
+  color: #336021;
   -webkit-font-smoothing: antialiased;
 }

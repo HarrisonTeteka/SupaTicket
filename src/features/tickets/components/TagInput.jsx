@@ -37,17 +37,17 @@ export function TagInput({ value = [], onChange, label, placeholder = 'Add tag..
           {label}
         </label>
       )}
-      <div className="flex flex-wrap items-center gap-1.5 px-2 py-1.5 rounded-xl border border-gray-200 bg-gray-50 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:bg-white transition-all">
+      <div className="flex flex-wrap items-center gap-1.5 px-2 py-1.5 rounded-xl border border-gray-200 bg-gray-50 focus-within:ring-2 focus-within:ring-[#F58202] focus-within:bg-white transition-all">
         {value.map((t) => (
           <span
             key={t}
-            className="flex items-center gap-1 bg-indigo-100 text-indigo-700 text-xs font-bold pl-2 pr-1 py-0.5 rounded-md"
+            className="flex items-center gap-1 bg-[#336021]/10 text-[#336021] text-xs font-bold pl-2 pr-1 py-0.5 rounded-md"
           >
             {t}
             <button
               type="button"
               onClick={() => remove(t)}
-              className="text-indigo-500 hover:text-red-500"
+              className="text-[#336021] hover:text-[#9E2A2B]"
               title={`Remove ${t}`}
             >
               <X size={12} />

@@ -8,7 +8,7 @@ export function StatusBreakdown({ byStatus }) {
 
   return (
     <div className="bg-white border border-gray-200 rounded-2xl p-5">
-      <h3 className="text-sm font-black text-[#12344d] uppercase tracking-wide mb-4">
+      <h3 className="text-sm font-black text-[#336021] uppercase tracking-wide mb-4">
         By status
       </h3>
       {total === 0 ? (
@@ -24,11 +24,11 @@ export function StatusBreakdown({ byStatus }) {
                 </div>
                 <div className="flex-1 h-2.5 bg-gray-100 rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-[#12344d] rounded-full"
+                    className="h-full bg-[#336021] rounded-full"
                     style={{ width: `${(count / max) * 100}%` }}
                   />
                 </div>
-                <span className="w-8 text-right text-sm font-bold text-[#12344d]">
+                <span className="w-8 text-right text-sm font-bold text-[#336021]">
                   {count}
                 </span>
               </div>

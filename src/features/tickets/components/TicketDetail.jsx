@@ -94,7 +94,7 @@ export function TicketDetail({ ticket, onLocalChange }) {
       <button
         type="button"
         onClick={() => navigate('/tickets')}
-        className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-[#12344d]"
+        className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-[#336021]"
       >
         <ArrowLeft size={15} /> Back to tickets
       </button>
@@ -111,12 +111,17 @@ export function TicketDetail({ ticket, onLocalChange }) {
           <div className="bg-white border border-gray-200 rounded-2xl p-6">
             <div className="flex items-start justify-between gap-4">
               <div className="min-w-0">
-                <div className="flex items-center gap-2 mb-1 text-xs text-gray-400 font-bold">
+                <div className="flex items-center gap-2 mb-1 text-xs text-gray-400 font-bold flex-wrap">
                   <span>{formatTicketNumber(ticket.ticket_number)}</span>
                   <span>·</span>
                   <span>{ticket.category}</span>
+                  {ticket.creator_role === 'customer' && (
+                    <span className="text-[10px] font-bold bg-[#336021]/10 text-[#336021] px-1.5 py-0.5 rounded normal-case">
+                      Customer-raised
+                    </span>
+                  )}
                 </div>
-                <h1 className="text-xl font-black text-[#12344d]">{ticket.title}</h1>
+                <h1 className="text-xl font-black text-[#336021]">{ticket.title}</h1>
               </div>
               {isAdmin && (
                 <Button
@@ -142,7 +147,7 @@ export function TicketDetail({ ticket, onLocalChange }) {
                       setDesc(ticket.description);
                       setEditingDesc(true);
                     }}
-                    className="text-gray-400 hover:text-[#12344d]"
+                    className="text-gray-400 hover:text-[#336021]"
                     title="Edit description"
                   >
                     <Pencil size={13} />
@@ -198,7 +203,7 @@ export function TicketDetail({ ticket, onLocalChange }) {
           </div>
 
           <div className="bg-white border border-gray-200 rounded-2xl p-6 space-y-4">
-            <h3 className="text-sm font-black text-[#12344d] uppercase tracking-wide">
+            <h3 className="text-sm font-black text-[#336021] uppercase tracking-wide">
               Comments {comments.length > 0 && `(${comments.length})`}
             </h3>
             <CommentList comments={comments} loading={commentsLoading} />
@@ -260,7 +265,7 @@ export function TicketDetail({ ticket, onLocalChange }) {
           </div>
 
           <div className="bg-white border border-gray-200 rounded-2xl p-5 space-y-3">
-            <h3 className="text-sm font-black text-[#12344d] uppercase tracking-wide">
+            <h3 className="text-sm font-black text-[#336021] uppercase tracking-wide">
               Attachments
             </h3>
             <AttachmentList

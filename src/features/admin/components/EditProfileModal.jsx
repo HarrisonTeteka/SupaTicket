@@ -22,6 +22,7 @@ export function EditProfileModal({ mode = 'self', profile, onClose, onSaved }) {
   const [role, setRole] = useState(profile?.role || 'staff');
   const [status, setStatus] = useState(profile?.status || 'active');
   const [department, setDepartment] = useState(profile?.department || '');
+  const [emailOk, setEmailOk] = useState(profile?.email_notifications ?? true);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
 
@@ -41,9 +42,13 @@ export function EditProfileModal({ mode = 'self', profile, onClose, onSaved }) {
           role,
           status,
           department: department || null,
+          email_notifications: emailOk,
         });
       } else {
-        await updateOwnProfile(profile.id, { name: name.trim() });
+        await updateOwnProfile(profile.id, {
+          name: name.trim(),
+          email_notifications: emailOk,
+        });
       }
       onSaved?.();
       onClose();
@@ -103,6 +108,22 @@ export function EditProfileModal({ mode = 'self', profile, onClose, onSaved }) {
             />
           </>
         )}
+
+        <label className="flex items-start gap-2 text-sm font-bold text-gray-600 cursor-pointer pt-1">
+          <input
+            type="checkbox"
+            checked={emailOk}
+            onChange={(e) => setEmailOk(e.target.checked)}
+            className="mt-0.5"
+          />
+          <span>
+            Email me notifications
+            <span className="block text-[11px] font-normal text-gray-400 mt-0.5">
+              In-app notifications keep working either way.
+            </span>
+          </span>
+        </label>
+
         {!isAdminMode && (
           <p className="text-[11px] text-gray-400">
             Only an admin can change your role, status or department.

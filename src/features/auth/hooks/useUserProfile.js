@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { supabase } from '../../../lib/supabase';
 import { ensureProfileExists } from '../services/authService';
 
-const PROFILE_COLUMNS = 'id, name, email, role, status, department, created_at, updated_at';
+const PROFILE_COLUMNS =
+  'id, name, email, role, status, department, email_notifications, created_at, updated_at';
 
 /**
  * Fetches the current user's profile row and keeps it in sync via realtime.

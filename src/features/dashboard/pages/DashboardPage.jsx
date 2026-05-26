@@ -4,8 +4,10 @@ import { myOpenTickets, recentTickets } from '../selectors/dashboardSelectors';
 import { DashboardStats } from '../components/DashboardStats';
 import { StatusBreakdown } from '../components/StatusBreakdown';
 import { PriorityBreakdown } from '../components/PriorityBreakdown';
+import { SlaBreakdown } from '../components/SlaBreakdown';
 import { MyTickets } from '../components/MyTickets';
 import { RecentActivity } from '../components/RecentActivity';
+import { AgentWorkload } from '../components/AgentWorkload';
 
 /** Agent dashboard: live KPIs, backlog breakdowns and quick lists. */
 export default function DashboardPage() {
@@ -71,6 +73,14 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <StatusBreakdown byStatus={metrics.byStatus} />
         <PriorityBreakdown byPriority={metrics.byPriority} />
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <SlaBreakdown bySla={metrics.bySla} />
+        <AgentWorkload tickets={tickets} />
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <MyTickets tickets={myOpenTickets(tickets, user?.id)} />
         <RecentActivity tickets={recentTickets(tickets)} />
       </div>

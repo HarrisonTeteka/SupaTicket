@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { AuthGate, useAuth } from '../features/auth/components/AuthGate';
 import { Sidebar } from './layout/Sidebar';
@@ -6,9 +7,12 @@ import { MobileNavProvider, useMobileNav } from './layout/useMobileNav';
 import { NewTicketModalProvider } from '../features/tickets/hooks/useNewTicketModal';
 import { NewTicketModal } from '../features/tickets/components/NewTicketModal';
 import { PortalLayout } from '../features/portal/components/PortalLayout';
-import PortalDashboardPage from '../features/portal/pages/PortalDashboardPage';
-import PortalNewTicketPage from '../features/portal/pages/PortalNewTicketPage';
-import PortalTicketDetailPage from '../features/portal/pages/PortalTicketDetailPage';
+
+// Lazy-load portal pages — customers never need the staff bundles and vice
+// versa. PortalLayout stays eager so the chrome renders immediately.
+const PortalDashboardPage = lazy(() => import('../features/portal/pages/PortalDashboardPage'));
+const PortalNewTicketPage = lazy(() => import('../features/portal/pages/PortalNewTicketPage'));
+const PortalTicketDetailPage = lazy(() => import('../features/portal/pages/PortalTicketDetailPage'));
 
 /**
  * App entry point composed of these layers:
@@ -16,10 +20,6 @@ import PortalTicketDetailPage from '../features/portal/pages/PortalTicketDetailP
  *   <Providers> (in main.jsx)  →  <AuthGate>  →  <RoleAwareShell>
  *     ├─ <PortalShell>   (customer)
  *     └─ <StaffShell>    (staff / admin)
- *
- * AuthGate handles unauthenticated state by rendering the login screen.
- * RoleAwareShell picks the right chrome + router based on the signed-in
- * user's role.
  */
 export default function AppShell() {
   return (
@@ -67,13 +67,24 @@ function PortalShell() {
   return (
     <MobileNavProvider>
       <PortalLayout>
-        <Routes>
-          <Route path="/portal" element={<PortalDashboardPage />} />
-          <Route path="/portal/new" element={<PortalNewTicketPage />} />
-          <Route path="/portal/tickets/:id" element={<PortalTicketDetailPage />} />
-          <Route path="*" element={<Navigate to="/portal" replace />} />
-        </Routes>
+        <Suspense fallback={<PortalLoader />}>
+          <Routes>
+            <Route path="/portal" element={<PortalDashboardPage />} />
+            <Route path="/portal/new" element={<PortalNewTicketPage />} />
+            <Route path="/portal/tickets/:id" element={<PortalTicketDetailPage />} />
+            <Route path="*" element={<Navigate to="/portal" replace />} />
+          </Routes>
+        </Suspense>
       </PortalLayout>
     </MobileNavProvider>
+  );
+}
+
+function PortalLoader() {
+  return (
+    <div className="space-y-3">
+      <div className="h-24 bg-white border border-gray-200 rounded-2xl animate-pulse" />
+      <div className="h-20 bg-white border border-gray-200 rounded-2xl animate-pulse" />
+    </div>
   );
 }

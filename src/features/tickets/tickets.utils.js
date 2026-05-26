@@ -86,3 +86,64 @@ export function formatRelative(iso) {
 export function looksLikeTicketNumber(query) {
   return /^\d{4,}$/.test(String(query).trim());
 }
+
+// ---------------------------------------------------------------------------
+// SLA helpers (Phase 7 — depends on migrations 0009/0010 having been run).
+// ---------------------------------------------------------------------------
+
+/** SLA states a non-terminal ticket can be in. */
+export const SLA_STATES = ['on-track', 'at-risk', 'breached'];
+
+/** Fraction of the SLA window elapsed before a ticket is flagged "at risk". */
+const AT_RISK_RATIO = 0.8;
+
+/**
+ * Derive the SLA state of a ticket from its lifecycle timestamps + status.
+ *
+ *   - 'done'      — ticket is in a terminal state; SLA no longer ticking.
+ *   - 'unknown'   — ticket has no resolution_due_at (migration 0009 not yet
+ *                   applied, or row created before the trigger existed).
+ *   - 'breached'  — now >= resolution_due_at.
+ *   - 'at-risk'   — within the last 20% of the SLA window.
+ *   - 'on-track'  — otherwise.
+ */
+export function slaState(ticket) {
+  if (!ticket || TERMINAL_STATUSES.includes(ticket.status)) return 'done';
+  if (!ticket.resolution_due_at) return 'unknown';
+
+  const due = new Date(ticket.resolution_due_at).getTime();
+  const now = Date.now();
+  if (now >= due) return 'breached';
+
+  const created = new Date(ticket.created_at).getTime();
+  const span = due - created;
+  if (!Number.isFinite(span) || span <= 0) return 'on-track';
+
+  const elapsed = now - created;
+  if (elapsed / span >= AT_RISK_RATIO) return 'at-risk';
+  return 'on-track';
+}
+
+const SLA_STYLES = {
+  'on-track': 'bg-emerald-100 text-emerald-700',
+  'at-risk': 'bg-amber-100 text-amber-700',
+  breached: 'bg-[#9E2A2B]/15 text-[#9E2A2B]',
+  done: 'bg-gray-100 text-gray-500',
+  unknown: 'bg-gray-100 text-gray-400',
+};
+
+const SLA_LABELS = {
+  'on-track': 'On track',
+  'at-risk': 'At risk',
+  breached: 'Breached',
+  done: 'Done',
+  unknown: 'No SLA',
+};
+
+export function slaColor(state) {
+  return SLA_STYLES[state] || SLA_STYLES.unknown;
+}
+
+export function slaLabel(state) {
+  return SLA_LABELS[state] || SLA_LABELS.unknown;
+}

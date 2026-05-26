@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { Flame, LayoutDashboard, Layers, Plus, Settings } from 'lucide-react';
+import { Contact, Flame, LayoutDashboard, Layers, Plus, Settings } from 'lucide-react';
 import { useAuth } from '../../features/auth/components/AuthGate';
 import { useNewTicketModal } from '../../features/tickets/hooks/useNewTicketModal';
 import { useMobileNav } from './useMobileNav';
@@ -39,6 +39,7 @@ export function Sidebar() {
       <nav className="flex flex-col gap-3">
         <NavItem to="/dashboard" icon={LayoutDashboard} label="Dashboard" />
         <NavItem to="/tickets" icon={Layers} label="Tickets" />
+        <NavItem to="/customers" icon={Contact} label="Customers" />
         <button
           type="button"
           onClick={() => openNewTicket()}

@@ -45,7 +45,7 @@ export function AssigneePicker({ value, valueName, onChange, label }) {
   return (
     <div ref={ref} className="relative">
       {label && (
-        <label className="text-xs font-black text-gray-400 uppercase tracking-widest block mb-2">
+        <label className="text-xs font-semibold text-gray-400 uppercase tracking-widest block mb-2">
           {label}
         </label>
       )}

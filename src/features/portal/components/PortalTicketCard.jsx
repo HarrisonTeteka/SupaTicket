@@ -22,7 +22,7 @@ export function PortalTicketCard({ ticket }) {
           <StatusBadge status={ticket.status} />
         </div>
       </div>
-      <h3 className="font-bold text-[#336021] truncate">{ticket.title}</h3>
+      <h3 className="font-semibold text-[#336021] truncate">{ticket.title}</h3>
       <p className="text-sm text-gray-500 line-clamp-2 mt-0.5">{ticket.description}</p>
       <p className="text-[11px] text-gray-400 mt-2">
         Raised {formatRelative(ticket.created_at)}

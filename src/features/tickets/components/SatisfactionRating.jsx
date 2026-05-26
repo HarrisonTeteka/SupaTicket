@@ -26,7 +26,7 @@ export function SatisfactionRating({ ticket, canRate, onRated }) {
 
   return (
     <div>
-      <h3 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-2">
+      <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-2">
         Satisfaction
       </h3>
       <div className="flex items-center gap-1" onMouseLeave={() => setHover(0)}>

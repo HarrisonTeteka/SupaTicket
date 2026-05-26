@@ -33,7 +33,7 @@ export function TagInput({ value = [], onChange, label, placeholder = 'Add tag..
   return (
     <div>
       {label && (
-        <label className="text-xs font-black text-gray-400 uppercase tracking-widest block mb-2">
+        <label className="text-xs font-semibold text-gray-400 uppercase tracking-widest block mb-2">
           {label}
         </label>
       )}

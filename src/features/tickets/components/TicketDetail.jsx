@@ -121,7 +121,7 @@ export function TicketDetail({ ticket, onLocalChange }) {
                     </span>
                   )}
                 </div>
-                <h1 className="text-xl font-black text-[#336021]">{ticket.title}</h1>
+                <h1 className="text-xl font-semibold text-[#336021]">{ticket.title}</h1>
               </div>
               {isAdmin && (
                 <Button
@@ -137,7 +137,7 @@ export function TicketDetail({ ticket, onLocalChange }) {
 
             <div className="mt-5">
               <div className="flex items-center justify-between mb-2">
-                <h3 className="text-xs font-black text-gray-400 uppercase tracking-widest">
+                <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest">
                   Description
                 </h3>
                 {!editingDesc && (
@@ -183,7 +183,7 @@ export function TicketDetail({ ticket, onLocalChange }) {
 
             {customFields.length > 0 && (
               <div className="mt-5 pt-5 border-t border-gray-100">
-                <h3 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-3">
+                <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">
                   Custom fields
                 </h3>
                 <dl className="grid grid-cols-2 gap-x-6 gap-y-3">
@@ -203,7 +203,7 @@ export function TicketDetail({ ticket, onLocalChange }) {
           </div>
 
           <div className="bg-white border border-gray-200 rounded-2xl p-6 space-y-4">
-            <h3 className="text-sm font-black text-[#336021] uppercase tracking-wide">
+            <h3 className="text-sm font-semibold text-[#336021] uppercase tracking-wide">
               Comments {comments.length > 0 && `(${comments.length})`}
             </h3>
             <CommentList comments={comments} loading={commentsLoading} />
@@ -265,7 +265,7 @@ export function TicketDetail({ ticket, onLocalChange }) {
           </div>
 
           <div className="bg-white border border-gray-200 rounded-2xl p-5 space-y-3">
-            <h3 className="text-sm font-black text-[#336021] uppercase tracking-wide">
+            <h3 className="text-sm font-semibold text-[#336021] uppercase tracking-wide">
               Attachments
             </h3>
             <AttachmentList

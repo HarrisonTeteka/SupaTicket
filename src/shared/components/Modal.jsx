@@ -36,7 +36,7 @@ export function Modal({ open, onClose, title, children, footer, size = 'md' }) {
     >
       <div className={cn('w-full bg-white rounded-3xl shadow-2xl flex flex-col max-h-[90vh]', SIZES[size])}>
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 shrink-0">
-          <h2 className="text-lg font-black text-[#336021]">{title}</h2>
+          <h2 className="text-lg font-semibold text-[#336021]">{title}</h2>
           <button
             type="button"
             onClick={onClose}

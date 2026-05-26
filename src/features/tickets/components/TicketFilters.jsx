@@ -8,7 +8,7 @@ import { TICKET_PRIORITIES, TICKET_STATUSES } from '../tickets.utils';
  * Controlled: `filters` is owned by the page, `onChange` receives the next
  * filters object (keys omitted when "all" is selected).
  */
-export function TicketFilters({ filters, onChange, assignees = [] }) {
+export function TicketFilters({ filters, onChange, assignees = [], tags = [] }) {
   const { config } = useAppConfig();
   const categories = config.categories;
 
@@ -20,7 +20,11 @@ export function TicketFilters({ filters, onChange, assignees = [] }) {
   };
 
   const hasFilters = Boolean(
-    filters.status || filters.priority || filters.category || filters.assigned_to
+    filters.status ||
+      filters.priority ||
+      filters.category ||
+      filters.assigned_to ||
+      filters.tag
   );
 
   return (
@@ -59,6 +63,15 @@ export function TicketFilters({ filters, onChange, assignees = [] }) {
           options={assignees.map((a) => ({ value: a.id, label: a.name }))}
           value={filters.assigned_to || ''}
           onChange={set('assigned_to')}
+        />
+      </div>
+      <div className="w-44">
+        <Select
+          label="Tag"
+          placeholder="Any tag"
+          options={tags}
+          value={filters.tag || ''}
+          onChange={set('tag')}
         />
       </div>
       {hasFilters && (

@@ -10,8 +10,9 @@ import { logAction } from '../../admin/services/systemLogsService';
 // Explicit column list — excludes the generated `fts` tsvector column.
 const TICKET_COLUMNS =
   'id, ticket_number, title, description, category, priority, status, ' +
-  'parent_id, assigned_to, assignee_name, attachments, custom_data, ' +
-  'created_by, creator_name, created_at, updated_at';
+  'parent_id, assigned_to, assignee_name, attachments, custom_data, tags, ' +
+  'created_by, creator_name, created_at, updated_at, ' +
+  'resolved_at, first_response_at, satisfaction_rating';
 
 /**
  * List tickets, newest first. `filters` keys: status, priority, assigned_to,
@@ -28,6 +29,7 @@ export async function listTickets(filters = {}) {
   if (filters.priority) query = query.eq('priority', filters.priority);
   if (filters.assigned_to) query = query.eq('assigned_to', filters.assigned_to);
   if (filters.category) query = query.eq('category', filters.category);
+  if (filters.tag) query = query.contains('tags', [filters.tag]);
 
   if (filters.parentId === null) query = query.is('parent_id', null);
   else if (filters.parentId) query = query.eq('parent_id', filters.parentId);
@@ -67,6 +69,7 @@ export async function createTicket(input, actor) {
     assigned_to: input.assigned_to || null,
     assignee_name: input.assignee_name || null,
     custom_data: input.custom_data || {},
+    tags: input.tags || [],
     created_by: actor?.id ?? null,
     creator_name: actor?.name ?? null,
   };
@@ -107,6 +110,17 @@ export async function deleteTicket(id) {
   const { error } = await supabase.from('tickets').delete().eq('id', id);
   if (error) throw error;
   logAction('ticket.delete', existing ? `#${existing.ticket_number}` : id);
+}
+
+/** Every distinct tag in use across the workspace, sorted alphabetically. */
+export async function listAllTags() {
+  const { data, error } = await supabase.from('tickets').select('tags');
+  if (error) throw error;
+  const set = new Set();
+  for (const row of data ?? []) {
+    for (const tag of row.tags ?? []) set.add(tag);
+  }
+  return Array.from(set).sort();
 }
 
 /** Active profiles a ticket can be assigned to. */

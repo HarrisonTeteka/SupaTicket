@@ -3,6 +3,7 @@ import { Input, Textarea } from '../../../shared/components/Input';
 import { Select } from '../../../shared/components/Select';
 import { Button } from '../../../shared/components/Button';
 import { AssigneePicker } from './AssigneePicker';
+import { TagInput } from './TagInput';
 import { useAppConfig } from '../../admin/hooks/useAppConfig';
 import { TICKET_PRIORITIES } from '../tickets.utils';
 
@@ -32,6 +33,7 @@ export function TicketForm({
       : null
   );
   const [customData, setCustomData] = useState(initial.custom_data || {});
+  const [tags, setTags] = useState(initial.tags || []);
   const [errors, setErrors] = useState({});
 
   const setField = (id, value) =>
@@ -70,6 +72,7 @@ export function TicketForm({
       assignee_name: assignee?.name ?? null,
       parent_id: initial.parent_id ?? null,
       custom_data: cleanCustomData,
+      tags,
     });
   };
 
@@ -114,6 +117,8 @@ export function TicketForm({
         valueName={assignee?.name}
         onChange={setAssignee}
       />
+
+      <TagInput label="Tags" value={tags} onChange={setTags} />
 
       {customFields.length > 0 && (
         <div className="space-y-4 pt-3 border-t border-gray-100">

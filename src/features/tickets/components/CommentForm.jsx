@@ -9,6 +9,7 @@ import { Textarea } from '../../../shared/components/Input';
 export function CommentForm({ ticketId }) {
   const { profile } = useAuth();
   const [text, setText] = useState('');
+  const [internal, setInternal] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
 
@@ -18,8 +19,9 @@ export function CommentForm({ ticketId }) {
     setBusy(true);
     setError('');
     try {
-      await addComment({ ticketId, text }, profile);
+      await addComment({ ticketId, text, internal }, profile);
       setText('');
+      setInternal(false);
     } catch (err) {
       setError(err.message || 'Could not post comment.');
     } finally {
@@ -34,12 +36,21 @@ export function CommentForm({ ticketId }) {
         rows={3}
         value={text}
         onChange={(e) => setText(e.target.value)}
-        placeholder="Write a comment..."
+        placeholder={internal ? 'Internal note — visible to staff only...' : 'Write a comment...'}
+        className={internal ? 'bg-amber-50 focus:bg-amber-50/60 border-amber-200' : undefined}
       />
       {error && <p className="text-xs text-red-600">{error}</p>}
-      <div className="flex justify-end">
+      <div className="flex items-center justify-between gap-3">
+        <label className="flex items-center gap-2 text-xs font-bold text-gray-500 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={internal}
+            onChange={(e) => setInternal(e.target.checked)}
+          />
+          Internal note (staff only)
+        </label>
         <Button type="submit" loading={busy} disabled={!text.trim()}>
-          <Send size={14} /> Comment
+          <Send size={14} /> {internal ? 'Post internal note' : 'Comment'}
         </Button>
       </div>
     </form>

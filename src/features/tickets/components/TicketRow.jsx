@@ -16,12 +16,25 @@ export function TicketRow({ ticket }) {
       className="w-full text-left bg-white border border-gray-200 rounded-2xl p-4 hover:border-[#12344d] hover:shadow-md transition-all flex items-center gap-4"
     >
       <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2 mb-1">
+        <div className="flex items-center gap-2 mb-1 flex-wrap">
           <span className="text-xs font-bold text-gray-400">
             {formatTicketNumber(ticket.ticket_number)}
           </span>
           <span className="text-xs text-gray-300">·</span>
           <span className="text-xs text-gray-400">{ticket.category}</span>
+          {(ticket.tags || []).slice(0, 3).map((t) => (
+            <span
+              key={t}
+              className="text-[10px] font-bold bg-indigo-100 text-indigo-700 px-1.5 py-0.5 rounded"
+            >
+              {t}
+            </span>
+          ))}
+          {(ticket.tags?.length ?? 0) > 3 && (
+            <span className="text-[10px] text-gray-400">
+              +{ticket.tags.length - 3}
+            </span>
+          )}
         </div>
         <h3 className="font-bold text-[#12344d] truncate">{ticket.title}</h3>
         <p className="text-sm text-gray-500 truncate mt-0.5">{ticket.description}</p>

@@ -3,16 +3,29 @@
  * display formatters. No JSX, no network access.
  */
 
-export const TICKET_STATUSES = ['Open', 'In Progress', 'Resolved'];
+export const TICKET_STATUSES = [
+  'Open',
+  'Pending',
+  'In Progress',
+  'Escalated',
+  'Resolved',
+  'Closed',
+];
 export const TICKET_PRIORITIES = ['Low', 'Medium', 'High', 'Urgent'];
+
+/** Statuses that count as "done" — used for resolved_at and completed KPIs. */
+export const TERMINAL_STATUSES = ['Resolved', 'Closed'];
 
 /** Max attachment size enforced client-side (PHASES.md: 10 MB). */
 export const MAX_ATTACHMENT_BYTES = 10 * 1024 * 1024;
 
 const STATUS_STYLES = {
   Open: 'bg-blue-100 text-blue-700',
+  Pending: 'bg-purple-100 text-purple-700',
   'In Progress': 'bg-amber-100 text-amber-700',
+  Escalated: 'bg-red-100 text-red-700',
   Resolved: 'bg-emerald-100 text-emerald-700',
+  Closed: 'bg-gray-100 text-gray-500',
 };
 
 const PRIORITY_STYLES = {

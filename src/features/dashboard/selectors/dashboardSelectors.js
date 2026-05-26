@@ -1,9 +1,9 @@
 /**
  * Pure aggregation + formatting helpers for the dashboard. No JSX, no network.
- * In Phase 5 the only terminal status is 'Resolved' (Phase 6 adds 'Closed').
+ * Terminal statuses (Resolved + Closed) count as completed work — they leave
+ * the open backlog and contribute to resolution-time / completed-this-week.
  */
-
-const TERMINAL_STATUSES = ['Resolved'];
+import { TERMINAL_STATUSES } from '../../tickets/tickets.utils';
 
 const isOpen = (t) => !TERMINAL_STATUSES.includes(t.status);
 
@@ -31,10 +31,10 @@ export function countByPriority(tickets) {
 /** Every dashboard KPI in one object. */
 export function computeMetrics(tickets, userId) {
   const open = tickets.filter(isOpen);
-  const resolved = tickets.filter((t) => t.status === 'Resolved');
+  const terminal = tickets.filter((t) => TERMINAL_STATUSES.includes(t.status));
   const weekAgo = Date.now() - 7 * 86_400_000;
 
-  const resolutionHours = resolved
+  const resolutionHours = terminal
     .filter((t) => t.resolved_at)
     .map((t) => hoursBetween(t.created_at, t.resolved_at));
   const responseHours = tickets
@@ -49,7 +49,7 @@ export function computeMetrics(tickets, userId) {
     open: open.length,
     myOpen: open.filter((t) => t.assigned_to === userId).length,
     unassigned: open.filter((t) => !t.assigned_to).length,
-    resolvedThisWeek: resolved.filter(
+    resolvedThisWeek: terminal.filter(
       (t) => t.resolved_at && new Date(t.resolved_at).getTime() >= weekAgo
     ).length,
     avgResolutionHours: average(resolutionHours),

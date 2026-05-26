@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Plus } from 'lucide-react';
 import { useTickets } from '../hooks/useTickets';
 import { useNewTicketModal } from '../hooks/useNewTicketModal';
-import { listAssignees } from '../services/ticketsService';
+import { listAllTags, listAssignees } from '../services/ticketsService';
 import { TicketList } from '../components/TicketList';
 import { TicketFilters } from '../components/TicketFilters';
 import { Button } from '../../../shared/components/Button';
@@ -12,6 +12,7 @@ export default function TicketsPage() {
   const [filters, setFilters] = useState({});
   const { openNewTicket } = useNewTicketModal();
   const [assignees, setAssignees] = useState([]);
+  const [allTags, setAllTags] = useState([]);
 
   // Only top-level tickets here — sub-tickets show under their parent.
   const queryFilters = useMemo(() => ({ ...filters, parentId: null }), [filters]);
@@ -21,6 +22,9 @@ export default function TicketsPage() {
     listAssignees()
       .then(setAssignees)
       .catch(() => setAssignees([]));
+    listAllTags()
+      .then(setAllTags)
+      .catch(() => setAllTags([]));
   }, []);
 
   return (
@@ -36,7 +40,12 @@ export default function TicketsPage() {
         </Button>
       </div>
 
-      <TicketFilters filters={filters} onChange={setFilters} assignees={assignees} />
+      <TicketFilters
+        filters={filters}
+        onChange={setFilters}
+        assignees={assignees}
+        tags={allTags}
+      />
       <TicketList tickets={tickets} loading={loading} error={error} />
     </div>
   );

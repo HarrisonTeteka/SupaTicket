@@ -7,6 +7,7 @@ import { deleteTicket, updateTicket } from '../services/ticketsService';
 import { StatusBadge } from './StatusBadge';
 import { PriorityBadge } from './PriorityBadge';
 import { AssigneePicker } from './AssigneePicker';
+import { TagInput } from './TagInput';
 import { CommentList } from './CommentList';
 import { CommentForm } from './CommentForm';
 import { AttachmentList } from './AttachmentList';
@@ -231,6 +232,11 @@ export function TicketDetail({ ticket, onLocalChange }) {
               value={ticket.assigned_to}
               valueName={ticket.assignee_name}
               onChange={handleAssignee}
+            />
+            <TagInput
+              label="Tags"
+              value={ticket.tags || []}
+              onChange={(next) => patch('tags', { tags: next })}
             />
             <div className="pt-3 border-t border-gray-100 text-xs text-gray-400 space-y-1">
               <p>

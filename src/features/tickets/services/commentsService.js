@@ -3,7 +3,7 @@ import { supabase } from '../../../lib/supabase';
 /** Network-touching operations for ticket comments. */
 
 const COMMENT_COLUMNS =
-  'id, ticket_id, text, author_id, author_name, created_at, updated_at';
+  'id, ticket_id, text, internal, author_id, author_name, created_at, updated_at';
 
 export async function listComments(ticketId) {
   const { data, error } = await supabase
@@ -19,12 +19,13 @@ export async function listComments(ticketId) {
  * Add a comment. `actor` is the current user's profile. RLS requires
  * author_id = auth.uid(), so the actor must be the signed-in user.
  */
-export async function addComment({ ticketId, text }, actor) {
+export async function addComment({ ticketId, text, internal = false }, actor) {
   const { data, error } = await supabase
     .from('comments')
     .insert({
       ticket_id: ticketId,
       text: text.trim(),
+      internal,
       author_id: actor?.id ?? null,
       author_name: actor?.name ?? null,
     })

@@ -16,7 +16,7 @@ export function NotificationPopover({
   return (
     <div className="absolute right-0 mt-2 w-80 bg-white rounded-xl border border-gray-200 shadow-xl overflow-hidden z-50">
       <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
-        <h3 className="text-sm font-black text-[#336021]">Notifications</h3>
+        <h3 className="text-sm font-semibold text-[#336021]">Notifications</h3>
         {unreadCount > 0 && (
           <button
             type="button"

@@ -52,7 +52,7 @@ export default function PortalNewTicketPage() {
 
   return (
     <div>
-      <h1 className="text-xl font-black mb-4">Raise a ticket</h1>
+      <h1 className="text-xl font-semibold mb-4">Raise a ticket</h1>
       <form
         onSubmit={submit}
         className="bg-white border border-gray-200 rounded-2xl p-6 space-y-4 max-w-2xl"

@@ -4,9 +4,9 @@ export function LoadingScreen({ message = 'Loading...' }) {
       <img
         src="/supamoto-logo.svg"
         alt="SupaMoto"
-        className="h-16 mb-4 animate-pulse drop-shadow-sm"
+        className="h-16 mb-4 animate-pulse"
       />
-      <h2 className="font-bold text-lg">{message}</h2>
+      <h2 className="font-semibold text-lg">{message}</h2>
     </div>
   );
 }

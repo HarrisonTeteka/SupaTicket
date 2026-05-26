@@ -8,7 +8,7 @@ import { supabase } from '../../../lib/supabase';
 const METRIC_COLUMNS =
   'id, ticket_number, title, status, priority, assigned_to, assignee_name, ' +
   'created_by, creator_name, created_at, resolved_at, first_response_at, ' +
-  'satisfaction_rating';
+  'satisfaction_rating, resolution_due_at';
 
 export async function listTicketsForMetrics() {
   const { data, error } = await supabase

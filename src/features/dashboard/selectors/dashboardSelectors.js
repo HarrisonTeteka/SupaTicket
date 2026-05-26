@@ -3,7 +3,7 @@
  * Terminal statuses (Resolved + Closed) count as completed work — they leave
  * the open backlog and contribute to resolution-time / completed-this-week.
  */
-import { TERMINAL_STATUSES } from '../../tickets/tickets.utils';
+import { SLA_STATES, TERMINAL_STATUSES, slaState } from '../../tickets/tickets.utils';
 
 const isOpen = (t) => !TERMINAL_STATUSES.includes(t.status);
 
@@ -25,6 +25,19 @@ export function countByStatus(tickets) {
 export function countByPriority(tickets) {
   const out = {};
   for (const t of tickets) out[t.priority] = (out[t.priority] || 0) + 1;
+  return out;
+}
+
+/**
+ * SLA breakdown for non-terminal tickets only. Terminal + unknown buckets
+ * are dropped so the widget shows the live operational picture.
+ */
+export function countBySlaState(tickets) {
+  const out = { 'on-track': 0, 'at-risk': 0, breached: 0 };
+  for (const t of tickets) {
+    const s = slaState(t);
+    if (SLA_STATES.includes(s)) out[s]++;
+  }
   return out;
 }
 
@@ -58,6 +71,7 @@ export function computeMetrics(tickets, userId) {
     csatCount: ratings.length,
     byStatus: countByStatus(tickets),
     byPriority: countByPriority(tickets),
+    bySla: countBySlaState(tickets),
   };
 }
 

@@ -41,7 +41,7 @@ export function TicketRow({ ticket }) {
             </span>
           )}
         </div>
-        <h3 className="font-bold text-[#336021] truncate">{ticket.title}</h3>
+        <h3 className="font-semibold text-[#336021] truncate">{ticket.title}</h3>
         <p className="text-sm text-gray-500 truncate mt-0.5">{ticket.description}</p>
         {ticket.customer && (
           <p className="text-xs text-gray-500 mt-1 flex items-center gap-1 truncate">
@@ -54,16 +54,16 @@ export function TicketRow({ ticket }) {
         )}
       </div>
 
-      <div className="flex items-center gap-3 shrink-0">
+      <div className="flex items-center gap-2 sm:gap-3 shrink-0">
         {attachmentCount > 0 && (
-          <span className="flex items-center gap-1 text-xs text-gray-400">
+          <span className="hidden sm:flex items-center gap-1 text-xs text-gray-400">
             <Paperclip size={13} />
             {attachmentCount}
           </span>
         )}
         <PriorityBadge priority={ticket.priority} />
         <StatusBadge status={ticket.status} />
-        <div className="text-right w-28">
+        <div className="hidden md:block text-right w-28">
           <p className="text-xs font-bold text-[#336021] truncate">
             {ticket.assignee_name || 'Unassigned'}
           </p>

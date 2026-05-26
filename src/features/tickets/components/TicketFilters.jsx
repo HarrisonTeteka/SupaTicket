@@ -4,9 +4,8 @@ import { useAppConfig } from '../../admin/hooks/useAppConfig';
 import { TICKET_PRIORITIES, TICKET_STATUSES } from '../tickets.utils';
 
 /**
- * Status / priority / category / assignee filter row for the tickets list.
- * Controlled: `filters` is owned by the page, `onChange` receives the next
- * filters object (keys omitted when "all" is selected).
+ * Status / priority / category / assignee / tag filter row.
+ * Responsive grid — 2 cols on mobile, 3 on tablet, 5 on desktop.
  */
 export function TicketFilters({ filters, onChange, assignees = [], tags = [] }) {
   const { config } = useAppConfig();
@@ -28,8 +27,8 @@ export function TicketFilters({ filters, onChange, assignees = [], tags = [] }) 
   );
 
   return (
-    <div className="flex flex-wrap items-end gap-3">
-      <div className="w-40">
+    <div className="space-y-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
         <Select
           label="Status"
           placeholder="All statuses"
@@ -37,8 +36,6 @@ export function TicketFilters({ filters, onChange, assignees = [], tags = [] }) 
           value={filters.status || ''}
           onChange={set('status')}
         />
-      </div>
-      <div className="w-40">
         <Select
           label="Priority"
           placeholder="All priorities"
@@ -46,8 +43,6 @@ export function TicketFilters({ filters, onChange, assignees = [], tags = [] }) 
           value={filters.priority || ''}
           onChange={set('priority')}
         />
-      </div>
-      <div className="w-44">
         <Select
           label="Category"
           placeholder="All categories"
@@ -55,8 +50,6 @@ export function TicketFilters({ filters, onChange, assignees = [], tags = [] }) 
           value={filters.category || ''}
           onChange={set('category')}
         />
-      </div>
-      <div className="w-52">
         <Select
           label="Assignee"
           placeholder="Anyone"
@@ -64,8 +57,6 @@ export function TicketFilters({ filters, onChange, assignees = [], tags = [] }) 
           value={filters.assigned_to || ''}
           onChange={set('assigned_to')}
         />
-      </div>
-      <div className="w-44">
         <Select
           label="Tag"
           placeholder="Any tag"
@@ -75,9 +66,11 @@ export function TicketFilters({ filters, onChange, assignees = [], tags = [] }) 
         />
       </div>
       {hasFilters && (
-        <Button variant="ghost" onClick={() => onChange({})}>
-          Clear
-        </Button>
+        <div className="flex justify-end">
+          <Button variant="ghost" onClick={() => onChange({})}>
+            Clear filters
+          </Button>
+        </div>
       )}
     </div>
   );

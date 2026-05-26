@@ -9,7 +9,7 @@ export function EmptyState({ icon: Icon, title, description, action }) {
           <Icon size={26} />
         </div>
       )}
-      <h3 className="text-base font-bold text-[#336021]">{title}</h3>
+      <h3 className="text-base font-semibold text-[#336021]">{title}</h3>
       {description && <p className="text-sm text-gray-500 mt-1 max-w-sm">{description}</p>}
       {action && <div className="mt-5">{action}</div>}
     </div>

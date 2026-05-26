@@ -2,7 +2,12 @@ import { useEffect, useState } from 'react';
 import { supabase } from '../../../lib/supabase';
 import { getConfig } from '../services/appConfigService';
 
-const EMPTY = { categories: [], departments: [], custom_fields: [] };
+const EMPTY = {
+  categories: [],
+  departments: [],
+  custom_fields: [],
+  email_sender: { from_name: '', from_email: '', reply_to: null },
+};
 
 /**
  * The app_config singleton (categories, departments, custom fields), kept
@@ -24,6 +29,7 @@ export function useAppConfig() {
             categories: data.categories ?? [],
             departments: data.departments ?? [],
             custom_fields: data.custom_fields ?? [],
+            email_sender: data.email_sender ?? EMPTY.email_sender,
           });
         }
       } catch {

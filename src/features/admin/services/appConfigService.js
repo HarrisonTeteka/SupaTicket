@@ -6,7 +6,8 @@ import { logAction } from './systemLogsService';
  * categories, departments and custom field definitions.
  */
 
-const COLUMNS = 'id, categories, departments, custom_fields, updated_at';
+const COLUMNS =
+  'id, categories, departments, custom_fields, email_sender, updated_at';
 
 export async function getConfig() {
   const { data, error } = await supabase
@@ -44,5 +45,11 @@ export async function updateDepartments(departments) {
 export async function updateCustomFields(customFields) {
   const data = await patchConfig({ custom_fields: customFields });
   logAction('config.update', 'custom_fields');
+  return data;
+}
+
+export async function updateEmailSender(emailSender) {
+  const data = await patchConfig({ email_sender: emailSender });
+  logAction('config.update', 'email_sender');
   return data;
 }

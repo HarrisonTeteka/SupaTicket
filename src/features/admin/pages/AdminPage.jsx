@@ -1,9 +1,10 @@
 import { useSearchParams } from 'react-router-dom';
-import { Building2, ScrollText, SlidersHorizontal, Tags, Users } from 'lucide-react';
+import { Building2, Mail, ScrollText, SlidersHorizontal, Tags, Users } from 'lucide-react';
 import { StaffDirectory } from '../components/StaffDirectory';
 import { CategoriesEditor } from '../components/CategoriesEditor';
 import { DepartmentsEditor } from '../components/DepartmentsEditor';
 import { CustomFieldsBuilder } from '../components/CustomFieldsBuilder';
+import { EmailSettingsEditor } from '../components/EmailSettingsEditor';
 import { SystemLogsView } from '../components/SystemLogsView';
 
 const TABS = [
@@ -11,6 +12,7 @@ const TABS = [
   { id: 'categories', label: 'Categories', icon: Tags },
   { id: 'departments', label: 'Departments', icon: Building2 },
   { id: 'fields', label: 'Custom Fields', icon: SlidersHorizontal },
+  { id: 'email', label: 'Email', icon: Mail },
   { id: 'logs', label: 'Logs', icon: ScrollText },
 ];
 
@@ -46,6 +48,7 @@ export default function AdminPage() {
       {active === 'categories' && <CategoriesEditor />}
       {active === 'departments' && <DepartmentsEditor />}
       {active === 'fields' && <CustomFieldsBuilder />}
+      {active === 'email' && <EmailSettingsEditor />}
       {active === 'logs' && <SystemLogsView />}
     </div>
   );

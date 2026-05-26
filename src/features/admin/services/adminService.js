@@ -6,7 +6,8 @@ import { logAction } from './systemLogsService';
  * EditProfileModal.
  */
 
-const COLUMNS = 'id, name, email, role, status, department, created_at, updated_at';
+const COLUMNS =
+  'id, name, email, role, status, department, email_notifications, created_at, updated_at';
 
 /** Staff and admins (customers are managed separately and excluded). */
 export async function listStaff() {

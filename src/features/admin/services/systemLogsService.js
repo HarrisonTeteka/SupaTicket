@@ -1,29 +1,14 @@
 import { supabase } from '../../../lib/supabase';
 
+export { logAction } from '../../../shared/services/systemLogsService';
+
 /**
- * System audit log: the `logAction` writer (used app-wide) and the paginated
- * reader for the admin Logs tab.
+ * Paginated log reader and action-type helpers for the admin Logs tab.
+ * logAction lives in shared/services/systemLogsService — re-exported above
+ * so any admin code that imports from here still works.
  */
 
 const COLUMNS = 'id, action_type, details, user_id, user_name, created_at';
-
-/**
- * Record an audit-log entry via the `log_action` SECURITY DEFINER rpc.
- *
- * Never throws — audit logging must not break a user flow. Callers can
- * fire-and-forget. (Until migration 0006 is applied the rpc is missing and
- * this is a silent no-op.)
- */
-export async function logAction(actionType, details) {
-  try {
-    await supabase.rpc('log_action', {
-      action_type: actionType,
-      details: details ?? null,
-    });
-  } catch {
-    /* swallowed by design */
-  }
-}
 
 /**
  * Paginated log reader. `filters`: { actionType, since, before }.

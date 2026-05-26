@@ -42,7 +42,7 @@ export function ProfileMenu() {
       {open && (
         <>
           <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
-          <div className="absolute left-full bottom-0 ml-4 w-56 bg-white rounded-xl shadow-xl border border-gray-100 p-2 flex flex-col z-50">
+          <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 p-2 flex flex-col z-50">
             <div className="px-3 py-2 border-b border-gray-100 mb-2">
               <p className="text-sm font-bold text-gray-800 truncate">{profile.name}</p>
               <p className="text-[10px] text-gray-400 truncate">{profile.email}</p>

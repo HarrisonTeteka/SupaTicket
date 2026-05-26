@@ -1,5 +1,5 @@
 import { supabase } from '../../../lib/supabase';
-import { logAction } from './systemLogsService';
+import { logAction } from '../../../shared/services/systemLogsService';
 
 /**
  * Profile / staff management for the admin Staff Directory and the

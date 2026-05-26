@@ -1,6 +1,6 @@
 import { supabase } from '../../../lib/supabase';
 import { looksLikeTicketNumber } from '../tickets.utils';
-import { logAction } from '../../admin/services/systemLogsService';
+import { logAction } from '../../../shared/services/systemLogsService';
 
 /**
  * All network-touching ticket operations. Components and hooks call these

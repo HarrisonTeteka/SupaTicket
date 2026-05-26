@@ -1,6 +1,6 @@
 import { supabase } from '../../../lib/supabase';
 import { deriveNameFromEmail } from './auth.utils';
-import { logAction } from '../../admin/services/systemLogsService';
+import { logAction } from '../../../shared/services/systemLogsService';
 
 /**
  * All network-touching auth operations live here. Hooks and components

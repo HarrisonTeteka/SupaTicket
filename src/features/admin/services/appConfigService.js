@@ -1,5 +1,5 @@
 import { supabase } from '../../../lib/supabase';
-import { logAction } from './systemLogsService';
+import { logAction } from '../../../shared/services/systemLogsService';
 
 /**
  * Reads and writes the `app_config` singleton row (id = 1): ticket

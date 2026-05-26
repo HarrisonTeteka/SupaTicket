@@ -1,7 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { Flame, LayoutDashboard, Layers, Plus, Settings } from 'lucide-react';
 import { useAuth } from '../../features/auth/components/AuthGate';
-import { ProfileMenu } from '../../features/auth/components/ProfileMenu';
 import { useNewTicketModal } from '../../features/tickets/hooks/useNewTicketModal';
 
 /**
@@ -14,8 +13,6 @@ export function Sidebar() {
 
   return (
     <aside className="w-20 bg-[#336021] flex flex-col items-center py-6 shrink-0 space-y-8 z-20 shadow-xl relative">
-      <ProfileMenu />
-
       <div className="p-2 bg-[#F58202] rounded-xl text-white shadow-md shadow-[#F58202]/30">
         <Flame size={22} fill="currentColor" />
       </div>

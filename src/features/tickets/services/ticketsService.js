@@ -11,8 +11,9 @@ import { logAction } from '../../admin/services/systemLogsService';
 const TICKET_COLUMNS =
   'id, ticket_number, title, description, category, priority, status, ' +
   'parent_id, assigned_to, assignee_name, attachments, custom_data, tags, ' +
-  'created_by, creator_name, created_at, updated_at, ' +
-  'resolved_at, first_response_at, satisfaction_rating';
+  'created_by, creator_name, creator_role, created_at, updated_at, ' +
+  'resolved_at, first_response_at, satisfaction_rating, ' +
+  'response_due_at, resolution_due_at';
 
 /**
  * List tickets, newest first. `filters` keys: status, priority, assigned_to,
@@ -72,6 +73,7 @@ export async function createTicket(input, actor) {
     tags: input.tags || [],
     created_by: actor?.id ?? null,
     creator_name: actor?.name ?? null,
+    creator_role: actor?.role ?? null,
   };
   const { data, error } = await supabase
     .from('tickets')
@@ -123,12 +125,13 @@ export async function listAllTags() {
   return Array.from(set).sort();
 }
 
-/** Active profiles a ticket can be assigned to. */
+/** Active staff/admin profiles a ticket can be assigned to (excludes customers). */
 export async function listAssignees() {
   const { data, error } = await supabase
     .from('profiles')
     .select('id, name, email, department')
     .eq('status', 'active')
+    .in('role', ['staff', 'admin'])
     .order('name');
   if (error) throw error;
   return data ?? [];

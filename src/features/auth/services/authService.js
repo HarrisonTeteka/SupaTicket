@@ -18,7 +18,7 @@ export async function signInWithEmail({ email, password }) {
   return data;
 }
 
-export async function signUpWithEmail({ email, password, name }) {
+export async function signUpWithEmail({ email, password, name, isCustomer = false }) {
   const cleanEmail = email.trim();
   const displayName = (name && name.trim()) || deriveNameFromEmail(cleanEmail);
 
@@ -27,8 +27,10 @@ export async function signUpWithEmail({ email, password, name }) {
     password,
     options: {
       // Stored on auth.users.raw_user_meta_data; the on_auth_user_created
-      // trigger uses this to seed profiles.name.
-      data: { name: displayName },
+      // trigger uses these to seed profiles.name and decide profiles.role
+      // (is_customer = true -> 'customer', otherwise 'staff', except the
+      // very first user ever, which is always 'admin').
+      data: { name: displayName, is_customer: isCustomer },
     },
   });
   if (error) throw error;

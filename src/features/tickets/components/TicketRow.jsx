@@ -22,6 +22,11 @@ export function TicketRow({ ticket }) {
           </span>
           <span className="text-xs text-gray-300">·</span>
           <span className="text-xs text-gray-400">{ticket.category}</span>
+          {ticket.creator_role === 'customer' && (
+            <span className="text-[10px] font-bold bg-purple-100 text-purple-700 px-1.5 py-0.5 rounded">
+              Customer
+            </span>
+          )}
           {(ticket.tags || []).slice(0, 3).map((t) => (
             <span
               key={t}

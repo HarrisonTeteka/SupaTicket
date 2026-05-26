@@ -111,10 +111,15 @@ export function TicketDetail({ ticket, onLocalChange }) {
           <div className="bg-white border border-gray-200 rounded-2xl p-6">
             <div className="flex items-start justify-between gap-4">
               <div className="min-w-0">
-                <div className="flex items-center gap-2 mb-1 text-xs text-gray-400 font-bold">
+                <div className="flex items-center gap-2 mb-1 text-xs text-gray-400 font-bold flex-wrap">
                   <span>{formatTicketNumber(ticket.ticket_number)}</span>
                   <span>·</span>
                   <span>{ticket.category}</span>
+                  {ticket.creator_role === 'customer' && (
+                    <span className="text-[10px] font-bold bg-purple-100 text-purple-700 px-1.5 py-0.5 rounded normal-case">
+                      Customer-raised
+                    </span>
+                  )}
                 </div>
                 <h1 className="text-xl font-black text-[#12344d]">{ticket.title}</h1>
               </div>

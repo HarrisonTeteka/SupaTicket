@@ -24,10 +24,11 @@ export function AuthGate({ children }) {
   const { profile, loading: profileLoading, setProfile } = useUserProfile(user?.id);
 
   const isAdmin = profile?.role === 'admin';
+  const isCustomer = profile?.role === 'customer';
 
   const value = useMemo(
-    () => ({ session, user, profile, isAdmin, setProfile }),
-    [session, user, profile, isAdmin, setProfile]
+    () => ({ session, user, profile, isAdmin, isCustomer, setProfile }),
+    [session, user, profile, isAdmin, isCustomer, setProfile]
   );
 
   if (authLoading) return <LoadingScreen message="Authenticating workspace..." />;
@@ -45,6 +46,7 @@ function AuthScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
+  const [isCustomer, setIsCustomer] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const [info, setInfo] = useState('');
@@ -59,7 +61,7 @@ function AuthScreen() {
         await signInWithEmail({ email, password });
         // onAuthStateChange will flip the gate.
       } else {
-        const result = await signUpWithEmail({ email, password, name });
+        const result = await signUpWithEmail({ email, password, name, isCustomer });
         if (!result.session) {
           // Email confirmation is on — user must confirm before signing in.
           setInfo('Account created. Check your email to confirm, then sign in.');
@@ -133,6 +135,20 @@ function AuthScreen() {
             />
           </Field>
 
+          {mode === 'signup' && (
+            <label className="flex items-start gap-2 text-xs text-gray-500 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={isCustomer}
+                onChange={(e) => setIsCustomer(e.target.checked)}
+                className="mt-0.5"
+              />
+              <span>
+                I'm a <strong>customer</strong> raising tickets (not a staff member).
+              </span>
+            </label>
+          )}
+
           {error && (
             <div className="p-3 bg-red-50 border border-red-100 text-red-700 text-sm rounded-xl">
               {error}
@@ -154,7 +170,8 @@ function AuthScreen() {
         </form>
 
         <p className="text-[11px] text-center text-gray-400 leading-relaxed">
-          The first account ever created on this workspace becomes the admin. Everyone after is staff.
+          The first account ever created becomes the admin. After that, staff
+          sign-ups land in the workspace; customer sign-ups land in the portal.
         </p>
       </div>
     </div>

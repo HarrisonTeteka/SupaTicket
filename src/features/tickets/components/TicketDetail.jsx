@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Check, Pencil, Trash2, X } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { ArrowLeft, ArrowUpRight, Check, Pencil, Trash2, X } from 'lucide-react';
 import { useAuth } from '../../auth/components/AuthGate';
 import { useComments } from '../hooks/useComments';
 import { deleteTicket, updateTicket } from '../services/ticketsService';
@@ -8,6 +8,8 @@ import { StatusBadge } from './StatusBadge';
 import { PriorityBadge } from './PriorityBadge';
 import { AssigneePicker } from './AssigneePicker';
 import { TagInput } from './TagInput';
+import { CustomerPicker } from '../../customers/components/CustomerPicker';
+import { customerSummary } from '../../customers/customers.utils';
 import { CommentList } from './CommentList';
 import { CommentForm } from './CommentForm';
 import { AttachmentList } from './AttachmentList';
@@ -71,6 +73,10 @@ export function TicketDetail({ ticket, onLocalChange }) {
       assigned_to: person?.id ?? null,
       assignee_name: person?.name ?? null,
     });
+  };
+
+  const handleCustomer = (next) => {
+    patch('customer_id', { customer_id: next?.id ?? null });
   };
 
   const handleDelete = async () => {
@@ -243,6 +249,24 @@ export function TicketDetail({ ticket, onLocalChange }) {
               value={ticket.tags || []}
               onChange={(next) => patch('tags', { tags: next })}
             />
+            <CustomerPicker
+              value={ticket.customer_id}
+              valueLabel={customerSummary(ticket.customer)}
+              onChange={handleCustomer}
+            />
+            {ticket.customer && (
+              <div className="text-xs text-gray-500 -mt-2 pl-1 space-y-0.5">
+                {ticket.customer.email && <p>{ticket.customer.email}</p>}
+                {ticket.customer.phone && <p>{ticket.customer.phone}</p>}
+                <p className="text-gray-400">ID: {ticket.customer.external_id}</p>
+                <Link
+                  to={`/customers/${ticket.customer.id}`}
+                  className="inline-flex items-center gap-1 text-[#336021] font-bold hover:underline"
+                >
+                  View customer <ArrowUpRight size={11} />
+                </Link>
+              </div>
+            )}
             <div className="pt-3 border-t border-gray-100 text-xs text-gray-400 space-y-1">
               <p>
                 Raised by{' '}

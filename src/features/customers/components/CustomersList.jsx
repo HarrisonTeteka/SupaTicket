@@ -1,0 +1,163 @@
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Building2, Mail, Phone, Pencil, Plus, Search, Trash2, Upload, Users } from 'lucide-react';
+import { useCustomers } from '../hooks/useCustomers';
+import { useAuth } from '../../auth/components/AuthGate';
+import { deleteCustomer } from '../services/customerService';
+import { CustomerEditModal } from './CustomerEditModal';
+import { CustomerImportModal } from './CustomerImportModal';
+import { Button } from '../../../shared/components/Button';
+import { EmptyState } from '../../../shared/components/EmptyState';
+
+/** Admin Customers tab — list, search, edit, delete, CSV import. */
+export function CustomersList() {
+  const { isAdmin } = useAuth();
+  const [search, setSearch] = useState('');
+  const { customers, loading, error } = useCustomers(search);
+  const [editing, setEditing] = useState(null); // null=closed, {} = create, {id} = edit
+  const [importing, setImporting] = useState(false);
+  const [opError, setOpError] = useState('');
+
+  const handleDelete = async (c) => {
+    if (!window.confirm(`Delete ${c.name}? This unlinks them from any tickets they're attached to.`)) return;
+    setOpError('');
+    try {
+      await deleteCustomer(c.id);
+    } catch (err) {
+      setOpError(err.message || 'Delete failed.');
+    }
+  };
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center gap-3">
+        <div className="relative flex-1 max-w-md">
+          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+          <input
+            type="search"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search name, email, company, external ID..."
+            className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white outline-none focus:ring-2 focus:ring-[#F58202] text-sm"
+          />
+        </div>
+        <div className="ml-auto flex items-center gap-2">
+          <Button variant="secondary" onClick={() => setImporting(true)}>
+            <Upload size={14} /> Import CSV
+          </Button>
+          <Button onClick={() => setEditing({})}>
+            <Plus size={14} /> New customer
+          </Button>
+        </div>
+      </div>
+
+      {(opError || error) && (
+        <div className="p-3 bg-red-50 border border-red-100 text-red-700 text-sm rounded-xl">
+          {opError || error}
+        </div>
+      )}
+
+      {loading ? (
+        <div className="h-40 bg-white border border-gray-200 rounded-2xl animate-pulse" />
+      ) : customers.length === 0 ? (
+        <EmptyState
+          icon={Users}
+          title={search ? 'No matches' : 'No customers yet'}
+          description={
+            search
+              ? 'Try a different search term, or clear the filter.'
+              : 'Import from a CSV or add a customer manually to link tickets to them.'
+          }
+        />
+      ) : (
+        <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
+          <table className="w-full">
+            <thead>
+              <tr className="bg-gray-50 text-left text-xs font-black text-gray-400 uppercase tracking-widest">
+                <th className="px-4 py-3">Customer</th>
+                <th className="px-4 py-3">Contact</th>
+                <th className="px-4 py-3">Location</th>
+                <th className="px-4 py-3">External ID</th>
+                <th className="px-4 py-3 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {customers.map((c) => (
+                <tr key={c.id} className="border-t border-gray-100 hover:bg-gray-50/50">
+                  <td className="px-4 py-3">
+                    <Link
+                      to={`/customers/${c.id}`}
+                      className="font-bold text-[#336021] hover:underline"
+                    >
+                      {c.name}
+                    </Link>
+                    {c.company && (
+                      <p className="text-xs text-gray-500 flex items-center gap-1 mt-0.5">
+                        <Building2 size={11} /> {c.company}
+                      </p>
+                    )}
+                  </td>
+                  <td className="px-4 py-3 text-sm text-gray-600">
+                    {c.email && (
+                      <p className="flex items-center gap-1 truncate">
+                        <Mail size={11} className="text-gray-400 shrink-0" /> {c.email}
+                      </p>
+                    )}
+                    {c.phone && (
+                      <p className="flex items-center gap-1 text-gray-500 mt-0.5">
+                        <Phone size={11} className="text-gray-400 shrink-0" /> {c.phone}
+                      </p>
+                    )}
+                    {!c.email && !c.phone && <span className="text-gray-300">—</span>}
+                  </td>
+                  <td className="px-4 py-3 text-sm text-gray-600">
+                    {[c.city, c.country].filter(Boolean).join(', ') || (
+                      <span className="text-gray-300">—</span>
+                    )}
+                  </td>
+                  <td className="px-4 py-3">
+                    <code className="text-xs text-gray-500">{c.external_id}</code>
+                  </td>
+                  <td className="px-4 py-3 text-right">
+                    <div className="inline-flex items-center gap-1">
+                      <button
+                        type="button"
+                        onClick={() => setEditing(c)}
+                        className="p-1.5 rounded-lg text-gray-400 hover:text-[#336021] hover:bg-gray-100"
+                        title="Edit"
+                      >
+                        <Pencil size={14} />
+                      </button>
+                      {isAdmin && (
+                        <button
+                          type="button"
+                          onClick={() => handleDelete(c)}
+                          className="p-1.5 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50"
+                          title="Delete"
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {editing !== null && (
+        <CustomerEditModal
+          customer={editing.id ? editing : null}
+          onClose={() => setEditing(null)}
+        />
+      )}
+
+      <CustomerImportModal
+        open={importing}
+        onClose={() => setImporting(false)}
+      />
+    </div>
+  );
+}

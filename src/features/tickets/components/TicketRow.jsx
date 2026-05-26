@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { Paperclip } from 'lucide-react';
+import { Building2, Paperclip } from 'lucide-react';
 import { StatusBadge } from './StatusBadge';
 import { PriorityBadge } from './PriorityBadge';
 import { formatRelative, formatTicketNumber } from '../tickets.utils';
@@ -43,6 +43,15 @@ export function TicketRow({ ticket }) {
         </div>
         <h3 className="font-bold text-[#336021] truncate">{ticket.title}</h3>
         <p className="text-sm text-gray-500 truncate mt-0.5">{ticket.description}</p>
+        {ticket.customer && (
+          <p className="text-xs text-gray-500 mt-1 flex items-center gap-1 truncate">
+            <Building2 size={11} className="text-gray-400 shrink-0" />
+            <span className="font-bold text-gray-600">{ticket.customer.name}</span>
+            {ticket.customer.company && (
+              <span className="text-gray-400 truncate">· {ticket.customer.company}</span>
+            )}
+          </p>
+        )}
       </div>
 
       <div className="flex items-center gap-3 shrink-0">

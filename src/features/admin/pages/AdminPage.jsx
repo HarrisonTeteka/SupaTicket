@@ -1,6 +1,7 @@
 import { useSearchParams } from 'react-router-dom';
 import {
   Building2,
+  Contact,
   FileBarChart2,
   Mail,
   ScrollText,
@@ -15,9 +16,11 @@ import { CustomFieldsBuilder } from '../components/CustomFieldsBuilder';
 import { EmailSettingsEditor } from '../components/EmailSettingsEditor';
 import { SystemLogsView } from '../components/SystemLogsView';
 import ReportsPage from '../../reports/pages/ReportsPage';
+import { CustomersList } from '../../customers/components/CustomersList';
 
 const TABS = [
   { id: 'staff', label: 'Staff', icon: Users },
+  { id: 'customers', label: 'Customers', icon: Contact },
   { id: 'categories', label: 'Categories', icon: Tags },
   { id: 'departments', label: 'Departments', icon: Building2 },
   { id: 'fields', label: 'Custom Fields', icon: SlidersHorizontal },
@@ -55,6 +58,7 @@ export default function AdminPage() {
       </div>
 
       {active === 'staff' && <StaffDirectory />}
+      {active === 'customers' && <CustomersList />}
       {active === 'categories' && <CategoriesEditor />}
       {active === 'departments' && <DepartmentsEditor />}
       {active === 'fields' && <CustomFieldsBuilder />}

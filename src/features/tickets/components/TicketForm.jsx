@@ -4,6 +4,8 @@ import { Select } from '../../../shared/components/Select';
 import { Button } from '../../../shared/components/Button';
 import { AssigneePicker } from './AssigneePicker';
 import { TagInput } from './TagInput';
+import { CustomerPicker } from '../../customers/components/CustomerPicker';
+import { customerSummary } from '../../customers/customers.utils';
 import { useAppConfig } from '../../admin/hooks/useAppConfig';
 import { TICKET_PRIORITIES } from '../tickets.utils';
 
@@ -32,6 +34,7 @@ export function TicketForm({
       ? { id: initial.assigned_to, name: initial.assignee_name }
       : null
   );
+  const [customer, setCustomer] = useState(initial.customer || null);
   const [customData, setCustomData] = useState(initial.custom_data || {});
   const [tags, setTags] = useState(initial.tags || []);
   const [errors, setErrors] = useState({});
@@ -70,6 +73,7 @@ export function TicketForm({
       priority,
       assigned_to: assignee?.id ?? null,
       assignee_name: assignee?.name ?? null,
+      customer_id: customer?.id ?? null,
       parent_id: initial.parent_id ?? null,
       custom_data: cleanCustomData,
       tags,
@@ -116,6 +120,12 @@ export function TicketForm({
         value={assignee?.id}
         valueName={assignee?.name}
         onChange={setAssignee}
+      />
+
+      <CustomerPicker
+        value={customer?.id}
+        valueLabel={customerSummary(customer)}
+        onChange={setCustomer}
       />
 
       <TagInput label="Tags" value={tags} onChange={setTags} />

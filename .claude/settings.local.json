@@ -1,7 +1,10 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code} | size=%{size_download}\\\\n\" http://localhost:5173/)",
+      "Bash(curl -s -o /dev/null -w \"AdminPage: %{http_code}\\\\n\" http://localhost:5173/src/features/admin/pages/AdminPage.jsx)",
+      "Bash(curl -s -o /dev/null -w \"CustomersList: %{http_code}\\\\n\" http://localhost:5173/src/features/customers/components/CustomersList.jsx)"
     ]
   }
 }

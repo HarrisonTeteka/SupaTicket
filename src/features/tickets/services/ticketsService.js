@@ -8,12 +8,15 @@ import { logAction } from '../../admin/services/systemLogsService';
  */
 
 // Explicit column list — excludes the generated `fts` tsvector column.
+// `customer:customers(...)` joins the linked CRM customer when present so the
+// UI can render their name/company without a second round-trip.
 const TICKET_COLUMNS =
   'id, ticket_number, title, description, category, priority, status, ' +
   'parent_id, assigned_to, assignee_name, attachments, custom_data, tags, ' +
   'created_by, creator_name, creator_role, created_at, updated_at, ' +
   'resolved_at, first_response_at, satisfaction_rating, ' +
-  'response_due_at, resolution_due_at';
+  'response_due_at, resolution_due_at, customer_id, ' +
+  'customer:customers(id, external_id, name, email, phone, company)';
 
 /**
  * List tickets, newest first. `filters` keys: status, priority, assigned_to,
@@ -31,6 +34,7 @@ export async function listTickets(filters = {}) {
   if (filters.assigned_to) query = query.eq('assigned_to', filters.assigned_to);
   if (filters.category) query = query.eq('category', filters.category);
   if (filters.tag) query = query.contains('tags', [filters.tag]);
+  if (filters.customer_id) query = query.eq('customer_id', filters.customer_id);
 
   if (filters.parentId === null) query = query.is('parent_id', null);
   else if (filters.parentId) query = query.eq('parent_id', filters.parentId);
@@ -71,6 +75,7 @@ export async function createTicket(input, actor) {
     assignee_name: input.assignee_name || null,
     custom_data: input.custom_data || {},
     tags: input.tags || [],
+    customer_id: input.customer_id || null,
     created_by: actor?.id ?? null,
     creator_name: actor?.name ?? null,
     creator_role: actor?.role ?? null,

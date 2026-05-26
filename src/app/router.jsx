@@ -5,6 +5,8 @@ import DashboardPage from '../features/dashboard/pages/DashboardPage';
 import TicketsPage from '../features/tickets/pages/TicketsPage';
 import TicketDetailPage from '../features/tickets/pages/TicketDetailPage';
 import AdminPage from '../features/admin/pages/AdminPage';
+import CustomersPage from '../features/customers/pages/CustomersPage';
+import CustomerDetailPage from '../features/customers/pages/CustomerDetailPage';
 
 /**
  * Route table. Phases 2-5 wire the Dashboard, Tickets and Admin features.
@@ -36,6 +38,22 @@ export function AppRouter() {
         element={
           <PageContainer title="Ticket">
             <TicketDetailPage />
+          </PageContainer>
+        }
+      />
+      <Route
+        path="/customers"
+        element={
+          <PageContainer title="Customers">
+            <CustomersPage />
+          </PageContainer>
+        }
+      />
+      <Route
+        path="/customers/:id"
+        element={
+          <PageContainer title="Customer">
+            <CustomerDetailPage />
           </PageContainer>
         }
       />

@@ -38,7 +38,13 @@ export function AttachmentUploader({ ticket, onChange }) {
 
   return (
     <div>
-      <input ref={inputRef} type="file" className="hidden" onChange={handleFile} />
+      <input
+        ref={inputRef}
+        type="file"
+        className="hidden"
+        accept="image/jpeg,image/png,image/gif,image/webp,application/pdf,text/plain,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        onChange={handleFile}
+      />
       <Button
         variant="secondary"
         size="sm"

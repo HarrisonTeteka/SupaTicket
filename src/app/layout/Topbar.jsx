@@ -8,6 +8,7 @@ import { StatusBadge } from '../../features/tickets/components/StatusBadge';
 import { formatTicketNumber } from '../../features/tickets/tickets.utils';
 import { NotificationBell } from '../../features/notifications/components/NotificationBell';
 import { ThemeToggle } from '../../shared/components/ThemeToggle';
+import { ProfileMenu } from '../../features/auth/components/ProfileMenu';
 import { useMobileNav } from './useMobileNav';
 
 /**
@@ -87,6 +88,7 @@ export function Topbar({ title }) {
 
         <ThemeToggle />
         <NotificationBell />
+        <ProfileMenu />
       </div>
 
       {/* Mobile search overlay */}

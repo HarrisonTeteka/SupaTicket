@@ -1,15 +1,14 @@
 import { NavLink } from 'react-router-dom';
 import { Contact, Flame, LayoutDashboard, Layers, Plus, Settings } from 'lucide-react';
 import { useAuth } from '../../features/auth/components/AuthGate';
-import { ProfileMenu } from '../../features/auth/components/ProfileMenu';
 import { useNewTicketModal } from '../../features/tickets/hooks/useNewTicketModal';
 import { useMobileNav } from './useMobileNav';
 
 /**
  * Dark moss-green sidebar carrying the SupaMoto brand chrome.
  *
- * Layout: brand flame + primary nav at the top; admin Settings + the profile
- * menu pinned to the bottom via `mt-auto`.
+ * Layout: brand flame + primary nav at the top; admin Settings pinned
+ * to the bottom via `mt-auto`.
  *
  * Responsive: on `md+` the sidebar sits in normal flex flow (80px wide).
  * On `<md` it becomes a fixed drawer that slides in from the left, driven by
@@ -24,7 +23,6 @@ export function Sidebar() {
   return (
     <aside
       className={[
-        // Drawer on mobile, static panel on md+
         'fixed md:static inset-y-0 left-0 z-40',
         'w-20 bg-brand-primary flex flex-col items-center py-6 shrink-0 shadow-xl',
         'transition-transform duration-200 ease-out',
@@ -52,10 +50,9 @@ export function Sidebar() {
         </button>
       </nav>
 
-      {/* Bottom cluster: admin Settings + profile menu */}
+      {/* Bottom cluster: admin Settings */}
       <div className="mt-auto flex flex-col items-center gap-3">
         {isAdmin && <NavItem to="/admin" icon={Settings} label="Settings" />}
-        <ProfileMenu />
       </div>
     </aside>
   );

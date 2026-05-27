@@ -6,7 +6,7 @@ import { X } from 'lucide-react';
  * next array. Press Enter or comma to add the typed value; X removes a chip;
  * Backspace on an empty input removes the last chip.
  */
-export function TagInput({ value = [], onChange, label, placeholder = 'Add tag...' }) {
+export function TagInput({ value = [], onChange, label, placeholder = 'Add tag...', disabled }) {
   const [draft, setDraft] = useState('');
 
   const add = () => {
@@ -48,6 +48,8 @@ export function TagInput({ value = [], onChange, label, placeholder = 'Add tag..
               type="button"
               onClick={() => remove(t)}
               className="text-brand-primary hover:text-brand-danger"
+              disabled={disabled}
+              className="text-[#336021] hover:text-[#9E2A2B] disabled:pointer-events-none"
               title={`Remove ${t}`}
             >
               <X size={12} />
@@ -59,8 +61,9 @@ export function TagInput({ value = [], onChange, label, placeholder = 'Add tag..
           onChange={(e) => setDraft(e.target.value)}
           onKeyDown={onKey}
           onBlur={add}
+          disabled={disabled}
           placeholder={value.length === 0 ? placeholder : ''}
-          className="flex-1 min-w-[100px] bg-transparent outline-none text-sm py-1.5"
+          className="flex-1 min-w-[100px] bg-transparent outline-none text-sm py-1.5 disabled:cursor-not-allowed"
         />
       </div>
     </div>

@@ -23,11 +23,21 @@ const TICKET_COLUMNS =
  * category. `parentId` of `null` returns only top-level tickets; a uuid
  * returns that ticket's sub-tickets.
  */
+/**
+ * @param {Object} filters
+ * @param {number} [filters.page=0]
+ * @param {number} [filters.pageSize=25]
+ * @returns {Promise<{ tickets: Object[], totalCount: number }>}
+ */
 export async function listTickets(filters = {}) {
+  const page = filters.page ?? 0;
+  const pageSize = filters.pageSize ?? 25;
+
   let query = supabase
     .from('tickets')
-    .select(TICKET_COLUMNS)
-    .order('created_at', { ascending: false });
+    .select(TICKET_COLUMNS, { count: 'exact' })
+    .order('created_at', { ascending: false })
+    .range(page * pageSize, (page + 1) * pageSize - 1);
 
   if (filters.status) query = query.eq('status', filters.status);
   if (filters.priority) query = query.eq('priority', filters.priority);
@@ -39,9 +49,9 @@ export async function listTickets(filters = {}) {
   if (filters.parentId === null) query = query.is('parent_id', null);
   else if (filters.parentId) query = query.eq('parent_id', filters.parentId);
 
-  const { data, error } = await query;
+  const { data, count, error } = await query;
   if (error) throw error;
-  return data ?? [];
+  return { tickets: data ?? [], totalCount: count ?? 0 };
 }
 
 export async function getTicket(id) {
@@ -55,7 +65,8 @@ export async function getTicket(id) {
 }
 
 export async function listSubTickets(parentId) {
-  return listTickets({ parentId });
+  const { tickets } = await listTickets({ parentId });
+  return tickets;
 }
 
 /**

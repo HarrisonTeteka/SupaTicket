@@ -60,7 +60,7 @@ export function SystemLogsView() {
       </div>
 
       {loading ? (
-        <div className="h-40 bg-white border border-gray-200 rounded-2xl animate-pulse" />
+        <div className="h-40 bg-surface border border-line-strong rounded-2xl animate-pulse" />
       ) : logs.length === 0 ? (
         <EmptyState
           icon={ScrollText}
@@ -69,14 +69,14 @@ export function SystemLogsView() {
         />
       ) : (
         <>
-          <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
+          <div className="bg-surface border border-line-strong rounded-2xl overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="bg-gray-50 text-left text-xs font-semibold text-gray-400 uppercase tracking-widest">
-                  <th className="px-4 py-3">Action</th>
-                  <th className="px-4 py-3">Details</th>
-                  <th className="px-4 py-3">By</th>
-                  <th className="px-4 py-3">When</th>
+                <tr className="bg-surface-2 text-left text-xs font-semibold text-fg-muted uppercase tracking-widest">
+                  <th scope="col" className="px-4 py-3">Action</th>
+                  <th scope="col" className="px-4 py-3">Details</th>
+                  <th scope="col" className="hidden md:table-cell px-4 py-3">By</th>
+                  <th scope="col" className="hidden sm:table-cell px-4 py-3">When</th>
                 </tr>
               </thead>
               <tbody>
@@ -88,7 +88,7 @@ export function SystemLogsView() {
           </div>
 
           <div className="flex items-center justify-between">
-            <p className="text-xs text-gray-400">{count} total entries</p>
+            <p className="text-xs text-fg-muted">{count} total entries</p>
             <div className="flex items-center gap-2">
               <Button
                 variant="secondary"
@@ -98,7 +98,7 @@ export function SystemLogsView() {
               >
                 <ChevronLeft size={14} />
               </Button>
-              <span className="text-xs text-gray-500">
+              <span className="text-xs text-fg-secondary">
                 Page {page + 1} of {pageCount}
               </span>
               <Button

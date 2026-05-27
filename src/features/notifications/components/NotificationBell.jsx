@@ -28,7 +28,7 @@ export function NotificationBell() {
       <button
         type="button"
         onClick={toggle}
-        className="relative p-2 rounded-lg text-gray-500 hover:text-[#336021] hover:bg-gray-100 transition-all"
+        className="relative p-2 rounded-lg text-fg-secondary hover:text-brand-primary hover:bg-surface-2 transition-all"
         title="Notifications"
       >
         <Bell size={18} />

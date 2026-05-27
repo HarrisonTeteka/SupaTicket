@@ -60,26 +60,26 @@ export function AgentWorkload({ tickets }) {
   const max = Math.max(1, unassigned, ...rows.map((r) => r.count));
 
   return (
-    <div className="bg-white border border-gray-200 rounded-2xl p-5">
+    <div className="bg-surface border border-line-strong rounded-2xl p-5">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="flex items-center gap-2 text-sm font-semibold text-[#336021] uppercase tracking-wide">
+        <h3 className="flex items-center gap-2 text-sm font-semibold text-brand-primary uppercase tracking-wide">
           <Users size={15} /> Active workload
         </h3>
-        <span className="text-[11px] text-gray-400">
+        <span className="text-[11px] text-fg-muted">
           {totalOpen} open · {agents.length} {agents.length === 1 ? 'agent' : 'agents'}
         </span>
       </div>
 
       {loading ? (
-        <p className="text-sm text-gray-400">Loading...</p>
+        <p className="text-sm text-fg-muted">Loading...</p>
       ) : agents.length === 0 ? (
-        <p className="text-sm text-gray-400">No agents yet.</p>
+        <p className="text-sm text-fg-muted">No agents yet.</p>
       ) : (
         <div className="space-y-2.5">
           {unassigned > 0 && (
             <WorkloadRow
               avatar={<UserX size={13} />}
-              avatarClass="bg-gray-100 text-gray-500"
+              avatarClass="bg-surface-2 text-fg-secondary"
               name="Unassigned"
               count={unassigned}
               max={max}
@@ -91,7 +91,7 @@ export function AgentWorkload({ tickets }) {
             <WorkloadRow
               key={a.id}
               avatar={(a.name || '?').charAt(0).toUpperCase()}
-              avatarClass="bg-[#F58202] text-white"
+              avatarClass="bg-brand-accent text-white"
               name={a.name}
               count={a.count}
               max={max}
@@ -103,7 +103,7 @@ export function AgentWorkload({ tickets }) {
   );
 }
 
-function WorkloadRow({ avatar, avatarClass, name, count, max, barClass = 'bg-[#336021]', muted }) {
+function WorkloadRow({ avatar, avatarClass, name, count, max, barClass = 'bg-brand-primary', muted }) {
   return (
     <div className="flex items-center gap-3">
       <div
@@ -114,19 +114,19 @@ function WorkloadRow({ avatar, avatarClass, name, count, max, barClass = 'bg-[#3
       <div className="min-w-0 flex-1 flex items-center gap-3">
         <span
           className={`text-xs font-semibold truncate w-24 sm:w-28 shrink-0 ${
-            muted ? 'text-gray-500' : 'text-[#336021]'
+            muted ? 'text-fg-secondary' : 'text-brand-primary'
           }`}
         >
           {name}
         </span>
-        <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
+        <div className="flex-1 h-2 bg-surface-2 rounded-full overflow-hidden">
           <div
             className={`h-full rounded-full ${barClass}`}
             style={{ width: `${(count / max) * 100}%` }}
           />
         </div>
       </div>
-      <span className="w-6 text-right text-sm font-bold text-[#336021]">{count}</span>
+      <span className="w-6 text-right text-sm font-bold text-brand-primary">{count}</span>
     </div>
   );
 }

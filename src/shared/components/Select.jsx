@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import { cn } from '../utils/classNames';
 
 /**
@@ -11,16 +12,19 @@ export function Select({
   placeholder,
   className = '',
   id,
+  required,
   children,
   ...rest
 }) {
-  const selectId = id || rest.name;
+  const reactId = useId();
+  const selectId = id || rest.name || reactId;
+  const errorId = `${selectId}-error`;
   return (
     <div>
       {label && (
         <label
           htmlFor={selectId}
-          className="text-xs font-semibold text-gray-400 uppercase tracking-widest block mb-2"
+          className="text-xs font-semibold text-fg-muted uppercase tracking-widest block mb-2"
         >
           {label}
         </label>
@@ -28,12 +32,16 @@ export function Select({
       <select
         id={selectId}
         className={cn(
-          'w-full px-4 py-3 rounded-xl border outline-none focus:ring-2 focus:ring-[#F58202]',
-          'bg-gray-50 focus:bg-white transition-all',
-          error ? 'border-red-300' : 'border-gray-200',
+          'w-full px-4 py-3 rounded-xl border outline-none focus:ring-2 focus:ring-brand-accent',
+          'bg-surface-2 focus:bg-surface transition-all',
+          error ? 'border-red-300' : 'border-line-strong',
           className
         )}
         {...rest}
+        required={required}
+        aria-required={required || undefined}
+        aria-invalid={error ? true : undefined}
+        aria-describedby={error ? errorId : undefined}
       >
         {placeholder && <option value="">{placeholder}</option>}
         {options.map((opt) => {
@@ -47,7 +55,11 @@ export function Select({
         })}
         {children}
       </select>
-      {error && <p className="text-xs text-red-600 mt-1.5">{error}</p>}
+      {error && (
+        <p id={errorId} className="text-xs text-red-600 mt-1.5">
+          {error}
+        </p>
+      )}
     </div>
   );
 }

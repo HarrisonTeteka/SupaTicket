@@ -3,7 +3,8 @@ import { supabase } from '../../../lib/supabase';
 import { ensureProfileExists } from '../services/authService';
 
 const PROFILE_COLUMNS =
-  'id, name, email, role, status, department, email_notifications, created_at, updated_at';
+  'id, name, email, role, role_id, status, department, email_notifications, ' +
+  'created_at, updated_at, role_def:roles(id, name, permissions, system_name, is_system)';
 
 /**
  * Fetches the current user's profile row and keeps it in sync via realtime.

@@ -85,7 +85,7 @@ export function EditProfileModal({ mode = 'self', profile, onClose, onSaved }) {
         <Input label="Email" value={profile.email} disabled />
         {isAdminMode && (
           <>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Select
                 label="Role"
                 options={['admin', 'staff']}
@@ -109,7 +109,7 @@ export function EditProfileModal({ mode = 'self', profile, onClose, onSaved }) {
           </>
         )}
 
-        <label className="flex items-start gap-2 text-sm font-bold text-gray-600 cursor-pointer pt-1">
+        <label className="flex items-start gap-2 text-sm font-bold text-fg cursor-pointer pt-1">
           <input
             type="checkbox"
             checked={emailOk}
@@ -118,14 +118,14 @@ export function EditProfileModal({ mode = 'self', profile, onClose, onSaved }) {
           />
           <span>
             Email me notifications
-            <span className="block text-[11px] font-normal text-gray-400 mt-0.5">
+            <span className="block text-[11px] font-normal text-fg-muted mt-0.5">
               In-app notifications keep working either way.
             </span>
           </span>
         </label>
 
         {!isAdminMode && (
-          <p className="text-[11px] text-gray-400">
+          <p className="text-[11px] text-fg-muted">
             Only an admin can change your role, status or department.
           </p>
         )}

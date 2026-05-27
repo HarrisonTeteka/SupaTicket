@@ -63,12 +63,12 @@ export function CustomFieldsBuilder() {
   const remove = (id) => save(fields.filter((f) => f.id !== id));
 
   return (
-    <div className="bg-white border border-gray-200 rounded-2xl p-6 space-y-4 max-w-xl">
+    <div className="bg-surface border border-line-strong rounded-2xl p-6 space-y-4 max-w-xl">
       <div>
-        <h3 className="text-sm font-semibold text-[#336021] uppercase tracking-wide">
+        <h3 className="text-sm font-semibold text-brand-primary uppercase tracking-wide">
           Custom Ticket Fields
         </h3>
-        <p className="text-xs text-gray-400 mt-0.5">
+        <p className="text-xs text-fg-muted mt-0.5">
           Extra fields shown on the ticket form. Deleting a field keeps existing
           ticket data.
         </p>
@@ -82,15 +82,15 @@ export function CustomFieldsBuilder() {
 
       <div className="space-y-2">
         {loading ? (
-          <p className="text-sm text-gray-400">Loading...</p>
+          <p className="text-sm text-fg-muted">Loading...</p>
         ) : fields.length === 0 ? (
-          <p className="text-sm text-gray-400">No custom fields yet.</p>
+          <p className="text-sm text-fg-muted">No custom fields yet.</p>
         ) : (
           fields.map((f) => <CustomFieldRow key={f.id} field={f} onDelete={remove} />)
         )}
       </div>
 
-      <form onSubmit={add} className="space-y-3 pt-3 border-t border-gray-100">
+      <form onSubmit={add} className="space-y-3 pt-3 border-t border-line">
         <Input
           label="Field label"
           name="label"
@@ -98,14 +98,14 @@ export function CustomFieldsBuilder() {
           onChange={(e) => setLabel(e.target.value)}
           placeholder="e.g. Affected site"
         />
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <Select
             label="Type"
             options={FIELD_TYPES}
             value={type}
             onChange={(e) => setType(e.target.value)}
           />
-          <label className="flex items-center gap-2 text-sm font-bold text-gray-600 pb-3 self-end">
+          <label className="flex items-center gap-2 text-sm font-bold text-fg pb-3 self-end">
             <input
               type="checkbox"
               checked={required}

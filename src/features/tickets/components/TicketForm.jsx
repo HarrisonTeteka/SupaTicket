@@ -99,7 +99,7 @@ export function TicketForm({
         placeholder="What's going on?"
         error={errors.description}
       />
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Select
           label="Category"
           placeholder="Select category"
@@ -131,7 +131,7 @@ export function TicketForm({
       <TagInput label="Tags" value={tags} onChange={setTags} />
 
       {customFields.length > 0 && (
-        <div className="space-y-4 pt-3 border-t border-gray-100">
+        <div className="space-y-4 pt-3 border-t border-line">
           {customFields.map((f) => (
             <CustomFieldInput
               key={f.id}
@@ -165,7 +165,7 @@ function CustomFieldInput({ field, value, error, onChange }) {
   if (field.type === 'checkbox') {
     return (
       <div>
-        <label className="flex items-center gap-2 text-sm font-bold text-gray-600">
+        <label className="flex items-center gap-2 text-sm font-bold text-fg">
           <input
             type="checkbox"
             checked={!!value}

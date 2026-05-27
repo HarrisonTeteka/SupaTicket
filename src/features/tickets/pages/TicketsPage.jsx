@@ -48,7 +48,7 @@ export default function TicketsPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between gap-4">
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-fg-secondary">
           {loading
             ? 'Loading tickets...'
             : `${totalCount} ticket${totalCount === 1 ? '' : 's'}`}

@@ -45,39 +45,40 @@ export function AssigneePicker({ value, valueName, onChange, label, disabled }) 
   return (
     <div ref={ref} className="relative">
       {label && (
-        <label className="text-xs font-semibold text-gray-400 uppercase tracking-widest block mb-2">
+        <label className="text-xs font-semibold text-fg-muted uppercase tracking-widest block mb-2">
           {label}
         </label>
       )}
       <button
         type="button"
         onClick={toggle}
+        className="w-full flex items-center justify-between px-4 py-3 rounded-xl border border-line-strong bg-surface-2 hover:bg-surface text-sm transition-all"
         disabled={disabled}
         className="w-full flex items-center justify-between px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 hover:bg-white text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        <span className={cn('font-medium', selected ? 'text-[#336021]' : 'text-gray-400')}>
+        <span className={cn('font-medium', selected ? 'text-brand-primary' : 'text-fg-muted')}>
           {display}
         </span>
-        <ChevronDown size={16} className="text-gray-400" />
+        <ChevronDown size={16} className="text-fg-muted" />
       </button>
 
       {isOpen && (
-        <div className="absolute z-30 mt-2 w-full bg-white rounded-xl border border-gray-200 shadow-xl overflow-hidden">
-          <div className="relative p-2 border-b border-gray-100">
-            <Search size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+        <div className="absolute z-30 mt-2 w-full bg-surface rounded-xl border border-line-strong shadow-xl overflow-hidden">
+          <div className="relative p-2 border-b border-line">
+            <Search size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-fg-muted" />
             <input
               autoFocus
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search people..."
-              className="w-full pl-8 pr-2 py-1.5 text-sm bg-gray-50 rounded-lg outline-none"
+              className="w-full pl-8 pr-2 py-1.5 text-sm bg-surface-2 rounded-lg outline-none"
             />
           </div>
           <div className="max-h-56 overflow-y-auto py-1">
             <button
               type="button"
               onClick={() => pick(null)}
-              className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-500 hover:bg-gray-50"
+              className="w-full flex items-center gap-2 px-3 py-2 text-sm text-fg-secondary hover:bg-surface-2"
             >
               <UserX size={14} /> Unassigned
             </button>
@@ -86,17 +87,17 @@ export function AssigneePicker({ value, valueName, onChange, label, disabled }) 
                 key={p.id}
                 type="button"
                 onClick={() => pick(p)}
-                className="w-full flex items-center justify-between gap-2 px-3 py-2 text-sm hover:bg-gray-50"
+                className="w-full flex items-center justify-between gap-2 px-3 py-2 text-sm hover:bg-surface-2"
               >
                 <span className="truncate">
-                  <span className="font-bold text-[#336021]">{p.name}</span>{' '}
-                  <span className="text-gray-400 text-xs">{p.email}</span>
+                  <span className="font-bold text-brand-primary">{p.name}</span>{' '}
+                  <span className="text-fg-muted text-xs">{p.email}</span>
                 </span>
                 {p.id === value && <Check size={14} className="text-emerald-500 shrink-0" />}
               </button>
             ))}
             {filtered.length === 0 && (
-              <p className="px-3 py-3 text-xs text-gray-400">No matches</p>
+              <p className="px-3 py-3 text-xs text-fg-muted">No matches</p>
             )}
           </div>
         </div>

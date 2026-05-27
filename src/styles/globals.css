@@ -1,18 +1,79 @@
-/* Tailwind v4 entry — must match @tailwindcss/vite v4 in vite.config.js.
-   The old `@tailwind base/components/utilities` v3 directives are silently
-   ignored by the v4 plugin, which is why standard utilities were missing. */
+/* Tailwind v4 entry — must match @tailwindcss/vite v4 in vite.config.js. */
 @import "tailwindcss";
 
-/* SupaMoto brand tokens — exposed as Tailwind v4 theme colours so you can
-   use them as `bg-brand-tangerine` / `text-brand-moss` etc. The arbitrary
-   `bg-[#F58202]` values used throughout the codebase also keep working. */
+/* Switch the `dark:` variant from v4's default (prefers-color-scheme) to the
+   class strategy so the user-facing toggle in the Topbar can override the
+   system preference. The :where() keeps specificity at 0. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* -------------------------------------------------------------------------
+   Design tokens
+   - Raw color values live on :root (light) and html.dark (dark).
+   - The @theme block below re-exposes them as Tailwind utilities, so
+     `bg-brand-accent`, `text-fg`, `border-line-strong`, etc. all flip with
+     the active theme automatically.
+   - Alpha modifiers like `bg-brand-accent/30` work in v4 via color-mix.
+   ------------------------------------------------------------------------- */
+:root {
+  --brand-primary: #336021;
+  --brand-primary-hover: #294c1a;
+  --brand-accent: #f58202;
+  --brand-accent-hover: #d97002;
+  --brand-danger: #9e2a2b;
+  --brand-pending: #f9edcc;
+
+  --app: #f5f7f9;
+  --surface: #ffffff;
+  --surface-2: #f9fafb;
+
+  --line: #f3f4f6;
+  --line-strong: #e5e7eb;
+
+  --fg: #111827;
+  --fg-secondary: #6b7280;
+  --fg-muted: #9ca3af;
+}
+
+html.dark {
+  --brand-primary: #79bc58;
+  --brand-primary-hover: #90c86e;
+  --brand-accent: #fb9f38;
+  --brand-accent-hover: #f58202;
+  --brand-danger: #dc5050;
+  --brand-pending: #50411e;
+
+  --app: #111117;
+  --surface: #181921;
+  --surface-2: #20222c;
+
+  --line: #262935;
+  --line-strong: #373a47;
+
+  --fg: #f3f4f6;
+  --fg-secondary: #9ca3af;
+  --fg-muted: #6b7280;
+
+  color-scheme: dark;
+}
+
 @theme {
-  --color-brand-tangerine: #f58202;
-  --color-brand-tangerine-dark: #d97002;
-  --color-brand-moss: #336021;
-  --color-brand-moss-dark: #264918;
-  --color-brand-auburn: #9e2a2b;
-  --color-brand-cream: #f9edcc;
+  --color-brand-primary: var(--brand-primary);
+  --color-brand-primary-hover: var(--brand-primary-hover);
+  --color-brand-accent: var(--brand-accent);
+  --color-brand-accent-hover: var(--brand-accent-hover);
+  --color-brand-danger: var(--brand-danger);
+  --color-brand-pending: var(--brand-pending);
+
+  --color-app: var(--app);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+
+  --color-fg: var(--fg);
+  --color-fg-secondary: var(--fg-secondary);
+  --color-fg-muted: var(--fg-muted);
 }
 
 html,
@@ -27,7 +88,7 @@ body {
      Galano Classic). System fonts are the fallback while Poppins loads. */
   font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, 'Segoe UI',
     Roboto, 'Helvetica Neue', Arial, sans-serif;
-  background: #f5f7f9;
-  color: #336021;
+  background-color: var(--app);
+  color: var(--fg);
   -webkit-font-smoothing: antialiased;
 }

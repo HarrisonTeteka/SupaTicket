@@ -61,12 +61,12 @@ export function TicketExportPanel() {
     });
 
   return (
-    <div className="bg-white border border-gray-200 rounded-2xl p-6 space-y-4">
+    <div className="bg-surface border border-line-strong rounded-2xl p-6 space-y-4">
       <div>
-        <h3 className="text-sm font-semibold text-[#336021] uppercase tracking-wide">
+        <h3 className="text-sm font-semibold text-brand-primary uppercase tracking-wide">
           Export tickets
         </h3>
-        <p className="text-xs text-gray-400 mt-0.5">
+        <p className="text-xs text-fg-muted mt-0.5">
           Download a CSV of tickets matching the filters below.
         </p>
       </div>
@@ -130,8 +130,8 @@ export function TicketExportPanel() {
         />
       </div>
 
-      <div className="flex items-center justify-between gap-3 pt-2 border-t border-gray-100">
-        <p className="text-xs text-gray-400">
+      <div className="flex items-center justify-between gap-3 pt-2 border-t border-line">
+        <p className="text-xs text-fg-muted">
           {rowCount == null
             ? 'CSV columns: ticket #, title, status, priority, category, tags, raised by, assignee, timestamps, CSAT.'
             : `Last export: ${rowCount} row${rowCount === 1 ? '' : 's'}.`}

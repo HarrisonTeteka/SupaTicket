@@ -30,22 +30,22 @@ export function AttachmentList({ ticket, onChange }) {
   };
 
   if (attachments.length === 0) {
-    return <p className="text-sm text-gray-400">No attachments.</p>;
+    return <p className="text-sm text-fg-muted">No attachments.</p>;
   }
 
   return (
     <ul className="space-y-2">
       {attachments.map((a) => (
-        <li key={a.path} className="flex items-center gap-3 bg-gray-50 rounded-xl px-3 py-2">
-          <FileText size={16} className="text-gray-400 shrink-0" />
+        <li key={a.path} className="flex items-center gap-3 bg-surface-2 rounded-xl px-3 py-2">
+          <FileText size={16} className="text-fg-muted shrink-0" />
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-bold text-[#336021] truncate">{a.name}</p>
-            <p className="text-[11px] text-gray-400">{formatBytes(a.size)}</p>
+            <p className="text-sm font-bold text-brand-primary truncate">{a.name}</p>
+            <p className="text-[11px] text-fg-muted">{formatBytes(a.size)}</p>
           </div>
           <button
             type="button"
             onClick={() => open(a.path)}
-            className="p-1.5 text-gray-400 hover:text-[#336021]"
+            className="p-1.5 text-fg-muted hover:text-brand-primary"
             title="Open"
           >
             <Download size={15} />
@@ -54,7 +54,7 @@ export function AttachmentList({ ticket, onChange }) {
             <button
               type="button"
               onClick={() => remove(a.path)}
-              className="p-1.5 text-gray-300 hover:text-red-500"
+              className="p-1.5 text-fg-muted hover:text-red-500"
               title="Delete"
             >
               <Trash2 size={15} />

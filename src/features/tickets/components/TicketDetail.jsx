@@ -102,7 +102,7 @@ export function TicketDetail({ ticket, onLocalChange }) {
       <button
         type="button"
         onClick={() => navigate('/tickets')}
-        className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-[#336021]"
+        className="flex items-center gap-1.5 text-sm text-fg-secondary hover:text-brand-primary"
       >
         <ArrowLeft size={15} /> Back to tickets
       </button>
@@ -121,20 +121,20 @@ export function TicketDetail({ ticket, onLocalChange }) {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Main column */}
         <div className="lg:col-span-2 space-y-6">
-          <div className="bg-white border border-gray-200 rounded-2xl p-6">
+          <div className="bg-surface border border-line-strong rounded-2xl p-6">
             <div className="flex items-start justify-between gap-4">
               <div className="min-w-0">
-                <div className="flex items-center gap-2 mb-1 text-xs text-gray-400 font-bold flex-wrap">
+                <div className="flex items-center gap-2 mb-1 text-xs text-fg-muted font-bold flex-wrap">
                   <span>{formatTicketNumber(ticket.ticket_number)}</span>
                   <span>·</span>
                   <span>{ticket.category}</span>
                   {ticket.creator_role === 'customer' && (
-                    <span className="text-[10px] font-bold bg-[#336021]/10 text-[#336021] px-1.5 py-0.5 rounded normal-case">
+                    <span className="text-[10px] font-bold bg-brand-primary/10 text-brand-primary px-1.5 py-0.5 rounded normal-case">
                       Customer-raised
                     </span>
                   )}
                 </div>
-                <h1 className="text-xl font-semibold text-[#336021]">{ticket.title}</h1>
+                <h1 className="text-xl font-semibold text-brand-primary">{ticket.title}</h1>
               </div>
               {isAdmin && (
                 <Button
@@ -150,7 +150,7 @@ export function TicketDetail({ ticket, onLocalChange }) {
 
             <div className="mt-5">
               <div className="flex items-center justify-between mb-2">
-                <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest">
+                <h3 className="text-xs font-semibold text-fg-muted uppercase tracking-widest">
                   Description
                 </h3>
                 {!editingDesc && !isTerminal && (
@@ -160,7 +160,7 @@ export function TicketDetail({ ticket, onLocalChange }) {
                       setDesc(ticket.description);
                       setEditingDesc(true);
                     }}
-                    className="text-gray-400 hover:text-[#336021]"
+                    className="text-fg-muted hover:text-brand-primary"
                     title="Edit description"
                   >
                     <Pencil size={13} />
@@ -190,22 +190,22 @@ export function TicketDetail({ ticket, onLocalChange }) {
                   </div>
                 </div>
               ) : (
-                <p className="text-sm text-gray-700 whitespace-pre-wrap">{ticket.description}</p>
+                <p className="text-sm text-fg whitespace-pre-wrap">{ticket.description}</p>
               )}
             </div>
 
             {customFields.length > 0 && (
-              <div className="mt-5 pt-5 border-t border-gray-100">
-                <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">
+              <div className="mt-5 pt-5 border-t border-line">
+                <h3 className="text-xs font-semibold text-fg-muted uppercase tracking-widest mb-3">
                   Custom fields
                 </h3>
-                <dl className="grid grid-cols-2 gap-x-6 gap-y-3">
+                <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3">
                   {customFields.map((f) => (
                     <div key={f.id}>
-                      <dt className="text-[11px] text-gray-400 font-bold uppercase tracking-wide">
+                      <dt className="text-[11px] text-fg-muted font-bold uppercase tracking-wide">
                         {f.label}
                       </dt>
-                      <dd className="text-sm text-gray-700 mt-0.5">
+                      <dd className="text-sm text-fg mt-0.5">
                         {renderCustomValue(f, ticket.custom_data?.[f.id])}
                       </dd>
                     </div>
@@ -215,8 +215,8 @@ export function TicketDetail({ ticket, onLocalChange }) {
             )}
           </div>
 
-          <div className="bg-white border border-gray-200 rounded-2xl p-6 space-y-4">
-            <h3 className="text-sm font-semibold text-[#336021] uppercase tracking-wide">
+          <div className="bg-surface border border-line-strong rounded-2xl p-6 space-y-4">
+            <h3 className="text-sm font-semibold text-brand-primary uppercase tracking-wide">
               Comments {comments.length > 0 && `(${comments.length})`}
             </h3>
             <CommentList comments={comments} loading={commentsLoading} />
@@ -226,7 +226,7 @@ export function TicketDetail({ ticket, onLocalChange }) {
 
         {/* Side column */}
         <div className="space-y-6">
-          <div className="bg-white border border-gray-200 rounded-2xl p-5 space-y-4">
+          <div className="bg-surface border border-line-strong rounded-2xl p-5 space-y-4">
             <div className="flex items-center gap-2">
               <StatusBadge status={ticket.status} />
               <PriorityBadge priority={ticket.priority} />
@@ -264,22 +264,22 @@ export function TicketDetail({ ticket, onLocalChange }) {
               onChange={handleCustomer}
             />
             {ticket.customer && (
-              <div className="text-xs text-gray-500 -mt-2 pl-1 space-y-0.5">
+              <div className="text-xs text-fg-secondary -mt-2 pl-1 space-y-0.5">
                 {ticket.customer.email && <p>{ticket.customer.email}</p>}
                 {ticket.customer.phone && <p>{ticket.customer.phone}</p>}
-                <p className="text-gray-400">ID: {ticket.customer.external_id}</p>
+                <p className="text-fg-muted">ID: {ticket.customer.external_id}</p>
                 <Link
                   to={`/customers/${ticket.customer.id}`}
-                  className="inline-flex items-center gap-1 text-[#336021] font-bold hover:underline"
+                  className="inline-flex items-center gap-1 text-brand-primary font-bold hover:underline"
                 >
                   View customer <ArrowUpRight size={11} />
                 </Link>
               </div>
             )}
-            <div className="pt-3 border-t border-gray-100 text-xs text-gray-400 space-y-1">
+            <div className="pt-3 border-t border-line text-xs text-fg-muted space-y-1">
               <p>
                 Raised by{' '}
-                <span className="font-bold text-gray-600">
+                <span className="font-bold text-fg">
                   {ticket.creator_name || 'Unknown'}
                 </span>
               </p>
@@ -287,7 +287,7 @@ export function TicketDetail({ ticket, onLocalChange }) {
             </div>
 
             {ticket.status === 'Resolved' && (
-              <div className="pt-3 border-t border-gray-100">
+              <div className="pt-3 border-t border-line">
                 <SatisfactionRating
                   ticket={ticket}
                   canRate={profile?.id === ticket.created_by}
@@ -297,8 +297,8 @@ export function TicketDetail({ ticket, onLocalChange }) {
             )}
           </div>
 
-          <div className="bg-white border border-gray-200 rounded-2xl p-5 space-y-3">
-            <h3 className="text-sm font-semibold text-[#336021] uppercase tracking-wide">
+          <div className="bg-surface border border-line-strong rounded-2xl p-5 space-y-3">
+            <h3 className="text-sm font-semibold text-brand-primary uppercase tracking-wide">
               Attachments
             </h3>
             <AttachmentList
@@ -311,7 +311,7 @@ export function TicketDetail({ ticket, onLocalChange }) {
             />
           </div>
 
-          <div className="bg-white border border-gray-200 rounded-2xl p-5">
+          <div className="bg-surface border border-line-strong rounded-2xl p-5">
             <SubTicketList parentId={ticket.id} />
           </div>
         </div>

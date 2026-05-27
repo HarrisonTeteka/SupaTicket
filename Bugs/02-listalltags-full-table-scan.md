@@ -10,7 +10,7 @@ though `0008_workflow_depth.sql` already created a GIN index on `tags`.
 ## Where
 - [src/features/tickets/services/ticketsService.js](../src/features/tickets/services/ticketsService.js)
 - Callers: [src/features/tickets/pages/TicketsPage.jsx](../src/features/tickets/pages/TicketsPage.jsx), [src/features/reports/components/TicketExportPanel.jsx](../src/features/reports/components/TicketExportPanel.jsx)
-- New migration: [supabase/migrations/0015_get_all_tags.sql](../supabase/migrations/0015_get_all_tags.sql)
+- New migration: [supabase/migrations/0016_get_all_tags.sql](../supabase/migrations/0016_get_all_tags.sql)
 
 ## Before
 ```js

@@ -10,7 +10,7 @@ just to build a small filter dropdown.
 ## Where
 - [src/features/admin/services/systemLogsService.js](../src/features/admin/services/systemLogsService.js)
 - Callers: [src/features/admin/components/SystemLogsView.jsx](../src/features/admin/components/SystemLogsView.jsx), [src/features/reports/components/LogExportPanel.jsx](../src/features/reports/components/LogExportPanel.jsx)
-- New migration: [supabase/migrations/0017_get_log_action_types.sql](../supabase/migrations/0017_get_log_action_types.sql)
+- New migration: [supabase/migrations/0018_get_log_action_types.sql](../supabase/migrations/0018_get_log_action_types.sql)
 
 ## Before
 ```js
@@ -70,7 +70,7 @@ leak action types to staff and customers. The explicit `is_admin(auth.uid())`
 guard restores the admin-only constraint.
 
 ## Migration
-**Must be run** in the Supabase SQL Editor after 0016. Without it the
+**Must be run** in the Supabase SQL Editor after 0017. Without it the
 log filter dropdown will be empty on both pages.
 
 ## Verification

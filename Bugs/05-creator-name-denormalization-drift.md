@@ -11,7 +11,7 @@ until the row was touched for another reason.
 
 ## Where
 - DB: [supabase/migrations/0001_init.sql:46,50](../supabase/migrations/0001_init.sql) (where the columns are declared)
-- New migration: [supabase/migrations/0018_profiles_name_sync.sql](../supabase/migrations/0018_profiles_name_sync.sql)
+- New migration: [supabase/migrations/0019_profiles_name_sync.sql](../supabase/migrations/0019_profiles_name_sync.sql)
 - JS write paths already correct: `createTicket`, `updateTicket`, and `TicketForm` all stamp the names on insert/assignment.
 
 ## The fix
@@ -65,7 +65,7 @@ the live profile name, swap in two more `update ... set ... where ...`
 statements in the same trigger function and add a back-fill block.
 
 ## Migration
-**Must be run** in the Supabase SQL Editor after 0017. Includes the
+**Must be run** in the Supabase SQL Editor after 0018. Includes the
 back-fill — running it twice is harmless (the `is distinct from`
 guards skip rows already in sync).
 

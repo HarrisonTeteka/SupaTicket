@@ -1,10 +1,10 @@
--- 0016_get_dashboard_metrics.sql
+-- 0017_get_dashboard_metrics.sql
 -- Bug 03: replace the unbounded `listTicketsForMetrics` client query.
 -- Pre-fix the dashboard pulled every ticket row on mount and on every
 -- realtime change, and silently undercounted past Supabase's 1000-row
 -- default. This RPC does the aggregation server-side and returns a
 -- single JSONB with every KPI the dashboard needs.
--- Run in the Supabase SQL Editor after 0015. Idempotent.
+-- Run in the Supabase SQL Editor after 0016. Idempotent.
 
 create or replace function public.get_dashboard_metrics(p_user_id uuid)
 returns jsonb

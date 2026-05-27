@@ -16,7 +16,7 @@ change) and aggregated KPIs in JavaScript. Two problems:
 - [src/features/dashboard/pages/DashboardPage.jsx](../src/features/dashboard/pages/DashboardPage.jsx) — props rewired
 - [src/features/dashboard/components/AgentWorkload.jsx](../src/features/dashboard/components/AgentWorkload.jsx) — consumes aggregated `byAgent` now
 - [src/features/dashboard/selectors/dashboardSelectors.js](../src/features/dashboard/selectors/dashboardSelectors.js) — slimmed to one helper
-- New migration: [supabase/migrations/0016_get_dashboard_metrics.sql](../supabase/migrations/0016_get_dashboard_metrics.sql)
+- New migration: [supabase/migrations/0017_get_dashboard_metrics.sql](../supabase/migrations/0017_get_dashboard_metrics.sql)
 
 ## Before
 ```js
@@ -81,7 +81,7 @@ The RPC mirrors the rules in `tickets.utils.js#slaState`:
 - Tickets without `resolution_due_at` are excluded (no SLA window).
 
 ## Migration
-**Must be run** in the Supabase SQL Editor after 0015. Without it the
+**Must be run** in the Supabase SQL Editor after 0016. Without it the
 dashboard will fail to load (the `rpc('get_dashboard_metrics')` call
 will 404).
 

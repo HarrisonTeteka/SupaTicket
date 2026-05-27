@@ -1,4 +1,4 @@
--- 0018_profiles_name_sync.sql
+-- 0019_profiles_name_sync.sql
 -- Bug 05: creator_name / assignee_name drift. The tickets table stores
 -- denormalised name copies for fast list rendering. When a user updated
 -- their profile.name the copies stayed stale until the ticket itself was
@@ -9,7 +9,7 @@
 -- are intentionally left untouched — those represent point-in-time
 -- historical values (who wrote this note / who took this action) and
 -- should NOT change retroactively.
--- Run in the Supabase SQL Editor after 0017. Idempotent.
+-- Run in the Supabase SQL Editor after 0018. Idempotent.
 
 create or replace function public.profiles_sync_ticket_names()
 returns trigger

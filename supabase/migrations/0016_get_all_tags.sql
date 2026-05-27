@@ -1,8 +1,8 @@
--- 0015_get_all_tags.sql
+-- 0016_get_all_tags.sql
 -- Bug 02: replace the client-side `listAllTags` full-table scan with a
 -- server-side DISTINCT. The GIN index on tickets.tags created in 0008
 -- already supports the unnest aggregation.
--- Run this in the Supabase SQL Editor after 0014. Idempotent.
+-- Run this in the Supabase SQL Editor after 0015. Idempotent.
 
 -- ---------------------------------------------------------------------------
 -- Returns every distinct tag in use across all tickets, sorted alphabetically.

@@ -1,10 +1,10 @@
--- 0017_get_log_action_types.sql
+-- 0018_get_log_action_types.sql
 -- Bug 04: replace the client-side `listActionTypes` full-table read.
 -- Pre-fix, the admin Logs tab and the Reports log-export panel each
 -- pulled the `action_type` column from every system_logs row just to
 -- build a small filter dropdown. system_logs is append-only so this
 -- query grows monotonically with audit activity.
--- Run in the Supabase SQL Editor after 0016. Idempotent.
+-- Run in the Supabase SQL Editor after 0017. Idempotent.
 
 -- ---------------------------------------------------------------------------
 -- Returns distinct action_type values sorted alphabetically. The btree

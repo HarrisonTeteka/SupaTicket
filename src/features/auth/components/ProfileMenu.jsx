@@ -47,11 +47,6 @@ export function ProfileMenu() {
               <p className="text-sm font-bold text-fg truncate">{profile.name}</p>
               <p className="text-[10px] text-fg-muted truncate">{profile.email}</p>
               <p className="text-[10px] text-brand-accent font-bold uppercase tracking-wider mt-1">
-          <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 p-2 flex flex-col z-50">
-            <div className="px-3 py-2 border-b border-gray-100 mb-2">
-              <p className="text-sm font-bold text-gray-800 truncate">{profile.name}</p>
-              <p className="text-[10px] text-gray-400 truncate">{profile.email}</p>
-              <p className="text-[10px] text-[#F58202] font-bold uppercase tracking-wider mt-1">
                 {profile.role}
               </p>
             </div>

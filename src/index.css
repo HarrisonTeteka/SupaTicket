@@ -1,4 +1,27 @@
 :root {
+  /* SupaTicket design tokens. RGB triplets (no commas) so Tailwind's
+     `<alpha-value>` substitution works for utilities like `bg-brand-accent/30`.
+     The .dark block below overrides these for the dark theme. */
+  --brand-primary: 51 96 33;
+  --brand-primary-hover: 41 76 26;
+  --brand-accent: 245 130 2;
+  --brand-accent-hover: 217 112 2;
+  --brand-danger: 158 42 43;
+  --brand-pending: 249 237 204;
+
+  --app: 245 247 249;
+  --surface: 255 255 255;
+  --surface-2: 249 250 251;
+
+  --line: 243 244 246;
+  --line-strong: 229 231 235;
+
+  --fg: 17 24 39;
+  --fg-secondary: 107 114 128;
+  --fg-muted: 156 163 175;
+
+  /* Vite scaffold leftovers — preserved so existing scaffold styles below
+     keep working. The app itself uses the tokens above via Tailwind. */
   --text: #6b6375;
   --text-h: #08060d;
   --bg: #fff;
@@ -17,7 +40,7 @@
 
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;
-  color-scheme: light dark;
+  color-scheme: light;
   color: var(--text);
   background: var(--bg);
   font-synthesis: none;
@@ -30,28 +53,46 @@
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
+/* Dark theme. The toggle component adds `class="dark"` to <html>.
+   On first load it reads prefers-color-scheme to set the initial value. */
+html.dark {
+  --brand-primary: 121 188 88;
+  --brand-primary-hover: 144 200 110;
+  --brand-accent: 251 159 56;
+  --brand-accent-hover: 245 130 2;
+  --brand-danger: 220 80 80;
+  --brand-pending: 80 65 30;
 
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
+  --app: 17 17 23;
+  --surface: 24 25 33;
+  --surface-2: 32 34 44;
+
+  --line: 38 41 53;
+  --line-strong: 55 58 71;
+
+  --fg: 243 244 246;
+  --fg-secondary: 156 163 175;
+  --fg-muted: 107 114 128;
+
+  --text: #9ca3af;
+  --text-h: #f3f4f6;
+  --bg: #16171d;
+  --border: #2e303a;
+  --code-bg: #1f2028;
+  --accent: #c084fc;
+  --accent-bg: rgba(192, 132, 252, 0.15);
+  --accent-border: rgba(192, 132, 252, 0.5);
+  --social-bg: rgba(47, 48, 58, 0.5);
+  --shadow:
+    rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+
+  color-scheme: dark;
 }
 
 body {
   margin: 0;
+  background-color: rgb(var(--app));
+  color: rgb(var(--fg));
 }
 
 #root {

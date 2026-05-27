@@ -35,12 +35,12 @@ export function CategoriesEditor() {
   const remove = (c) => save(categories.filter((x) => x !== c));
 
   return (
-    <div className="bg-white border border-gray-200 rounded-2xl p-6 space-y-4 max-w-xl">
+    <div className="bg-surface border border-line-strong rounded-2xl p-6 space-y-4 max-w-xl">
       <div>
-        <h3 className="text-sm font-semibold text-[#336021] uppercase tracking-wide">
+        <h3 className="text-sm font-semibold text-brand-primary uppercase tracking-wide">
           Ticket Categories
         </h3>
-        <p className="text-xs text-gray-400 mt-0.5">
+        <p className="text-xs text-fg-muted mt-0.5">
           Shown in the ticket form's category dropdown.
         </p>
       </div>
@@ -53,20 +53,20 @@ export function CategoriesEditor() {
 
       <div className="flex flex-wrap gap-2">
         {loading ? (
-          <p className="text-sm text-gray-400">Loading...</p>
+          <p className="text-sm text-fg-muted">Loading...</p>
         ) : categories.length === 0 ? (
-          <p className="text-sm text-gray-400">No categories yet.</p>
+          <p className="text-sm text-fg-muted">No categories yet.</p>
         ) : (
           categories.map((c) => (
             <span
               key={c}
-              className="flex items-center gap-1.5 bg-gray-100 text-[#336021] text-sm font-bold pl-3 pr-1.5 py-1.5 rounded-lg"
+              className="flex items-center gap-1.5 bg-surface-2 text-brand-primary text-sm font-bold pl-3 pr-1.5 py-1.5 rounded-lg"
             >
               {c}
               <button
                 type="button"
                 onClick={() => remove(c)}
-                className="text-gray-400 hover:text-red-500"
+                className="text-fg-muted hover:text-red-500"
                 title={`Remove ${c}`}
               >
                 <X size={14} />

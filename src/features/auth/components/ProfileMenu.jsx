@@ -33,7 +33,7 @@ export function ProfileMenu() {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="w-10 h-10 rounded-full bg-[#F58202] border-2 border-white/20 flex items-center justify-center text-white font-bold cursor-pointer transition-transform hover:scale-105 shadow-md"
+        className="w-10 h-10 rounded-full bg-brand-accent border-2 border-white/20 flex items-center justify-center text-white font-bold cursor-pointer transition-transform hover:scale-105 shadow-md"
         title={profile.name}
       >
         {initial}
@@ -42,11 +42,11 @@ export function ProfileMenu() {
       {open && (
         <>
           <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
-          <div className="absolute left-full bottom-0 ml-4 w-56 bg-white rounded-xl shadow-xl border border-gray-100 p-2 flex flex-col z-50">
-            <div className="px-3 py-2 border-b border-gray-100 mb-2">
-              <p className="text-sm font-bold text-gray-800 truncate">{profile.name}</p>
-              <p className="text-[10px] text-gray-400 truncate">{profile.email}</p>
-              <p className="text-[10px] text-[#F58202] font-bold uppercase tracking-wider mt-1">
+          <div className="absolute left-full bottom-0 ml-4 w-56 bg-surface rounded-xl shadow-xl border border-line p-2 flex flex-col z-50">
+            <div className="px-3 py-2 border-b border-line mb-2">
+              <p className="text-sm font-bold text-fg truncate">{profile.name}</p>
+              <p className="text-[10px] text-fg-muted truncate">{profile.email}</p>
+              <p className="text-[10px] text-brand-accent font-bold uppercase tracking-wider mt-1">
                 {profile.role}
               </p>
             </div>
@@ -56,7 +56,7 @@ export function ProfileMenu() {
                 setOpen(false);
                 setEditing(true);
               }}
-              className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-[#F58202]/10 hover:text-[#F58202] rounded-lg transition-colors font-semibold text-left mb-1"
+              className="flex items-center gap-2 px-3 py-2 text-sm text-fg hover:bg-brand-accent/10 hover:text-brand-accent rounded-lg transition-colors font-semibold text-left mb-1"
             >
               <UserIcon size={16} /> Edit Profile
             </button>

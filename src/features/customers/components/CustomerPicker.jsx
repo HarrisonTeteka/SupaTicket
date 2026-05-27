@@ -60,7 +60,7 @@ export function CustomerPicker({ value, valueLabel, onChange, label = 'Customer'
   return (
     <div ref={ref} className="relative">
       {label && (
-        <label className="text-xs font-black text-gray-400 uppercase tracking-widest block mb-2">
+        <label className="text-xs font-black text-fg-muted uppercase tracking-widest block mb-2">
           {label}
         </label>
       )}
@@ -68,18 +68,18 @@ export function CustomerPicker({ value, valueLabel, onChange, label = 'Customer'
         <button
           type="button"
           onClick={open}
-          className="flex-1 flex items-center justify-between px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 hover:bg-white text-sm transition-all"
+          className="flex-1 flex items-center justify-between px-4 py-3 rounded-xl border border-line-strong bg-surface-2 hover:bg-surface text-sm transition-all"
         >
-          <span className={cn('truncate', value ? 'font-bold text-[#336021]' : 'text-gray-400')}>
+          <span className={cn('truncate', value ? 'font-bold text-brand-primary' : 'text-fg-muted')}>
             {display}
           </span>
-          <ChevronDown size={16} className="text-gray-400 shrink-0" />
+          <ChevronDown size={16} className="text-fg-muted shrink-0" />
         </button>
         {value && (
           <button
             type="button"
             onClick={() => pick(null)}
-            className="p-2 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50"
+            className="p-2 rounded-lg text-fg-muted hover:text-red-500 hover:bg-red-50"
             title="Clear customer"
           >
             <X size={14} />
@@ -88,22 +88,22 @@ export function CustomerPicker({ value, valueLabel, onChange, label = 'Customer'
       </div>
 
       {isOpen && (
-        <div className="absolute z-30 mt-2 w-full bg-white rounded-xl border border-gray-200 shadow-xl overflow-hidden">
-          <div className="relative p-2 border-b border-gray-100">
-            <Search size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+        <div className="absolute z-30 mt-2 w-full bg-surface rounded-xl border border-line-strong shadow-xl overflow-hidden">
+          <div className="relative p-2 border-b border-line">
+            <Search size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-fg-muted" />
             <input
               autoFocus
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search customers..."
-              className="w-full pl-8 pr-2 py-1.5 text-sm bg-gray-50 rounded-lg outline-none"
+              className="w-full pl-8 pr-2 py-1.5 text-sm bg-surface-2 rounded-lg outline-none"
             />
           </div>
           <div className="max-h-64 overflow-y-auto py-1">
             <button
               type="button"
               onClick={() => pick(null)}
-              className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-500 hover:bg-gray-50"
+              className="w-full flex items-center gap-2 px-3 py-2 text-sm text-fg-secondary hover:bg-surface-2"
             >
               <X size={14} /> No customer
             </button>
@@ -112,16 +112,16 @@ export function CustomerPicker({ value, valueLabel, onChange, label = 'Customer'
                 key={c.id}
                 type="button"
                 onClick={() => pick(c)}
-                className="w-full flex items-center justify-between gap-2 px-3 py-2 text-sm hover:bg-gray-50 text-left"
+                className="w-full flex items-center justify-between gap-2 px-3 py-2 text-sm hover:bg-surface-2 text-left"
               >
                 <span className="truncate min-w-0">
-                  <span className="font-bold text-[#336021]">{c.name}</span>
+                  <span className="font-bold text-brand-primary">{c.name}</span>
                   {c.company && (
-                    <span className="text-gray-500 text-xs ml-1.5 inline-flex items-center gap-0.5">
+                    <span className="text-fg-secondary text-xs ml-1.5 inline-flex items-center gap-0.5">
                       <Building2 size={11} /> {c.company}
                     </span>
                   )}
-                  <span className="block text-[11px] text-gray-400">
+                  <span className="block text-[11px] text-fg-muted">
                     {c.email || c.external_id}
                   </span>
                 </span>
@@ -129,7 +129,7 @@ export function CustomerPicker({ value, valueLabel, onChange, label = 'Customer'
               </button>
             ))}
             {results.length === 0 && (
-              <p className="px-3 py-3 text-xs text-gray-400">
+              <p className="px-3 py-3 text-xs text-fg-muted">
                 {query ? 'No matches' : 'No customers yet'}
               </p>
             )}
@@ -140,7 +140,7 @@ export function CustomerPicker({ value, valueLabel, onChange, label = 'Customer'
               close();
               setCreating(true);
             }}
-            className="w-full flex items-center gap-2 px-3 py-2 text-sm font-bold text-[#F58202] hover:bg-gray-50 border-t border-gray-100"
+            className="w-full flex items-center gap-2 px-3 py-2 text-sm font-bold text-brand-accent hover:bg-surface-2 border-t border-line"
           >
             <Plus size={14} /> New customer
           </button>

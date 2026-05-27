@@ -35,12 +35,12 @@ export function DepartmentsEditor() {
   const remove = (d) => save(departments.filter((x) => x !== d));
 
   return (
-    <div className="bg-white border border-gray-200 rounded-2xl p-6 space-y-4 max-w-xl">
+    <div className="bg-surface border border-line-strong rounded-2xl p-6 space-y-4 max-w-xl">
       <div>
-        <h3 className="text-sm font-semibold text-[#336021] uppercase tracking-wide">
+        <h3 className="text-sm font-semibold text-brand-primary uppercase tracking-wide">
           Departments
         </h3>
-        <p className="text-xs text-gray-400 mt-0.5">
+        <p className="text-xs text-fg-muted mt-0.5">
           Assignable to staff in the Staff Directory.
         </p>
       </div>
@@ -53,20 +53,20 @@ export function DepartmentsEditor() {
 
       <div className="flex flex-wrap gap-2">
         {loading ? (
-          <p className="text-sm text-gray-400">Loading...</p>
+          <p className="text-sm text-fg-muted">Loading...</p>
         ) : departments.length === 0 ? (
-          <p className="text-sm text-gray-400">No departments yet.</p>
+          <p className="text-sm text-fg-muted">No departments yet.</p>
         ) : (
           departments.map((d) => (
             <span
               key={d}
-              className="flex items-center gap-1.5 bg-gray-100 text-[#336021] text-sm font-bold pl-3 pr-1.5 py-1.5 rounded-lg"
+              className="flex items-center gap-1.5 bg-surface-2 text-brand-primary text-sm font-bold pl-3 pr-1.5 py-1.5 rounded-lg"
             >
               {d}
               <button
                 type="button"
                 onClick={() => remove(d)}
-                className="text-gray-400 hover:text-red-500"
+                className="text-fg-muted hover:text-red-500"
                 title={`Remove ${d}`}
               >
                 <X size={14} />

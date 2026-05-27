@@ -26,14 +26,14 @@ export function Sidebar() {
       className={[
         // Drawer on mobile, static panel on md+
         'fixed md:static inset-y-0 left-0 z-40',
-        'w-20 bg-[#336021] flex flex-col items-center py-6 shrink-0 shadow-xl',
+        'w-20 bg-brand-primary flex flex-col items-center py-6 shrink-0 shadow-xl',
         'transition-transform duration-200 ease-out',
         isOpen ? 'translate-x-0' : '-translate-x-full',
         'md:translate-x-0',
       ].join(' ')}
     >
       {/* Brand flame */}
-      <div className="p-2 bg-[#F58202] rounded-xl text-white shadow-md shadow-[#F58202]/30 mb-8">
+      <div className="p-2 bg-brand-accent rounded-xl text-white shadow-md shadow-brand-accent/30 mb-8">
         <Flame size={22} fill="currentColor" />
       </div>
 
@@ -45,7 +45,7 @@ export function Sidebar() {
         <button
           type="button"
           onClick={() => openNewTicket()}
-          className="p-3 rounded-xl transition-all text-white/60 hover:text-white hover:bg-white/10"
+          className="p-3 rounded-xl transition-all text-white/60 hover:text-white hover:bg-surface/10"
           title="Raise Ticket"
         >
           <Plus size={24} />
@@ -69,8 +69,8 @@ function NavItem({ to, icon: Icon, label }) {
       className={({ isActive }) =>
         `p-3 rounded-xl transition-all ${
           isActive
-            ? 'bg-[#F58202] text-white shadow-md shadow-[#F58202]/30'
-            : 'text-white/60 hover:text-white hover:bg-white/10'
+            ? 'bg-brand-accent text-white shadow-md shadow-brand-accent/30'
+            : 'text-white/60 hover:text-white hover:bg-surface/10'
         }`
       }
     >

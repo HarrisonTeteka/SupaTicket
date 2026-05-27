@@ -124,15 +124,15 @@ export function CreateUserModal({ onClose, onCreated }) {
             onChange={(e) => setSendInvite(e.target.checked)}
             className="mt-0.5"
           />
-          <span className="text-gray-700">
+          <span className="text-fg">
             Email a magic-link invite
-            <span className="block text-[11px] font-normal text-gray-400 mt-0.5">
+            <span className="block text-[11px] font-normal text-fg-muted mt-0.5">
               Recommended. They set their own password via the link.
             </span>
           </span>
         </label>
 
-        <p className="text-[11px] text-gray-400">
+        <p className="text-[11px] text-fg-muted">
           Roles control what this user can do. Edit roles under Admin → Roles.
         </p>
       </form>

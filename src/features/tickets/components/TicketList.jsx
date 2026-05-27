@@ -10,7 +10,7 @@ export function TicketList({ tickets = [], loading, error }) {
         {[0, 1, 2, 3, 4].map((i) => (
           <div
             key={i}
-            className="h-[88px] bg-white border border-gray-200 rounded-2xl animate-pulse"
+            className="h-[88px] bg-surface border border-line-strong rounded-2xl animate-pulse"
           />
         ))}
       </div>

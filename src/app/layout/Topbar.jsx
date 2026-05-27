@@ -7,6 +7,7 @@ import { useTicketSearch } from '../../features/tickets/hooks/useTicketSearch';
 import { StatusBadge } from '../../features/tickets/components/StatusBadge';
 import { formatTicketNumber } from '../../features/tickets/tickets.utils';
 import { NotificationBell } from '../../features/notifications/components/NotificationBell';
+import { ThemeToggle } from '../../shared/components/ThemeToggle';
 import { useMobileNav } from './useMobileNav';
 
 /**
@@ -34,21 +35,21 @@ export function Topbar({ title }) {
   const showDropdown = focused && query.trim().length > 0;
 
   return (
-    <header className="h-16 bg-white border-b border-gray-200 px-4 sm:px-6 md:px-8 flex items-center justify-between shadow-sm shrink-0 gap-2">
+    <header className="h-16 bg-surface border-b border-line-strong px-4 sm:px-6 md:px-8 flex items-center justify-between shadow-sm shrink-0 gap-2">
       <div className="flex items-center gap-2 sm:gap-4 min-w-0 flex-1">
         <button
           type="button"
           onClick={openNav}
-          className="md:hidden p-2 -ml-1 rounded-lg text-gray-500 hover:text-[#336021] hover:bg-gray-100 transition-all shrink-0"
+          className="md:hidden p-2 -ml-1 rounded-lg text-fg-secondary hover:text-brand-primary hover:bg-surface-2 transition-all shrink-0"
           aria-label="Open navigation"
         >
           <Menu size={20} />
         </button>
-        <h1 className="text-base sm:text-lg md:text-xl font-semibold tracking-tight capitalize text-[#336021] truncate">
+        <h1 className="text-base sm:text-lg md:text-xl font-semibold tracking-tight capitalize text-brand-primary truncate">
           {title}
         </h1>
         {isAdmin && (
-          <Badge className="hidden sm:inline-flex bg-[#F58202]/10 text-[#F58202] border border-[#F58202]/20 shrink-0">
+          <Badge className="hidden sm:inline-flex bg-brand-accent/10 text-brand-accent border border-brand-accent/20 shrink-0">
             Admin Mode
           </Badge>
         )}
@@ -58,7 +59,7 @@ export function Topbar({ title }) {
         {/* Desktop / tablet search: inline input */}
         <div className="relative hidden sm:block">
           <Search
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-fg-muted"
             size={16}
           />
           <input
@@ -67,7 +68,7 @@ export function Topbar({ title }) {
             onFocus={() => setFocused(true)}
             onBlur={() => setTimeout(() => setFocused(false), 150)}
             placeholder="Search ticket ID or keyword..."
-            className="pl-10 pr-4 py-2 bg-gray-100 rounded-lg text-sm border border-transparent w-48 md:w-64 outline-none focus:bg-white focus:border-gray-200 transition-all"
+            className="pl-10 pr-4 py-2 bg-surface-2 rounded-lg text-sm border border-transparent w-48 md:w-64 outline-none focus:bg-surface focus:border-line-strong transition-all"
           />
           {showDropdown && (
             <SearchDropdown results={results} loading={loading} onPick={go} />
@@ -78,12 +79,13 @@ export function Topbar({ title }) {
         <button
           type="button"
           onClick={() => setMobileSearchOpen(true)}
-          className="sm:hidden p-2 rounded-lg text-gray-500 hover:text-[#336021] hover:bg-gray-100 transition-all"
+          className="sm:hidden p-2 rounded-lg text-fg-secondary hover:text-brand-primary hover:bg-surface-2 transition-all"
           aria-label="Search"
         >
           <Search size={18} />
         </button>
 
+        <ThemeToggle />
         <NotificationBell />
       </div>
 
@@ -91,12 +93,12 @@ export function Topbar({ title }) {
       {mobileSearchOpen && (
         <div className="sm:hidden fixed inset-0 z-50 bg-black/40" onClick={() => setMobileSearchOpen(false)}>
           <div
-            className="bg-white p-4 shadow-lg"
+            className="bg-surface p-4 shadow-lg"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="relative">
               <Search
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-fg-muted"
                 size={16}
               />
               <input
@@ -104,35 +106,35 @@ export function Topbar({ title }) {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search ticket ID or keyword..."
-                className="w-full pl-10 pr-4 py-3 bg-gray-100 rounded-lg text-sm outline-none focus:bg-white border border-gray-200"
+                className="w-full pl-10 pr-4 py-3 bg-surface-2 rounded-lg text-sm outline-none focus:bg-surface border border-line-strong"
               />
               <button
                 type="button"
                 onClick={() => setMobileSearchOpen(false)}
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-gray-500 px-2 py-1"
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-fg-secondary px-2 py-1"
               >
                 Close
               </button>
             </div>
             {query.trim() && (
-              <div className="mt-3 bg-white rounded-xl border border-gray-200 overflow-hidden">
+              <div className="mt-3 bg-surface rounded-xl border border-line-strong overflow-hidden">
                 {loading && (
-                  <p className="px-4 py-3 text-sm text-gray-400">Searching...</p>
+                  <p className="px-4 py-3 text-sm text-fg-muted">Searching...</p>
                 )}
                 {!loading && results.length === 0 && (
-                  <p className="px-4 py-3 text-sm text-gray-400">No tickets found.</p>
+                  <p className="px-4 py-3 text-sm text-fg-muted">No tickets found.</p>
                 )}
                 {results.map((t) => (
                   <button
                     key={t.id}
                     type="button"
                     onClick={() => go(t.id)}
-                    className="w-full text-left px-4 py-2.5 hover:bg-gray-50 flex items-center gap-2"
+                    className="w-full text-left px-4 py-2.5 hover:bg-surface-2 flex items-center gap-2"
                   >
-                    <span className="text-xs font-bold text-gray-400 shrink-0">
+                    <span className="text-xs font-bold text-fg-muted shrink-0">
                       {formatTicketNumber(t.ticket_number)}
                     </span>
-                    <span className="text-sm text-[#336021] font-medium truncate flex-1">
+                    <span className="text-sm text-brand-primary font-medium truncate flex-1">
                       {t.title}
                     </span>
                     <StatusBadge status={t.status} />
@@ -149,22 +151,22 @@ export function Topbar({ title }) {
 
 function SearchDropdown({ results, loading, onPick }) {
   return (
-    <div className="absolute right-0 mt-2 w-80 max-w-[calc(100vw-2rem)] bg-white rounded-xl border border-gray-200 shadow-xl overflow-hidden z-40">
-      {loading && <p className="px-4 py-3 text-sm text-gray-400">Searching...</p>}
+    <div className="absolute right-0 mt-2 w-80 max-w-[calc(100vw-2rem)] bg-surface rounded-xl border border-line-strong shadow-xl overflow-hidden z-40">
+      {loading && <p className="px-4 py-3 text-sm text-fg-muted">Searching...</p>}
       {!loading && results.length === 0 && (
-        <p className="px-4 py-3 text-sm text-gray-400">No tickets found.</p>
+        <p className="px-4 py-3 text-sm text-fg-muted">No tickets found.</p>
       )}
       {results.map((t) => (
         <button
           key={t.id}
           type="button"
           onMouseDown={() => onPick(t.id)}
-          className="w-full text-left px-4 py-2.5 hover:bg-gray-50 flex items-center gap-2"
+          className="w-full text-left px-4 py-2.5 hover:bg-surface-2 flex items-center gap-2"
         >
-          <span className="text-xs font-bold text-gray-400 shrink-0">
+          <span className="text-xs font-bold text-fg-muted shrink-0">
             {formatTicketNumber(t.ticket_number)}
           </span>
-          <span className="text-sm text-[#336021] font-medium truncate flex-1">
+          <span className="text-sm text-brand-primary font-medium truncate flex-1">
             {t.title}
           </span>
           <StatusBadge status={t.status} />

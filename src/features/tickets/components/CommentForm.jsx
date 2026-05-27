@@ -44,7 +44,7 @@ export function CommentForm({ ticketId }) {
         {isCustomer ? (
           <span />
         ) : (
-          <label className="flex items-center gap-2 text-xs font-bold text-gray-500 cursor-pointer">
+          <label className="flex items-center gap-2 text-xs font-bold text-fg-secondary cursor-pointer">
             <input
               type="checkbox"
               checked={internal}

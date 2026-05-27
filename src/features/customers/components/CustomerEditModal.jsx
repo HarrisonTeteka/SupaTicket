@@ -81,7 +81,7 @@ export function CustomerEditModal({ customer, onClose, onSaved }) {
           </div>
         )}
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Input
             label="External ID *"
             name="external_id"
@@ -100,25 +100,25 @@ export function CustomerEditModal({ customer, onClose, onSaved }) {
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Input label="Email" name="email" value={form.email} onChange={set('email')} error={errors.email} />
           <Input label="Phone" name="phone" value={form.phone} onChange={set('phone')} />
         </div>
 
         <Input label="Company" name="company" value={form.company} onChange={set('company')} />
 
-        <div className="pt-2 border-t border-gray-100">
-          <h4 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-3">
+        <div className="pt-2 border-t border-line">
+          <h4 className="text-xs font-black text-fg-muted uppercase tracking-widest mb-3">
             Address
           </h4>
           <div className="space-y-4">
             <Input label="Line 1" name="address_line1" value={form.address_line1} onChange={set('address_line1')} />
             <Input label="Line 2" name="address_line2" value={form.address_line2} onChange={set('address_line2')} />
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Input label="City" name="city" value={form.city} onChange={set('city')} />
               <Input label="State / Region" name="state" value={form.state} onChange={set('state')} />
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Input label="Postal code" name="postal_code" value={form.postal_code} onChange={set('postal_code')} />
               <Input label="Country" name="country" value={form.country} onChange={set('country')} />
             </div>
@@ -135,7 +135,7 @@ export function CustomerEditModal({ customer, onClose, onSaved }) {
         />
 
         {isEdit && (
-          <p className="text-[11px] text-gray-400">
+          <p className="text-[11px] text-fg-muted">
             External ID is locked to keep CRM sync stable. To rebind, delete and re-import.
           </p>
         )}

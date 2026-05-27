@@ -55,7 +55,7 @@ export default function PortalNewTicketPage() {
       <h1 className="text-xl font-semibold mb-4">Raise a ticket</h1>
       <form
         onSubmit={submit}
-        className="bg-white border border-gray-200 rounded-2xl p-6 space-y-4 max-w-2xl"
+        className="bg-surface border border-line-strong rounded-2xl p-6 space-y-4 max-w-2xl"
       >
         {error && (
           <div className="p-3 bg-red-50 border border-red-100 text-red-700 text-sm rounded-xl">
@@ -77,7 +77,7 @@ export default function PortalNewTicketPage() {
           onChange={(e) => setDescription(e.target.value)}
           placeholder="What's going on?"
         />
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Select
             label="Category"
             placeholder="Select category"

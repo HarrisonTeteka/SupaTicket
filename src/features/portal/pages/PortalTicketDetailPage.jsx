@@ -103,7 +103,7 @@ export default function PortalTicketDetailPage() {
   };
 
   if (loading) {
-    return <div className="h-64 bg-white border border-gray-200 rounded-2xl animate-pulse" />;
+    return <div className="h-64 bg-surface border border-line-strong rounded-2xl animate-pulse" />;
   }
 
   if (error || !ticket) {
@@ -121,20 +121,20 @@ export default function PortalTicketDetailPage() {
       <button
         type="button"
         onClick={() => navigate('/portal')}
-        className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-[#336021]"
+        className="flex items-center gap-1.5 text-sm text-fg-secondary hover:text-brand-primary"
       >
         <ArrowLeft size={15} /> Back to my tickets
       </button>
 
-      <div className="bg-white border border-gray-200 rounded-2xl p-6">
+      <div className="bg-surface border border-line-strong rounded-2xl p-6">
         <div className="flex items-start justify-between gap-4 mb-3">
           <div className="min-w-0">
-            <div className="flex items-center gap-2 mb-1 text-xs text-gray-400 font-bold">
+            <div className="flex items-center gap-2 mb-1 text-xs text-fg-muted font-bold">
               <span>{formatTicketNumber(ticket.ticket_number)}</span>
               <span>·</span>
               <span>{ticket.category}</span>
             </div>
-            <h1 className="text-xl font-semibold text-[#336021]">{ticket.title}</h1>
+            <h1 className="text-xl font-semibold text-brand-primary">{ticket.title}</h1>
           </div>
           <div className="flex items-center gap-1.5 shrink-0">
             <PriorityBadge priority={ticket.priority} />
@@ -142,20 +142,20 @@ export default function PortalTicketDetailPage() {
           </div>
         </div>
 
-        <p className="text-sm text-gray-700 whitespace-pre-wrap">{ticket.description}</p>
+        <p className="text-sm text-fg whitespace-pre-wrap">{ticket.description}</p>
 
-        <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between text-xs text-gray-400">
+        <div className="mt-4 pt-4 border-t border-line flex items-center justify-between text-xs text-fg-muted">
           <span>Raised {formatDateTime(ticket.created_at)}</span>
           <span>
             Assigned to{' '}
-            <span className="font-bold text-gray-600">
+            <span className="font-bold text-fg">
               {ticket.assignee_name || 'Unassigned'}
             </span>
           </span>
         </div>
 
         {ticket.status === 'Resolved' && (
-          <div className="mt-4 pt-4 border-t border-gray-100">
+          <div className="mt-4 pt-4 border-t border-line">
             <SatisfactionRating
               ticket={ticket}
               canRate={profile?.id === ticket.created_by}
@@ -165,14 +165,14 @@ export default function PortalTicketDetailPage() {
         )}
       </div>
 
-      <div className="bg-white border border-gray-200 rounded-2xl p-6 space-y-4">
-        <h3 className="text-sm font-semibold text-[#336021] uppercase tracking-wide">
+      <div className="bg-surface border border-line-strong rounded-2xl p-6 space-y-4">
+        <h3 className="text-sm font-semibold text-brand-primary uppercase tracking-wide">
           Replies {comments.length > 0 && `(${comments.length})`}
         </h3>
 
         <PortalCommentList comments={comments} loading={false} />
 
-        <form onSubmit={postComment} className="space-y-2 pt-2 border-t border-gray-100">
+        <form onSubmit={postComment} className="space-y-2 pt-2 border-t border-line">
           <Textarea
             name="comment"
             rows={3}

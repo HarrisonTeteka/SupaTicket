@@ -35,13 +35,13 @@ export function StaffDirectory() {
   };
 
   if (loading) {
-    return <div className="h-40 bg-white border border-gray-200 rounded-2xl animate-pulse" />;
+    return <div className="h-40 bg-surface border border-line-strong rounded-2xl animate-pulse" />;
   }
 
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-4">
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-fg-secondary">
           {staff.length} user{staff.length === 1 ? '' : 's'}
         </p>
         {canCreate && (
@@ -61,15 +61,15 @@ export function StaffDirectory() {
         <EmptyState icon={Users} title="No staff" description="No profiles found." />
       )}
       {staff.length > 0 && (
-      <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
+      <div className="bg-surface border border-line-strong rounded-2xl overflow-x-auto">
         <table className="w-full">
           <thead>
-            <tr className="bg-gray-50 text-left text-xs font-semibold text-gray-400 uppercase tracking-widest">
-              <th className="px-4 py-3">Name</th>
-              <th className="px-4 py-3">Role</th>
-              <th className="px-4 py-3">Department</th>
-              <th className="px-4 py-3">Status</th>
-              <th className="px-4 py-3 text-right">Actions</th>
+            <tr className="bg-surface-2 text-left text-xs font-semibold text-fg-muted uppercase tracking-widest">
+              <th scope="col" className="px-4 py-3">Name</th>
+              <th scope="col" className="hidden sm:table-cell px-4 py-3">Role</th>
+              <th scope="col" className="hidden md:table-cell px-4 py-3">Department</th>
+              <th scope="col" className="px-4 py-3">Status</th>
+              <th scope="col" className="px-4 py-3 text-right">Actions</th>
             </tr>
           </thead>
           <tbody>

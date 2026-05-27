@@ -102,7 +102,7 @@ export function RoleEditModal({ role, onClose, onSaved }) {
         />
 
         <div>
-          <h3 className="text-sm font-black text-[#336021] uppercase tracking-wide mb-3">
+          <h3 className="text-sm font-black text-brand-primary uppercase tracking-wide mb-3">
             Permissions
           </h3>
           <PermissionsMatrix value={permissions} onChange={setPermissions} />

@@ -10,7 +10,7 @@ export default function TicketDetailPage() {
   const { ticket, loading, error, setTicket } = useTicket(id);
 
   if (loading) {
-    return <div className="h-64 bg-white border border-gray-200 rounded-2xl animate-pulse" />;
+    return <div className="h-64 bg-surface border border-line-strong rounded-2xl animate-pulse" />;
   }
 
   if (error || !ticket) {

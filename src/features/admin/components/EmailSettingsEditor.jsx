@@ -17,7 +17,7 @@ export function EmailSettingsEditor() {
   const { config, loading } = useAppConfig();
 
   if (loading) {
-    return <div className="h-40 bg-white border border-gray-200 rounded-2xl animate-pulse" />;
+    return <div className="h-40 bg-surface border border-line-strong rounded-2xl animate-pulse" />;
   }
 
   // Mount the form once the config is loaded so its draft state initialises
@@ -81,12 +81,12 @@ function EmailSettingsForm({ sender }) {
   };
 
   return (
-    <div className="bg-white border border-gray-200 rounded-2xl p-6 space-y-4 max-w-xl">
+    <div className="bg-surface border border-line-strong rounded-2xl p-6 space-y-4 max-w-xl">
       <div>
-        <h3 className="text-sm font-semibold text-[#336021] uppercase tracking-wide">
+        <h3 className="text-sm font-semibold text-brand-primary uppercase tracking-wide">
           Email Sender
         </h3>
-        <p className="text-xs text-gray-400 mt-0.5">
+        <p className="text-xs text-fg-muted mt-0.5">
           Identity used by the notification-email Edge Function. Make sure the
           From address is verified with your email provider.
         </p>
@@ -127,7 +127,7 @@ function EmailSettingsForm({ sender }) {
         placeholder="support@yourdomain.com"
       />
 
-      <div className="flex items-center justify-between gap-3 pt-2 border-t border-gray-100">
+      <div className="flex items-center justify-between gap-3 pt-2 border-t border-line">
         <Button variant="secondary" onClick={sendTest} loading={testBusy}>
           <Send size={14} /> Send test email
         </Button>
@@ -136,7 +136,7 @@ function EmailSettingsForm({ sender }) {
         </Button>
       </div>
 
-      <p className="text-[11px] text-gray-400">
+      <p className="text-[11px] text-fg-muted">
         Edge Function setup + env vars:
         <code className="ml-1">supabase/functions/send-notification-email/README.md</code>.
       </p>

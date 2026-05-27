@@ -22,9 +22,9 @@ export function PermissionsMatrix({ value = {}, onChange, readOnly = false }) {
         const allOn = perms.every((p) => value[p.key]);
         const noneOn = perms.every((p) => !value[p.key]);
         return (
-          <div key={category} className="border border-gray-100 rounded-xl p-4 bg-gray-50/40">
+          <div key={category} className="border border-line rounded-xl p-4 bg-surface-2/40">
             <div className="flex items-center justify-between mb-3">
-              <h4 className="text-xs font-black text-[#336021] uppercase tracking-widest">
+              <h4 className="text-xs font-black text-brand-primary uppercase tracking-widest">
                 {category}
               </h4>
               {!readOnly && (
@@ -33,16 +33,16 @@ export function PermissionsMatrix({ value = {}, onChange, readOnly = false }) {
                     type="button"
                     disabled={allOn}
                     onClick={() => setCategory(category, true)}
-                    className="text-[#336021] font-bold hover:underline disabled:opacity-30 disabled:no-underline"
+                    className="text-brand-primary font-bold hover:underline disabled:opacity-30 disabled:no-underline"
                   >
                     All
                   </button>
-                  <span className="text-gray-300">·</span>
+                  <span className="text-fg-muted">·</span>
                   <button
                     type="button"
                     disabled={noneOn}
                     onClick={() => setCategory(category, false)}
-                    className="text-gray-500 hover:underline disabled:opacity-30 disabled:no-underline"
+                    className="text-fg-secondary hover:underline disabled:opacity-30 disabled:no-underline"
                   >
                     None
                   </button>
@@ -54,7 +54,7 @@ export function PermissionsMatrix({ value = {}, onChange, readOnly = false }) {
                 <label
                   key={p.key}
                   className={`flex items-start gap-2 text-sm cursor-pointer rounded-lg px-2 py-1.5 transition-colors ${
-                    readOnly ? 'cursor-not-allowed opacity-60' : 'hover:bg-white'
+                    readOnly ? 'cursor-not-allowed opacity-60' : 'hover:bg-surface'
                   }`}
                 >
                   <input
@@ -64,7 +64,7 @@ export function PermissionsMatrix({ value = {}, onChange, readOnly = false }) {
                     disabled={readOnly}
                     className="mt-0.5"
                   />
-                  <span className="text-gray-700">{p.label}</span>
+                  <span className="text-fg">{p.label}</span>
                 </label>
               ))}
             </div>

@@ -22,7 +22,7 @@ export default function DashboardPage() {
         {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => (
           <div
             key={i}
-            className="h-24 bg-white border border-gray-200 rounded-2xl animate-pulse"
+            className="h-24 bg-surface border border-line-strong rounded-2xl animate-pulse"
           />
         ))}
       </div>
@@ -34,7 +34,7 @@ export default function DashboardPage() {
       {/* Welcome hero with brand gradient — explicit inline gradient so it
           renders even if Tailwind hasn't generated the gradient utility yet. */}
       <div
-        className="relative overflow-hidden rounded-2xl p-5 sm:p-6 md:p-7 shadow-xl shadow-[#336021]/20"
+        className="relative overflow-hidden rounded-2xl p-5 sm:p-6 md:p-7 shadow-xl shadow-brand-primary/20"
         style={{
           background: 'linear-gradient(135deg, #336021 0%, #264918 60%, #1a3014 100%)',
         }}

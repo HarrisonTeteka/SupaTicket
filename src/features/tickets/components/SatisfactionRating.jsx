@@ -26,7 +26,7 @@ export function SatisfactionRating({ ticket, canRate, onRated }) {
 
   return (
     <div>
-      <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-2">
+      <h3 className="text-xs font-semibold text-fg-muted uppercase tracking-widest mb-2">
         Satisfaction
       </h3>
       <div className="flex items-center gap-1" onMouseLeave={() => setHover(0)}>
@@ -44,13 +44,13 @@ export function SatisfactionRating({ ticket, canRate, onRated }) {
             >
               <Star
                 size={20}
-                className={filled ? 'text-amber-400 fill-amber-400' : 'text-gray-300'}
+                className={filled ? 'text-amber-400 fill-amber-400' : 'text-fg-muted'}
               />
             </button>
           );
         })}
       </div>
-      <p className="text-[11px] text-gray-400 mt-1">
+      <p className="text-[11px] text-fg-muted mt-1">
         {canRate
           ? rating
             ? 'Thanks for rating!'

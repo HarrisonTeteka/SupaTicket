@@ -1,18 +1,22 @@
 import { useState } from 'react';
-import { Users } from 'lucide-react';
+import { Plus, Users } from 'lucide-react';
 import { useStaff } from '../hooks/useStaff';
 import { useAuth } from '../../auth/components/AuthGate';
 import { archiveStaff, deleteStaff, restoreStaff } from '../services/adminService';
 import { StaffRow } from './StaffRow';
 import { EditProfileModal } from './EditProfileModal';
+import { CreateUserModal } from './CreateUserModal';
 import { EmptyState } from '../../../shared/components/EmptyState';
+import { Button } from '../../../shared/components/Button';
 
 /** Staff Directory tab: lists every profile with edit / archive / delete. */
 export function StaffDirectory() {
   const { staff, loading } = useStaff();
-  const { user } = useAuth();
+  const { user, can } = useAuth();
   const [editing, setEditing] = useState(null);
+  const [creating, setCreating] = useState(false);
   const [error, setError] = useState('');
+  const canCreate = can && can('users.create');
 
   const run = async (fn) => {
     setError('');
@@ -34,17 +38,29 @@ export function StaffDirectory() {
     return <div className="h-40 bg-white border border-gray-200 rounded-2xl animate-pulse" />;
   }
 
-  if (staff.length === 0) {
-    return <EmptyState icon={Users} title="No staff" description="No profiles found." />;
-  }
-
   return (
     <div className="space-y-4">
+      <div className="flex items-center justify-between gap-4">
+        <p className="text-sm text-gray-500">
+          {staff.length} user{staff.length === 1 ? '' : 's'}
+        </p>
+        {canCreate && (
+          <Button onClick={() => setCreating(true)}>
+            <Plus size={14} /> Create user
+          </Button>
+        )}
+      </div>
+
       {error && (
         <div className="p-3 bg-red-50 border border-red-100 text-red-700 text-sm rounded-xl">
           {error}
         </div>
       )}
+
+      {staff.length === 0 && (
+        <EmptyState icon={Users} title="No staff" description="No profiles found." />
+      )}
+      {staff.length > 0 && (
       <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
         <table className="w-full">
           <thead>
@@ -72,6 +88,8 @@ export function StaffDirectory() {
         </table>
       </div>
 
+      )}
+
       {editing && (
         <EditProfileModal
           mode="admin"
@@ -79,6 +97,8 @@ export function StaffDirectory() {
           onClose={() => setEditing(null)}
         />
       )}
+
+      {creating && <CreateUserModal onClose={() => setCreating(false)} />}
     </div>
   );
 }

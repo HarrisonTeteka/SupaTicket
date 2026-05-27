@@ -26,9 +26,21 @@ export function AuthGate({ children }) {
   const isAdmin = profile?.role === 'admin';
   const isCustomer = profile?.role === 'customer';
 
+  // Granular permission check. `can(perm)` returns true when the user's
+  // assigned role grants that permission key. Admins implicitly pass even
+  // if a permission key was added to the catalogue after their role's
+  // permission map was last edited (defence against forgotten seed bumps).
+  const can = useMemo(() => {
+    const perms = profile?.role_def?.permissions || {};
+    return (key) => {
+      if (isAdmin) return true;
+      return perms[key] === true;
+    };
+  }, [profile, isAdmin]);
+
   const value = useMemo(
-    () => ({ session, user, profile, isAdmin, isCustomer, setProfile }),
-    [session, user, profile, isAdmin, isCustomer, setProfile]
+    () => ({ session, user, profile, isAdmin, isCustomer, can, setProfile }),
+    [session, user, profile, isAdmin, isCustomer, can, setProfile]
   );
 
   if (authLoading) return <LoadingScreen message="Authenticating workspace..." />;

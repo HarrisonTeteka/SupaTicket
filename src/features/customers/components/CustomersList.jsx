@@ -9,14 +9,20 @@ import { CustomerImportModal } from './CustomerImportModal';
 import { Button } from '../../../shared/components/Button';
 import { EmptyState } from '../../../shared/components/EmptyState';
 
-/** Admin Customers tab — list, search, edit, delete, CSV import. */
+/** Customers tab / page — list, search, edit, delete, CSV import.
+ *  Write actions are gated on the granular permissions from useAuth().can(). */
 export function CustomersList() {
-  const { isAdmin } = useAuth();
+  const { isAdmin, can } = useAuth();
   const [search, setSearch] = useState('');
   const { customers, loading, error } = useCustomers(search);
   const [editing, setEditing] = useState(null); // null=closed, {} = create, {id} = edit
   const [importing, setImporting] = useState(false);
   const [opError, setOpError] = useState('');
+
+  const canCreate = can && can('customers.create');
+  const canEdit = can && can('customers.edit');
+  const canImport = can && can('customers.import');
+  const canDelete = isAdmin; // RLS keeps DELETE admin-only
 
   const handleDelete = async (c) => {
     if (!window.confirm(`Delete ${c.name}? This unlinks them from any tickets they're attached to.`)) return;
@@ -42,12 +48,16 @@ export function CustomersList() {
           />
         </div>
         <div className="ml-auto flex items-center gap-2">
-          <Button variant="secondary" onClick={() => setImporting(true)}>
-            <Upload size={14} /> Import CSV
-          </Button>
-          <Button onClick={() => setEditing({})}>
-            <Plus size={14} /> New customer
-          </Button>
+          {canImport && (
+            <Button variant="secondary" onClick={() => setImporting(true)}>
+              <Upload size={14} /> Import CSV
+            </Button>
+          )}
+          {canCreate && (
+            <Button onClick={() => setEditing({})}>
+              <Plus size={14} /> New customer
+            </Button>
+          )}
         </div>
       </div>
 
@@ -120,15 +130,17 @@ export function CustomersList() {
                   </td>
                   <td className="px-4 py-3 text-right">
                     <div className="inline-flex items-center gap-1">
-                      <button
-                        type="button"
-                        onClick={() => setEditing(c)}
-                        className="p-1.5 rounded-lg text-gray-400 hover:text-[#336021] hover:bg-gray-100"
-                        title="Edit"
-                      >
-                        <Pencil size={14} />
-                      </button>
-                      {isAdmin && (
+                      {canEdit && (
+                        <button
+                          type="button"
+                          onClick={() => setEditing(c)}
+                          className="p-1.5 rounded-lg text-gray-400 hover:text-[#336021] hover:bg-gray-100"
+                          title="Edit"
+                        >
+                          <Pencil size={14} />
+                        </button>
+                      )}
+                      {canDelete && (
                         <button
                           type="button"
                           onClick={() => handleDelete(c)}

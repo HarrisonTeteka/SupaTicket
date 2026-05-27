@@ -6,6 +6,7 @@ import {
   FileBarChart2,
   Mail,
   ScrollText,
+  Shield,
   SlidersHorizontal,
   Tags,
   Users,
@@ -51,9 +52,17 @@ const SystemLogsView = lazy(() =>
   import('../components/SystemLogsView').then((m) => ({ default: m.SystemLogsView }))
 );
 const ReportsPage = lazy(() => import('../../reports/pages/ReportsPage'));
+const RolesEditor = lazy(() =>
+  import('../../roles/components/RolesEditor').then((m) => ({ default: m.RolesEditor }))
+);
 
 const TABS = [
   { id: 'staff', label: 'Staff', icon: Users, component: StaffDirectory },
+<<<<<<< Updated upstream
+=======
+  { id: 'roles', label: 'Roles', icon: Shield, component: RolesEditor },
+  { id: 'customers', label: 'Customers', icon: Contact, component: CustomersList },
+>>>>>>> Stashed changes
   { id: 'categories', label: 'Categories', icon: Tags, component: CategoriesEditor },
   { id: 'departments', label: 'Departments', icon: Building2, component: DepartmentsEditor },
   { id: 'fields', label: 'Custom Fields', icon: SlidersHorizontal, component: CustomFieldsBuilder },

@@ -47,9 +47,8 @@ export function TagInput({ value = [], onChange, label, placeholder = 'Add tag..
             <button
               type="button"
               onClick={() => remove(t)}
-              className="text-brand-primary hover:text-brand-danger"
               disabled={disabled}
-              className="text-[#336021] hover:text-[#9E2A2B] disabled:pointer-events-none"
+              className="text-brand-primary hover:text-brand-danger disabled:pointer-events-none"
               title={`Remove ${t}`}
             >
               <X size={12} />

@@ -7,8 +7,8 @@ import { useTicketSearch } from '../../features/tickets/hooks/useTicketSearch';
 import { StatusBadge } from '../../features/tickets/components/StatusBadge';
 import { formatTicketNumber } from '../../features/tickets/tickets.utils';
 import { NotificationBell } from '../../features/notifications/components/NotificationBell';
-import { ThemeToggle } from '../../shared/components/ThemeToggle';
 import { ProfileMenu } from '../../features/auth/components/ProfileMenu';
+import { ThemeToggle } from '../../shared/components/ThemeToggle';
 import { useMobileNav } from './useMobileNav';
 
 /**

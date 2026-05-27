@@ -1,4 +1,4 @@
--- 0015_rbac.sql
+-- 0020_rbac.sql
 -- Phase 12 (RBAC): introduce a `roles` table with a granular permission
 -- matrix, link profiles to it via `role_id`, and tighten customer-write RLS
 -- to depend on the new `has_permission(uid, key)` helper. The legacy
@@ -6,7 +6,10 @@
 -- `is_admin()` / `is_customer()` checks (and every RLS policy that uses them)
 -- keep working unchanged.
 --
--- Run in the Supabase SQL Editor after 0014. Idempotent.
+-- Run in the Supabase SQL Editor after 0019. Idempotent.
+-- (Originally authored as 0015; renumbered to 0020 to land after the
+--  retention/get_all_tags/dashboard_metrics/log_action_types/name_sync
+--  migrations introduced on the integration branch.)
 
 -- ---------------------------------------------------------------------------
 -- Table

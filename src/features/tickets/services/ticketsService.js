@@ -142,13 +142,9 @@ export async function deleteTicket(id) {
 
 /** Every distinct tag in use across the workspace, sorted alphabetically. */
 export async function listAllTags() {
-  const { data, error } = await supabase.from('tickets').select('tags');
+  const { data, error } = await supabase.rpc('get_all_tags');
   if (error) throw error;
-  const set = new Set();
-  for (const row of data ?? []) {
-    for (const tag of row.tags ?? []) set.add(tag);
-  }
-  return Array.from(set).sort();
+  return data ?? [];
 }
 
 /** Active staff/admin profiles a ticket can be assigned to (excludes customers). */

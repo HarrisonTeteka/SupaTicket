@@ -8,11 +8,13 @@ import { CustomerEditModal } from './CustomerEditModal';
 import { CustomerImportModal } from './CustomerImportModal';
 import { Button } from '../../../shared/components/Button';
 import { EmptyState } from '../../../shared/components/EmptyState';
+import { useConfirm } from '../../../shared/components/ConfirmProvider';
 
 /** Customers tab / page — list, search, edit, delete, CSV import.
  *  Write actions are gated on the granular permissions from useAuth().can(). */
 export function CustomersList() {
   const { isAdmin, can } = useAuth();
+  const confirm = useConfirm();
   const [search, setSearch] = useState('');
   const { customers, loading, error } = useCustomers(search);
   const [editing, setEditing] = useState(null); // null=closed, {} = create, {id} = edit
@@ -25,7 +27,13 @@ export function CustomersList() {
   const canDelete = isAdmin; // RLS keeps DELETE admin-only
 
   const handleDelete = async (c) => {
-    if (!window.confirm(`Delete ${c.name}? This unlinks them from any tickets they're attached to.`)) return;
+    const ok = await confirm({
+      title: 'Delete customer?',
+      message: `Delete ${c.name}? This unlinks them from any tickets they're attached to.`,
+      confirmLabel: 'Delete',
+      danger: true,
+    });
+    if (!ok) return;
     setOpError('');
     try {
       await deleteCustomer(c.id);

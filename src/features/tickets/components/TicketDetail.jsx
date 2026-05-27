@@ -27,6 +27,7 @@ import {
   formatTicketNumber,
 } from '../tickets.utils';
 import { useAppConfig } from '../../admin/hooks/useAppConfig';
+import { useConfirm } from '../../../shared/components/ConfirmProvider';
 
 /**
  * Full ticket detail view: editable title meta, description, comments thread,
@@ -36,6 +37,7 @@ import { useAppConfig } from '../../admin/hooks/useAppConfig';
 export function TicketDetail({ ticket, onLocalChange }) {
   const { isAdmin, profile } = useAuth();
   const navigate = useNavigate();
+  const confirm = useConfirm();
   const { comments, loading: commentsLoading } = useComments(ticket.id);
   const { config } = useAppConfig();
   const customFields = config.custom_fields;
@@ -82,13 +84,13 @@ export function TicketDetail({ ticket, onLocalChange }) {
   };
 
   const handleDelete = async () => {
-    if (
-      !window.confirm(
-        `Delete ticket ${formatTicketNumber(ticket.ticket_number)}? This cannot be undone.`
-      )
-    ) {
-      return;
-    }
+    const ok = await confirm({
+      title: 'Delete ticket?',
+      message: `Delete ticket ${formatTicketNumber(ticket.ticket_number)}? This cannot be undone.`,
+      confirmLabel: 'Delete',
+      danger: true,
+    });
+    if (!ok) return;
     try {
       await deleteTicket(ticket.id);
       navigate('/tickets');

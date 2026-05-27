@@ -20,12 +20,14 @@ import { CustomerEditModal } from '../components/CustomerEditModal';
 import { TicketRow } from '../../tickets/components/TicketRow';
 import { Button } from '../../../shared/components/Button';
 import { EmptyState } from '../../../shared/components/EmptyState';
+import { useConfirm } from '../../../shared/components/ConfirmProvider';
 
 /** Per-customer page: contact details + all tickets attributed to them. */
 export default function CustomerDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { isAdmin } = useAuth();
+  const confirm = useConfirm();
   const { customer, loading, error } = useCustomer(id);
   const { openNewTicket } = useNewTicketModal();
 
@@ -44,13 +46,13 @@ export default function CustomerDetailPage() {
 
   const handleDelete = async () => {
     if (!customer) return;
-    if (
-      !window.confirm(
-        `Delete ${customer.name}? This unlinks them from any tickets but does not delete the tickets.`
-      )
-    ) {
-      return;
-    }
+    const ok = await confirm({
+      title: 'Delete customer?',
+      message: `Delete ${customer.name}? This unlinks them from any tickets but does not delete the tickets.`,
+      confirmLabel: 'Delete',
+      danger: true,
+    });
+    if (!ok) return;
     setOpError('');
     try {
       await deleteCustomer(customer.id);

@@ -1,6 +1,5 @@
 import { useAuth } from '../../auth/components/AuthGate';
 import { useDashboardMetrics } from '../hooks/useDashboardMetrics';
-import { myOpenTickets, recentTickets } from '../selectors/dashboardSelectors';
 import { DashboardStats } from '../components/DashboardStats';
 import { StatusBreakdown } from '../components/StatusBreakdown';
 import { PriorityBreakdown } from '../components/PriorityBreakdown';
@@ -11,8 +10,8 @@ import { AgentWorkload } from '../components/AgentWorkload';
 
 /** Agent dashboard: live KPIs, backlog breakdowns and quick lists. */
 export default function DashboardPage() {
-  const { user, profile } = useAuth();
-  const { tickets, metrics, loading } = useDashboardMetrics();
+  const { profile } = useAuth();
+  const { metrics, recent, mine, loading } = useDashboardMetrics();
 
   const firstName = profile?.name?.split(' ')[0] || 'there';
 
@@ -77,12 +76,16 @@ export default function DashboardPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <SlaBreakdown bySla={metrics.bySla} />
-        <AgentWorkload tickets={tickets} />
+        <AgentWorkload
+          byAgent={metrics.byAgent}
+          unassigned={metrics.unassigned}
+          totalOpen={metrics.open}
+        />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <MyTickets tickets={myOpenTickets(tickets, user?.id)} />
-        <RecentActivity tickets={recentTickets(tickets)} />
+        <MyTickets tickets={mine} />
+        <RecentActivity tickets={recent} />
       </div>
     </div>
   );

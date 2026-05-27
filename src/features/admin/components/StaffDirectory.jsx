@@ -6,11 +6,13 @@ import { archiveStaff, deleteStaff, restoreStaff } from '../services/adminServic
 import { StaffRow } from './StaffRow';
 import { EditProfileModal } from './EditProfileModal';
 import { EmptyState } from '../../../shared/components/EmptyState';
+import { useConfirm } from '../../../shared/components/ConfirmProvider';
 
 /** Staff Directory tab: lists every profile with edit / archive / delete. */
 export function StaffDirectory() {
   const { staff, loading } = useStaff();
   const { user } = useAuth();
+  const confirm = useConfirm();
   const [editing, setEditing] = useState(null);
   const [error, setError] = useState('');
 
@@ -25,8 +27,14 @@ export function StaffDirectory() {
 
   const handleArchive = (p) => run(() => archiveStaff(p.id));
   const handleRestore = (p) => run(() => restoreStaff(p.id));
-  const handleDelete = (p) => {
-    if (!window.confirm(`Delete ${p.name}? This removes their profile.`)) return;
+  const handleDelete = async (p) => {
+    const ok = await confirm({
+      title: 'Delete staff profile?',
+      message: `Delete ${p.name}? This removes their profile.`,
+      confirmLabel: 'Delete',
+      danger: true,
+    });
+    if (!ok) return;
     run(() => deleteStaff(p.id));
   };
 

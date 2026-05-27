@@ -38,7 +38,7 @@ export default function PortalTicketDetailPage() {
 
     const load = async () => {
       try {
-        const [t, cs] = await Promise.all([getMyTicket(id), listMyComments(id)]);
+        const [t, cs] = await Promise.all([getMyTicket(id, profile?.id), listMyComments(id)]);
         if (!cancelled) {
           setTicket(t);
           setComments(cs);
@@ -54,7 +54,7 @@ export default function PortalTicketDetailPage() {
     load();
 
     const reloadTicket = async () => {
-      const t = await getMyTicket(id);
+      const t = await getMyTicket(id, profile?.id);
       if (!cancelled) setTicket(t);
     };
     const reloadComments = async () => {
@@ -85,7 +85,7 @@ export default function PortalTicketDetailPage() {
       supabase.removeChannel(ticketChannel);
       supabase.removeChannel(commentsChannel);
     };
-  }, [id]);
+  }, [id, profile?.id]);
 
   const postComment = async (e) => {
     e.preventDefault();

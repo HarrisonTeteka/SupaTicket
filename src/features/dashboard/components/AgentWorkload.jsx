@@ -2,18 +2,14 @@ import { useEffect, useState } from 'react';
 import { Users, UserX } from 'lucide-react';
 import { listAssignees } from '../../tickets/services/ticketsService';
 
-const TERMINAL_STATUSES = ['Resolved', 'Closed'];
-const isOpen = (t) => !TERMINAL_STATUSES.includes(t.status);
-
 /**
  * Active workload per agent — open tickets assigned to each staff/admin.
  *
- * Live: the `tickets` prop comes from useDashboardMetrics which subscribes to
- * the `tickets` table via realtime, so every assignment / status change
- * re-derives this widget within a frame. The agent roster itself is fetched
- * once on mount (it changes much less often than ticket counts).
+ * Counts come pre-aggregated from `get_dashboard_metrics` (migration 0016)
+ * as `byAgent: [{ id, count }, ...]`. The agent roster (name/email) is
+ * fetched once on mount; it changes far less often than ticket counts.
  */
-export function AgentWorkload({ tickets }) {
+export function AgentWorkload({ byAgent = [], unassigned = 0, totalOpen = 0 }) {
   const [agents, setAgents] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -34,26 +30,14 @@ export function AgentWorkload({ tickets }) {
     };
   }, []);
 
-  // Roll up open tickets per agent + an "Unassigned" bucket.
-  const openByAgent = new Map();
-  let unassigned = 0;
-  let totalOpen = 0;
-  for (const t of tickets) {
-    if (!isOpen(t)) continue;
-    totalOpen++;
-    if (!t.assigned_to) {
-      unassigned++;
-      continue;
-    }
-    openByAgent.set(t.assigned_to, (openByAgent.get(t.assigned_to) || 0) + 1);
-  }
+  const countById = new Map((byAgent || []).map((r) => [r.id, r.count]));
 
   const rows = agents
     .map((a) => ({
       id: a.id,
       name: a.name,
       email: a.email,
-      count: openByAgent.get(a.id) || 0,
+      count: countById.get(a.id) || 0,
     }))
     .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
 

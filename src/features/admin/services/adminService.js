@@ -60,7 +60,20 @@ export async function restoreStaff(id) {
 }
 
 export async function deleteStaff(id) {
+  // Capture name + email first so the audit log entry is readable.
+  // The delete still happens even if this lookup fails — the log entry
+  // falls back to the id.
+  const { data: existing } = await supabase
+    .from('profiles')
+    .select('name, email')
+    .eq('id', id)
+    .maybeSingle();
+
   const { error } = await supabase.from('profiles').delete().eq('id', id);
   if (error) throw error;
-  logAction('profile.delete', id);
+
+  const details = existing
+    ? `${existing.name || 'Unnamed'} <${existing.email}>`
+    : id;
+  logAction('profile.delete', details);
 }

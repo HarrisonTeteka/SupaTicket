@@ -38,10 +38,7 @@ export async function listLogs({
 
 /** Distinct action types present in the log, for the filter dropdown. */
 export async function listActionTypes() {
-  const { data, error } = await supabase
-    .from('system_logs')
-    .select('action_type')
-    .order('action_type');
+  const { data, error } = await supabase.rpc('get_log_action_types');
   if (error) throw error;
-  return [...new Set((data ?? []).map((r) => r.action_type))];
+  return data ?? [];
 }

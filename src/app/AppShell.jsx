@@ -7,6 +7,7 @@ import { MobileNavProvider, useMobileNav } from './layout/useMobileNav';
 import { NewTicketModalProvider } from '../features/tickets/hooks/useNewTicketModal';
 import { NewTicketModal } from '../features/tickets/components/NewTicketModal';
 import { PortalLayout } from '../features/portal/components/PortalLayout';
+import { ConfirmProvider } from '../shared/components/ConfirmProvider';
 
 // Lazy-load portal pages — customers never need the staff bundles and vice
 // versa. PortalLayout stays eager so the chrome renders immediately.
@@ -24,7 +25,9 @@ const PortalTicketDetailPage = lazy(() => import('../features/portal/pages/Porta
 export default function AppShell() {
   return (
     <AuthGate>
-      <RoleAwareShell />
+      <ConfirmProvider>
+        <RoleAwareShell />
+      </ConfirmProvider>
     </AuthGate>
   );
 }

@@ -32,3 +32,24 @@ Admins toggle it in the admin console without a code change or deployment.
 **Action required:**  
 Confirm with Annie / call centre team: can agents re-open tickets,  
 or is that an admin action only? Answer determines the flag default.
+
+---
+
+## DEC-002 — Email Confirmation Disabled (Dev Environment)
+
+**Status:** Intentional — dev environment only  
+**Date logged:** 2026-05-27  
+**Logged by:** Chella Kamina  
+
+**The decision:**  
+Supabase email confirmation is deliberately disabled on this project.
+
+**Why:**  
+This is a dev/test environment. Requiring email confirmation slows 
+down testing for the team. New accounts need to work immediately 
+without an inbox dependency.
+
+**When self-hosted PostgreSQL replaces Supabase (Phase 8+):**  
+Auth moves to a dedicated auth layer (to be decided). Email 
+confirmation policy will be defined then based on the production 
+auth

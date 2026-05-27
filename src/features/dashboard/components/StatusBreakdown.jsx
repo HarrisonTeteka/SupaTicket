@@ -1,6 +1,15 @@
 import { StatusBadge } from '../../tickets/components/StatusBadge';
 import { TICKET_STATUSES } from '../../tickets/tickets.utils';
 
+const STATUS_BAR = {
+  'Open':        'bg-blue-500',
+  'Pending':     'bg-gray-400',
+  'In Progress': 'bg-amber-500',
+  'Escalated':   'bg-[#9E2A2B]',
+  'Resolved':    'bg-[#336021]',
+  'Closed':      'bg-gray-500',
+};
+
 /** Tickets-by-status as proportional CSS bars. */
 export function StatusBreakdown({ byStatus }) {
   const total = Object.values(byStatus).reduce((s, n) => s + n, 0);
@@ -24,7 +33,7 @@ export function StatusBreakdown({ byStatus }) {
                 </div>
                 <div className="flex-1 h-2.5 bg-surface-2 rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-brand-primary rounded-full"
+                    className={`h-full ${STATUS_BAR[s] ?? 'bg-brand-primary'} rounded-full`}
                     style={{ width: `${(count / max) * 100}%` }}
                   />
                 </div>

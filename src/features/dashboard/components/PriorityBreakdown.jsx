@@ -1,6 +1,13 @@
 import { PriorityBadge } from '../../tickets/components/PriorityBadge';
 import { TICKET_PRIORITIES } from '../../tickets/tickets.utils';
 
+const PRIORITY_BAR = {
+  'Low':    'bg-gray-400',
+  'Medium': 'bg-blue-500',
+  'High':   'bg-amber-500',
+  'Urgent': 'bg-[#9E2A2B]',
+};
+
 /** Tickets-by-priority as proportional CSS bars. */
 export function PriorityBreakdown({ byPriority }) {
   const total = Object.values(byPriority).reduce((s, n) => s + n, 0);
@@ -24,7 +31,7 @@ export function PriorityBreakdown({ byPriority }) {
                 </div>
                 <div className="flex-1 h-2.5 bg-surface-2 rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-brand-primary rounded-full"
+                    className={`h-full ${PRIORITY_BAR[p] ?? 'bg-brand-primary'} rounded-full`}
                     style={{ width: `${(count / max) * 100}%` }}
                   />
                 </div>

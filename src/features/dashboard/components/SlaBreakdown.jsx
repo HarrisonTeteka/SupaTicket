@@ -1,6 +1,12 @@
 import { ShieldCheck } from 'lucide-react';
 import { SLA_STATES, slaColor, slaLabel } from '../../tickets/tickets.utils';
 
+const SLA_BAR = {
+  'on-track': 'bg-[#336021]',
+  'at-risk':  'bg-amber-500',
+  'breached': 'bg-[#9E2A2B]',
+};
+
 /**
  * SLA breakdown for the live (non-terminal) backlog. Counts come from
  * `computeMetrics().bySla`, which uses `slaState()` and is keyed by
@@ -36,7 +42,7 @@ export function SlaBreakdown({ bySla }) {
               </div>
               <div className="flex-1 h-2.5 bg-surface-2 rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-brand-primary rounded-full"
+                  className={`h-full ${SLA_BAR[id] ?? 'bg-brand-primary'} rounded-full`}
                   style={{ width: `${(count / max) * 100}%` }}
                 />
               </div>

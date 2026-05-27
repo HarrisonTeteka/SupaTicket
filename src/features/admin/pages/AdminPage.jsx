@@ -10,30 +10,15 @@ import {
   Tags,
   Users,
 } from 'lucide-react';
-import { StaffDirectory } from '../components/StaffDirectory';
-import { CategoriesEditor } from '../components/CategoriesEditor';
-import { DepartmentsEditor } from '../components/DepartmentsEditor';
-import { CustomFieldsBuilder } from '../components/CustomFieldsBuilder';
-import { EmailSettingsEditor } from '../components/EmailSettingsEditor';
-import { SystemLogsView } from '../components/SystemLogsView';
-import ReportsPage from '../../reports/pages/ReportsPage';
-import { CustomersList } from '../../customers/components/CustomersList';
-
-const TABS = [
-  { id: 'staff', label: 'Staff', icon: Users },
-  { id: 'customers', label: 'Customers', icon: Contact },
-  { id: 'categories', label: 'Categories', icon: Tags },
-  { id: 'departments', label: 'Departments', icon: Building2 },
-  { id: 'fields', label: 'Custom Fields', icon: SlidersHorizontal },
-  { id: 'email', label: 'Email', icon: Mail },
-  { id: 'reports', label: 'Reports', icon: FileBarChart2 },
-  { id: 'logs', label: 'Logs', icon: ScrollText },
 
 // Each admin tab pulls a distinct slice of code (Reports drags CSV export
 // logic, Logs drags the paginated reader, etc.). Lazy-loading each tab
 // keeps the AdminPage entry chunk small — only the chosen tab loads.
 const StaffDirectory = lazy(() =>
   import('../components/StaffDirectory').then((m) => ({ default: m.StaffDirectory }))
+);
+const CustomersList = lazy(() =>
+  import('../../customers/components/CustomersList').then((m) => ({ default: m.CustomersList }))
 );
 const CategoriesEditor = lazy(() =>
   import('../components/CategoriesEditor').then((m) => ({ default: m.CategoriesEditor }))
@@ -54,6 +39,7 @@ const ReportsPage = lazy(() => import('../../reports/pages/ReportsPage'));
 
 const TABS = [
   { id: 'staff', label: 'Staff', icon: Users, component: StaffDirectory },
+  { id: 'customers', label: 'Customers', icon: Contact, component: CustomersList },
   { id: 'categories', label: 'Categories', icon: Tags, component: CategoriesEditor },
   { id: 'departments', label: 'Departments', icon: Building2, component: DepartmentsEditor },
   { id: 'fields', label: 'Custom Fields', icon: SlidersHorizontal, component: CustomFieldsBuilder },
@@ -91,14 +77,6 @@ export default function AdminPage() {
         })}
       </div>
 
-      {active === 'staff' && <StaffDirectory />}
-      {active === 'customers' && <CustomersList />}
-      {active === 'categories' && <CategoriesEditor />}
-      {active === 'departments' && <DepartmentsEditor />}
-      {active === 'fields' && <CustomFieldsBuilder />}
-      {active === 'email' && <EmailSettingsEditor />}
-      {active === 'reports' && <ReportsPage />}
-      {active === 'logs' && <SystemLogsView />}
       <Suspense fallback={<TabLoader />}>
         {ActiveTab && <ActiveTab />}
       </Suspense>

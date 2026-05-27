@@ -53,3 +53,20 @@ without an inbox dependency.
 Auth moves to a dedicated auth layer (to be decided). Email 
 confirmation policy will be defined then based on the production 
 auth
+
+---
+
+## DEC-003 — system_logs Retention Policy
+
+**Status:** Implemented — review before Phase 8  
+**Date logged:** 2026-05-27  
+**Logged by:** Chella Kamina  
+
+**The decision:**  
+system_logs rows older than 90 days are deleted nightly at 02:00 UTC  
+via prune_old_system_logs() scheduled with pg_cron.  
+
+**When Postgres replaces Supabase (Phase 8+):**  
+Replace cron.schedule() with your job scheduler (pg_cron on self-hosted,  
+or a cron job at the OS level). The prune_old_system_logs() function  
+is standard SQL and requires no changes.

@@ -52,9 +52,8 @@ export function AssigneePicker({ value, valueName, onChange, label, disabled }) 
       <button
         type="button"
         onClick={toggle}
-        className="w-full flex items-center justify-between px-4 py-3 rounded-xl border border-line-strong bg-surface-2 hover:bg-surface text-sm transition-all"
         disabled={disabled}
-        className="w-full flex items-center justify-between px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 hover:bg-white text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full flex items-center justify-between px-4 py-3 rounded-xl border border-line-strong bg-surface-2 hover:bg-surface text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <span className={cn('font-medium', selected ? 'text-brand-primary' : 'text-fg-muted')}>
           {display}

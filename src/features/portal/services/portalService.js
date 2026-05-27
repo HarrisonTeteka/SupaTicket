@@ -1,4 +1,5 @@
 import { supabase } from '../../../lib/supabase';
+import { logAction } from '../../../shared/services/systemLogsService';
 
 /**
  * Network operations scoped to the current customer. RLS already restricts
@@ -24,11 +25,13 @@ export async function listMyTickets(userId) {
   return data ?? [];
 }
 
-export async function getMyTicket(id) {
+export async function getMyTicket(id, userId) {
+  if (!userId) throw new Error('getMyTicket requires a userId');
   const { data, error } = await supabase
     .from('tickets')
     .select(PORTAL_TICKET_COLUMNS)
     .eq('id', id)
+    .eq('created_by', userId)
     .maybeSingle();
   if (error) throw error;
   return data;
@@ -51,6 +54,7 @@ export async function createMyTicket(input, actor) {
     .select(PORTAL_TICKET_COLUMNS)
     .single();
   if (error) throw error;
+  logAction('ticket.create', `#${data.ticket_number}`);
   return data;
 }
 

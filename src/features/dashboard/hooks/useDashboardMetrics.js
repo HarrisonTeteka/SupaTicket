@@ -1,27 +1,46 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { supabase } from '../../../lib/supabase';
 import { useAuth } from '../../auth/components/AuthGate';
-import { listTicketsForMetrics } from '../services/dashboardService';
-import { computeMetrics } from '../selectors/dashboardSelectors';
+import {
+  getDashboardMetrics,
+  listMyOpenTickets,
+  listRecentTickets,
+} from '../services/dashboardService';
 
 /**
- * Dashboard ticket data + derived KPIs, refreshed on any change to the
- * `tickets` table so every widget stays live.
+ * Dashboard data: aggregated KPIs (server-side RPC) plus two small
+ * bounded row lists (recent + my open). All three refresh on any change
+ * to the `tickets` table.
  */
 export function useDashboardMetrics() {
   const { user } = useAuth();
-  const [tickets, setTickets] = useState([]);
+  const [metrics, setMetrics] = useState({});
+  const [recent, setRecent] = useState([]);
+  const [mine, setMine] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let cancelled = false;
+    const userId = user?.id;
 
     const load = async () => {
       try {
-        const data = await listTicketsForMetrics();
-        if (!cancelled) setTickets(data);
+        const [m, r, my] = await Promise.all([
+          getDashboardMetrics(userId),
+          listRecentTickets(6),
+          listMyOpenTickets(userId),
+        ]);
+        if (!cancelled) {
+          setMetrics(m);
+          setRecent(r);
+          setMine(my);
+        }
       } catch {
-        if (!cancelled) setTickets([]);
+        if (!cancelled) {
+          setMetrics({});
+          setRecent([]);
+          setMine([]);
+        }
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -42,12 +61,7 @@ export function useDashboardMetrics() {
       cancelled = true;
       supabase.removeChannel(channel);
     };
-  }, []);
+  }, [user?.id]);
 
-  const metrics = useMemo(
-    () => computeMetrics(tickets, user?.id),
-    [tickets, user?.id]
-  );
-
-  return { tickets, metrics, loading };
+  return { metrics, recent, mine, loading };
 }

@@ -103,9 +103,9 @@ export function CustomerImportModal({ open, onClose, onImported }) {
     >
       <div className="space-y-5">
         {/* Header / template */}
-        <div className="flex items-start justify-between gap-4 p-4 bg-gray-50 rounded-xl border border-gray-100">
-          <div className="text-sm text-gray-600 space-y-1">
-            <p className="font-bold text-[#336021]">CSV format</p>
+        <div className="flex items-start justify-between gap-4 p-4 bg-surface-2 rounded-xl border border-line">
+          <div className="text-sm text-fg space-y-1">
+            <p className="font-bold text-brand-primary">CSV format</p>
             <p>
               Required columns: <code className="text-[12px]">external_id</code>,{' '}
               <code className="text-[12px]">name</code>. Optional:{' '}
@@ -116,7 +116,7 @@ export function CustomerImportModal({ open, onClose, onImported }) {
                 </span>
               ))}.
             </p>
-            <p className="text-xs text-gray-400">
+            <p className="text-xs text-fg-muted">
               Re-importing a row matches on <code>external_id</code> (case-insensitive) and updates the existing record.
             </p>
           </div>
@@ -137,7 +137,7 @@ export function CustomerImportModal({ open, onClose, onImported }) {
           <button
             type="button"
             onClick={() => fileInput.current?.click()}
-            className="w-full flex items-center justify-center gap-2 px-4 py-6 border-2 border-dashed border-gray-300 rounded-xl text-gray-500 hover:border-[#336021] hover:text-[#336021] transition-all"
+            className="w-full flex items-center justify-center gap-2 px-4 py-6 border-2 border-dashed border-line-strong rounded-xl text-fg-secondary hover:border-brand-primary hover:text-brand-primary transition-all"
           >
             <Upload size={18} />
             {fileName ? <span className="font-bold">{fileName}</span> : 'Choose a CSV file'}
@@ -195,28 +195,28 @@ export function CustomerImportModal({ open, onClose, onImported }) {
         {!result && parsed?.rows?.length > 0 && (
           <div>
             <div className="flex items-center justify-between mb-2">
-              <p className="text-xs font-black text-gray-400 uppercase tracking-widest">
+              <p className="text-xs font-black text-fg-muted uppercase tracking-widest">
                 Preview · first {Math.min(parsed.rows.length, 20)} of {parsed.rows.length}
               </p>
             </div>
-            <div className="border border-gray-200 rounded-xl overflow-hidden overflow-x-auto">
+            <div className="border border-line-strong rounded-xl overflow-hidden overflow-x-auto">
               <table className="w-full text-xs">
-                <thead className="bg-gray-50 text-gray-400 font-black uppercase tracking-wider">
+                <thead className="bg-surface-2 text-fg-muted font-black uppercase tracking-wider">
                   <tr>
                     {['external_id', 'name', 'email', 'company', 'city', 'country'].map((c) => (
-                      <th key={c} className="px-3 py-2 text-left">{CUSTOMER_FIELD_LABELS[c]}</th>
+                      <th key={c} scope="col" className="px-3 py-2 text-left">{CUSTOMER_FIELD_LABELS[c]}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
                   {parsed.rows.slice(0, 20).map((r, i) => (
-                    <tr key={i} className="border-t border-gray-100">
-                      <td className="px-3 py-2 font-bold text-[#336021]">{r.external_id}</td>
+                    <tr key={i} className="border-t border-line">
+                      <td className="px-3 py-2 font-bold text-brand-primary">{r.external_id}</td>
                       <td className="px-3 py-2">{r.name}</td>
-                      <td className="px-3 py-2 text-gray-500">{r.email || '—'}</td>
-                      <td className="px-3 py-2 text-gray-500">{r.company || '—'}</td>
-                      <td className="px-3 py-2 text-gray-500">{r.city || '—'}</td>
-                      <td className="px-3 py-2 text-gray-500">{r.country || '—'}</td>
+                      <td className="px-3 py-2 text-fg-secondary">{r.email || '—'}</td>
+                      <td className="px-3 py-2 text-fg-secondary">{r.company || '—'}</td>
+                      <td className="px-3 py-2 text-fg-secondary">{r.city || '—'}</td>
+                      <td className="px-3 py-2 text-fg-secondary">{r.country || '—'}</td>
                     </tr>
                   ))}
                 </tbody>

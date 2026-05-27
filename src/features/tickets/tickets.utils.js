@@ -21,26 +21,26 @@ export const MAX_ATTACHMENT_BYTES = 10 * 1024 * 1024;
 
 const STATUS_STYLES = {
   Open: 'bg-blue-100 text-blue-700',
-  Pending: 'bg-[#F9EDCC] text-[#9E2A2B]',
+  Pending: 'bg-brand-pending text-brand-danger',
   'In Progress': 'bg-amber-100 text-amber-700',
   Escalated: 'bg-red-100 text-red-700',
   Resolved: 'bg-emerald-100 text-emerald-700',
-  Closed: 'bg-gray-100 text-gray-500',
+  Closed: 'bg-surface-2 text-fg-secondary',
 };
 
 const PRIORITY_STYLES = {
-  Low: 'bg-gray-100 text-gray-600',
+  Low: 'bg-surface-2 text-fg',
   Medium: 'bg-sky-100 text-sky-700',
   High: 'bg-orange-100 text-orange-700',
   Urgent: 'bg-red-100 text-red-700',
 };
 
 export function statusColor(status) {
-  return STATUS_STYLES[status] || 'bg-gray-100 text-gray-600';
+  return STATUS_STYLES[status] || 'bg-surface-2 text-fg';
 }
 
 export function priorityColor(priority) {
-  return PRIORITY_STYLES[priority] || 'bg-gray-100 text-gray-600';
+  return PRIORITY_STYLES[priority] || 'bg-surface-2 text-fg';
 }
 
 /** 100123 -> "#100123" */
@@ -127,9 +127,9 @@ export function slaState(ticket) {
 const SLA_STYLES = {
   'on-track': 'bg-emerald-100 text-emerald-700',
   'at-risk': 'bg-amber-100 text-amber-700',
-  breached: 'bg-[#9E2A2B]/15 text-[#9E2A2B]',
-  done: 'bg-gray-100 text-gray-500',
-  unknown: 'bg-gray-100 text-gray-400',
+  breached: 'bg-brand-danger/15 text-brand-danger',
+  done: 'bg-surface-2 text-fg-secondary',
+  unknown: 'bg-surface-2 text-fg-muted',
 };
 
 const SLA_LABELS = {

@@ -10,15 +10,21 @@ import { Button } from '../../../shared/components/Button';
 import { EmptyState } from '../../../shared/components/EmptyState';
 import { useConfirm } from '../../../shared/components/ConfirmProvider';
 
-/** Admin Customers tab — list, search, edit, delete, CSV import. */
+/** Customers tab / page — list, search, edit, delete, CSV import.
+ *  Write actions are gated on the granular permissions from useAuth().can(). */
 export function CustomersList() {
-  const { isAdmin } = useAuth();
+  const { isAdmin, can } = useAuth();
   const confirm = useConfirm();
   const [search, setSearch] = useState('');
   const { customers, loading, error } = useCustomers(search);
   const [editing, setEditing] = useState(null); // null=closed, {} = create, {id} = edit
   const [importing, setImporting] = useState(false);
   const [opError, setOpError] = useState('');
+
+  const canCreate = can && can('customers.create');
+  const canEdit = can && can('customers.edit');
+  const canImport = can && can('customers.import');
+  const canDelete = isAdmin; // RLS keeps DELETE admin-only
 
   const handleDelete = async (c) => {
     const ok = await confirm({
@@ -40,22 +46,26 @@ export function CustomersList() {
     <div className="space-y-4">
       <div className="flex items-center gap-3">
         <div className="relative flex-1 max-w-md">
-          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-fg-muted" />
           <input
             type="search"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search name, email, company, external ID..."
-            className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white outline-none focus:ring-2 focus:ring-[#F58202] text-sm"
+            className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-line-strong bg-surface-2 focus:bg-surface outline-none focus:ring-2 focus:ring-brand-accent text-sm"
           />
         </div>
         <div className="ml-auto flex items-center gap-2">
-          <Button variant="secondary" onClick={() => setImporting(true)}>
-            <Upload size={14} /> Import CSV
-          </Button>
-          <Button onClick={() => setEditing({})}>
-            <Plus size={14} /> New customer
-          </Button>
+          {canImport && (
+            <Button variant="secondary" onClick={() => setImporting(true)}>
+              <Upload size={14} /> Import CSV
+            </Button>
+          )}
+          {canCreate && (
+            <Button onClick={() => setEditing({})}>
+              <Plus size={14} /> New customer
+            </Button>
+          )}
         </div>
       </div>
 
@@ -66,7 +76,7 @@ export function CustomersList() {
       )}
 
       {loading ? (
-        <div className="h-40 bg-white border border-gray-200 rounded-2xl animate-pulse" />
+        <div className="h-40 bg-surface border border-line-strong rounded-2xl animate-pulse" />
       ) : customers.length === 0 ? (
         <EmptyState
           icon={Users}
@@ -78,69 +88,71 @@ export function CustomersList() {
           }
         />
       ) : (
-        <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
+        <div className="bg-surface border border-line-strong rounded-2xl overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="bg-gray-50 text-left text-xs font-black text-gray-400 uppercase tracking-widest">
-                <th className="px-4 py-3">Customer</th>
-                <th className="px-4 py-3">Contact</th>
-                <th className="px-4 py-3">Location</th>
-                <th className="px-4 py-3">External ID</th>
-                <th className="px-4 py-3 text-right">Actions</th>
+              <tr className="bg-surface-2 text-left text-xs font-black text-fg-muted uppercase tracking-widest">
+                <th scope="col" className="px-4 py-3">Customer</th>
+                <th scope="col" className="hidden md:table-cell px-4 py-3">Contact</th>
+                <th scope="col" className="hidden md:table-cell px-4 py-3">Location</th>
+                <th scope="col" className="hidden sm:table-cell px-4 py-3">External ID</th>
+                <th scope="col" className="px-4 py-3 text-right">Actions</th>
               </tr>
             </thead>
             <tbody>
               {customers.map((c) => (
-                <tr key={c.id} className="border-t border-gray-100 hover:bg-gray-50/50">
+                <tr key={c.id} className="border-t border-line hover:bg-surface-2/50">
                   <td className="px-4 py-3">
                     <Link
                       to={`/customers/${c.id}`}
-                      className="font-bold text-[#336021] hover:underline"
+                      className="font-bold text-brand-primary hover:underline"
                     >
                       {c.name}
                     </Link>
                     {c.company && (
-                      <p className="text-xs text-gray-500 flex items-center gap-1 mt-0.5">
+                      <p className="text-xs text-fg-secondary flex items-center gap-1 mt-0.5">
                         <Building2 size={11} /> {c.company}
                       </p>
                     )}
                   </td>
-                  <td className="px-4 py-3 text-sm text-gray-600">
+                  <td className="hidden md:table-cell px-4 py-3 text-sm text-fg">
                     {c.email && (
                       <p className="flex items-center gap-1 truncate">
-                        <Mail size={11} className="text-gray-400 shrink-0" /> {c.email}
+                        <Mail size={11} className="text-fg-muted shrink-0" /> {c.email}
                       </p>
                     )}
                     {c.phone && (
-                      <p className="flex items-center gap-1 text-gray-500 mt-0.5">
-                        <Phone size={11} className="text-gray-400 shrink-0" /> {c.phone}
+                      <p className="flex items-center gap-1 text-fg-secondary mt-0.5">
+                        <Phone size={11} className="text-fg-muted shrink-0" /> {c.phone}
                       </p>
                     )}
-                    {!c.email && !c.phone && <span className="text-gray-300">—</span>}
+                    {!c.email && !c.phone && <span className="text-fg-muted">—</span>}
                   </td>
-                  <td className="px-4 py-3 text-sm text-gray-600">
+                  <td className="hidden md:table-cell px-4 py-3 text-sm text-fg">
                     {[c.city, c.country].filter(Boolean).join(', ') || (
-                      <span className="text-gray-300">—</span>
+                      <span className="text-fg-muted">—</span>
                     )}
                   </td>
-                  <td className="px-4 py-3">
-                    <code className="text-xs text-gray-500">{c.external_id}</code>
+                  <td className="hidden sm:table-cell px-4 py-3">
+                    <code className="text-xs text-fg-secondary">{c.external_id}</code>
                   </td>
                   <td className="px-4 py-3 text-right">
                     <div className="inline-flex items-center gap-1">
-                      <button
-                        type="button"
-                        onClick={() => setEditing(c)}
-                        className="p-1.5 rounded-lg text-gray-400 hover:text-[#336021] hover:bg-gray-100"
-                        title="Edit"
-                      >
-                        <Pencil size={14} />
-                      </button>
-                      {isAdmin && (
+                      {canEdit && (
+                        <button
+                          type="button"
+                          onClick={() => setEditing(c)}
+                          className="p-1.5 rounded-lg text-fg-muted hover:text-brand-primary hover:bg-surface-2"
+                          title="Edit"
+                        >
+                          <Pencil size={14} />
+                        </button>
+                      )}
+                      {canDelete && (
                         <button
                           type="button"
                           onClick={() => handleDelete(c)}
-                          className="p-1.5 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50"
+                          className="p-1.5 rounded-lg text-fg-muted hover:text-red-500 hover:bg-red-50"
                           title="Delete"
                         >
                           <Trash2 size={14} />

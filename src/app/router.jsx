@@ -50,9 +50,9 @@ function LazyRoute({ title, children }) {
 function PageLoader() {
   return (
     <div className="space-y-3">
-      <div className="h-24 bg-white border border-gray-200 rounded-2xl animate-pulse" />
-      <div className="h-20 bg-white border border-gray-200 rounded-2xl animate-pulse" />
-      <div className="h-20 bg-white border border-gray-200 rounded-2xl animate-pulse" />
+      <div className="h-24 bg-surface border border-line-strong rounded-2xl animate-pulse" />
+      <div className="h-20 bg-surface border border-line-strong rounded-2xl animate-pulse" />
+      <div className="h-20 bg-surface border border-line-strong rounded-2xl animate-pulse" />
     </div>
   );
 }

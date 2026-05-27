@@ -6,6 +6,7 @@ import {
   FileBarChart2,
   Mail,
   ScrollText,
+  Shield,
   SlidersHorizontal,
   Tags,
   Users,
@@ -16,6 +17,9 @@ import {
 // keeps the AdminPage entry chunk small — only the chosen tab loads.
 const StaffDirectory = lazy(() =>
   import('../components/StaffDirectory').then((m) => ({ default: m.StaffDirectory }))
+);
+const RolesEditor = lazy(() =>
+  import('../../roles/components/RolesEditor').then((m) => ({ default: m.RolesEditor }))
 );
 const CustomersList = lazy(() =>
   import('../../customers/components/CustomersList').then((m) => ({ default: m.CustomersList }))
@@ -39,6 +43,7 @@ const ReportsPage = lazy(() => import('../../reports/pages/ReportsPage'));
 
 const TABS = [
   { id: 'staff', label: 'Staff', icon: Users, component: StaffDirectory },
+  { id: 'roles', label: 'Roles', icon: Shield, component: RolesEditor },
   { id: 'customers', label: 'Customers', icon: Contact, component: CustomersList },
   { id: 'categories', label: 'Categories', icon: Tags, component: CategoriesEditor },
   { id: 'departments', label: 'Departments', icon: Building2, component: DepartmentsEditor },
@@ -57,7 +62,7 @@ export default function AdminPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap gap-1 bg-gray-100 rounded-xl p-1 w-fit">
+      <div className="flex flex-wrap gap-1 bg-surface-2 rounded-xl p-1 w-fit">
         {TABS.map((t) => {
           const Icon = t.icon;
           return (
@@ -67,8 +72,8 @@ export default function AdminPage() {
               onClick={() => setParams({ tab: t.id })}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold transition-all ${
                 active === t.id
-                  ? 'bg-white text-[#336021] shadow-sm'
-                  : 'text-gray-500 hover:text-gray-800'
+                  ? 'bg-surface text-brand-primary shadow-sm'
+                  : 'text-fg-secondary hover:text-fg'
               }`}
             >
               <Icon size={15} /> {t.label}
@@ -86,6 +91,6 @@ export default function AdminPage() {
 
 function TabLoader() {
   return (
-    <div className="h-40 bg-white border border-gray-200 rounded-2xl animate-pulse" />
+    <div className="h-40 bg-surface border border-line-strong rounded-2xl animate-pulse" />
   );
 }

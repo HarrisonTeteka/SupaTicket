@@ -1,6 +1,6 @@
 export function LoadingScreen({ message = 'Loading...' }) {
   return (
-    <div className="h-screen w-screen flex flex-col items-center justify-center bg-gradient-to-br from-[#f5f7f9] via-white to-[#F9EDCC]/40 text-[#336021]">
+    <div className="h-screen w-screen flex flex-col items-center justify-center bg-gradient-to-br from-app via-surface to-brand-pending/40 text-brand-primary">
       <img
         src="/supamoto-logo.svg"
         alt="SupaMoto"

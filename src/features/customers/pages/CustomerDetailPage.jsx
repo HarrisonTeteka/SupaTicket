@@ -65,9 +65,9 @@ export default function CustomerDetailPage() {
   if (loading) {
     return (
       <div className="space-y-4">
-        <div className="h-6 w-32 bg-gray-100 rounded animate-pulse" />
-        <div className="h-40 bg-white border border-gray-200 rounded-2xl animate-pulse" />
-        <div className="h-40 bg-white border border-gray-200 rounded-2xl animate-pulse" />
+        <div className="h-6 w-32 bg-surface-2 rounded animate-pulse" />
+        <div className="h-40 bg-surface border border-line-strong rounded-2xl animate-pulse" />
+        <div className="h-40 bg-surface border border-line-strong rounded-2xl animate-pulse" />
       </div>
     );
   }
@@ -100,7 +100,7 @@ export default function CustomerDetailPage() {
     <div className="space-y-6">
       <Link
         to="/customers"
-        className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-[#336021]"
+        className="inline-flex items-center gap-1.5 text-sm text-fg-secondary hover:text-brand-primary"
       >
         <ArrowLeft size={15} /> Back to customers
       </Link>
@@ -114,18 +114,18 @@ export default function CustomerDetailPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Customer info column */}
         <div className="space-y-6">
-          <div className="bg-white border border-gray-200 rounded-2xl p-6 space-y-4">
+          <div className="bg-surface border border-line-strong rounded-2xl p-6 space-y-4">
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
-                <h1 className="text-xl font-black text-[#336021] truncate">
+                <h1 className="text-xl font-black text-brand-primary truncate">
                   {customer.name}
                 </h1>
                 {customer.company && (
-                  <p className="text-sm text-gray-500 flex items-center gap-1.5 mt-1">
+                  <p className="text-sm text-fg-secondary flex items-center gap-1.5 mt-1">
                     <Building2 size={13} /> {customer.company}
                   </p>
                 )}
-                <p className="text-xs text-gray-400 mt-2">
+                <p className="text-xs text-fg-muted mt-2">
                   External ID: <code>{customer.external_id}</code>
                 </p>
               </div>
@@ -133,7 +133,7 @@ export default function CustomerDetailPage() {
                 <button
                   type="button"
                   onClick={() => setEditing(true)}
-                  className="p-1.5 rounded-lg text-gray-400 hover:text-[#336021] hover:bg-gray-100"
+                  className="p-1.5 rounded-lg text-fg-muted hover:text-brand-primary hover:bg-surface-2"
                   title="Edit customer"
                 >
                   <Pencil size={14} />
@@ -142,7 +142,7 @@ export default function CustomerDetailPage() {
                   <button
                     type="button"
                     onClick={handleDelete}
-                    className="p-1.5 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50"
+                    className="p-1.5 rounded-lg text-fg-muted hover:text-red-500 hover:bg-red-50"
                     title="Delete customer"
                   >
                     <Trash2 size={14} />
@@ -151,13 +151,13 @@ export default function CustomerDetailPage() {
               </div>
             </div>
 
-            <dl className="text-sm space-y-3 pt-3 border-t border-gray-100">
+            <dl className="text-sm space-y-3 pt-3 border-t border-line">
               {customer.email && (
                 <div className="flex items-start gap-2">
-                  <Mail size={14} className="text-gray-400 mt-0.5 shrink-0" />
+                  <Mail size={14} className="text-fg-muted mt-0.5 shrink-0" />
                   <a
                     href={`mailto:${customer.email}`}
-                    className="text-gray-700 hover:text-[#336021] break-all"
+                    className="text-fg hover:text-brand-primary break-all"
                   >
                     {customer.email}
                   </a>
@@ -165,10 +165,10 @@ export default function CustomerDetailPage() {
               )}
               {customer.phone && (
                 <div className="flex items-start gap-2">
-                  <Phone size={14} className="text-gray-400 mt-0.5 shrink-0" />
+                  <Phone size={14} className="text-fg-muted mt-0.5 shrink-0" />
                   <a
                     href={`tel:${customer.phone}`}
-                    className="text-gray-700 hover:text-[#336021]"
+                    className="text-fg hover:text-brand-primary"
                   >
                     {customer.phone}
                   </a>
@@ -176,21 +176,21 @@ export default function CustomerDetailPage() {
               )}
               {fullAddress && (
                 <div className="flex items-start gap-2">
-                  <MapPin size={14} className="text-gray-400 mt-0.5 shrink-0" />
-                  <p className="text-gray-700 whitespace-pre-line">{fullAddress}</p>
+                  <MapPin size={14} className="text-fg-muted mt-0.5 shrink-0" />
+                  <p className="text-fg whitespace-pre-line">{fullAddress}</p>
                 </div>
               )}
               {!customer.email && !customer.phone && !fullAddress && (
-                <p className="text-sm text-gray-400">No contact details on file.</p>
+                <p className="text-sm text-fg-muted">No contact details on file.</p>
               )}
             </dl>
 
             {customer.notes && (
-              <div className="pt-3 border-t border-gray-100">
-                <h3 className="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-1">
+              <div className="pt-3 border-t border-line">
+                <h3 className="text-[11px] font-black text-fg-muted uppercase tracking-widest mb-1">
                   Notes
                 </h3>
-                <p className="text-sm text-gray-700 whitespace-pre-wrap">
+                <p className="text-sm text-fg whitespace-pre-wrap">
                   {customer.notes}
                 </p>
               </div>
@@ -201,7 +201,7 @@ export default function CustomerDetailPage() {
         {/* Tickets column */}
         <div className="lg:col-span-2 space-y-4">
           <div className="flex items-center justify-between gap-4">
-            <h2 className="text-sm font-black text-[#336021] uppercase tracking-wide">
+            <h2 className="text-sm font-black text-brand-primary uppercase tracking-wide">
               Tickets {!ticketsLoading && `(${tickets.length})`}
             </h2>
             <Button onClick={() => openNewTicket({ customer })}>
@@ -214,7 +214,7 @@ export default function CustomerDetailPage() {
               {[0, 1, 2].map((i) => (
                 <div
                   key={i}
-                  className="h-[88px] bg-white border border-gray-200 rounded-2xl animate-pulse"
+                  className="h-[88px] bg-surface border border-line-strong rounded-2xl animate-pulse"
                 />
               ))}
             </div>

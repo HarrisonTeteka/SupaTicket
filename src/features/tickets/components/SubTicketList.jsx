@@ -12,7 +12,7 @@ export function SubTicketList({ parentId }) {
   return (
     <div>
       <div className="flex items-center justify-between mb-3">
-        <h3 className="flex items-center gap-2 text-sm font-semibold text-[#336021] uppercase tracking-wide">
+        <h3 className="flex items-center gap-2 text-sm font-semibold text-brand-primary uppercase tracking-wide">
           <GitBranch size={15} /> Sub-tickets
           {tickets.length > 0 && ` (${tickets.length})`}
         </h3>
@@ -26,9 +26,9 @@ export function SubTicketList({ parentId }) {
       </div>
 
       {loading ? (
-        <p className="text-sm text-gray-400">Loading...</p>
+        <p className="text-sm text-fg-muted">Loading...</p>
       ) : tickets.length === 0 ? (
-        <p className="text-sm text-gray-400">No sub-tickets.</p>
+        <p className="text-sm text-fg-muted">No sub-tickets.</p>
       ) : (
         <div className="space-y-2">
           {tickets.map((t) => (

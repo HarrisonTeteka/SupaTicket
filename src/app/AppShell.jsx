@@ -41,7 +41,8 @@ function StaffShell() {
   return (
     <MobileNavProvider>
       <NewTicketModalProvider>
-        <div className="flex h-screen bg-[#f5f7f9] text-[#336021] overflow-hidden">
+        <div className="flex h-screen bg-app text-brand-primary overflow-hidden">
+          <SkipLink />
           <Sidebar />
           <MobileNavBackdrop />
           <AppRouter />
@@ -49,6 +50,22 @@ function StaffShell() {
         <NewTicketModal />
       </NewTicketModalProvider>
     </MobileNavProvider>
+  );
+}
+
+/**
+ * Visually hidden until focused. Lets keyboard users jump past the sidebar
+ * straight to the routed page content (the <main id="main-content"> rendered
+ * by PageContainer / PortalLayout).
+ */
+function SkipLink() {
+  return (
+    <a
+      href="#main-content"
+      className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[10000] focus:px-4 focus:py-2 focus:bg-surface focus:text-brand-primary focus:rounded-lg focus:shadow-lg focus:outline focus:outline-2 focus:outline-brand-accent"
+    >
+      Skip to main content
+    </a>
   );
 }
 
@@ -69,6 +86,7 @@ function MobileNavBackdrop() {
 function PortalShell() {
   return (
     <MobileNavProvider>
+      <SkipLink />
       <PortalLayout>
         <Suspense fallback={<PortalLoader />}>
           <Routes>
@@ -86,8 +104,8 @@ function PortalShell() {
 function PortalLoader() {
   return (
     <div className="space-y-3">
-      <div className="h-24 bg-white border border-gray-200 rounded-2xl animate-pulse" />
-      <div className="h-20 bg-white border border-gray-200 rounded-2xl animate-pulse" />
+      <div className="h-24 bg-surface border border-line-strong rounded-2xl animate-pulse" />
+      <div className="h-20 bg-surface border border-line-strong rounded-2xl animate-pulse" />
     </div>
   );
 }

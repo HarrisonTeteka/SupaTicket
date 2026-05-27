@@ -15,7 +15,7 @@ export default function PortalDashboardPage() {
         {[0, 1, 2].map((i) => (
           <div
             key={i}
-            className="h-24 bg-white border border-gray-200 rounded-2xl animate-pulse"
+            className="h-24 bg-surface border border-line-strong rounded-2xl animate-pulse"
           />
         ))}
       </div>
@@ -53,7 +53,7 @@ export default function PortalDashboardPage() {
     <div>
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-xl font-semibold">My Tickets</h1>
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-fg-secondary">
           {tickets.length} ticket{tickets.length === 1 ? '' : 's'}
         </p>
       </div>

@@ -13,18 +13,18 @@ export function SlaBreakdown({ bySla }) {
   const max = Math.max(1, ...counts.map((r) => r.count));
 
   return (
-    <div className="bg-white border border-gray-200 rounded-2xl p-5">
+    <div className="bg-surface border border-line-strong rounded-2xl p-5">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="flex items-center gap-2 text-sm font-semibold text-[#336021] uppercase tracking-wide">
+        <h3 className="flex items-center gap-2 text-sm font-semibold text-brand-primary uppercase tracking-wide">
           <ShieldCheck size={15} /> SLA status
         </h3>
-        <span className="text-[11px] text-gray-400">
+        <span className="text-[11px] text-fg-muted">
           {total} {total === 1 ? 'ticket' : 'tickets'} tracked
         </span>
       </div>
 
       {total === 0 ? (
-        <p className="text-sm text-gray-400">No active SLAs.</p>
+        <p className="text-sm text-fg-muted">No active SLAs.</p>
       ) : (
         <div className="space-y-3">
           {counts.map(({ id, count }) => (
@@ -34,13 +34,13 @@ export function SlaBreakdown({ bySla }) {
                   {slaLabel(id)}
                 </span>
               </div>
-              <div className="flex-1 h-2.5 bg-gray-100 rounded-full overflow-hidden">
+              <div className="flex-1 h-2.5 bg-surface-2 rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-[#336021] rounded-full"
+                  className="h-full bg-brand-primary rounded-full"
                   style={{ width: `${(count / max) * 100}%` }}
                 />
               </div>
-              <span className="w-8 text-right text-sm font-bold text-[#336021]">
+              <span className="w-8 text-right text-sm font-bold text-brand-primary">
                 {count}
               </span>
             </div>

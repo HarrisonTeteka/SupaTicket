@@ -7,12 +7,12 @@ export function StatusBreakdown({ byStatus }) {
   const max = Math.max(1, ...Object.values(byStatus));
 
   return (
-    <div className="bg-white border border-gray-200 rounded-2xl p-5">
-      <h3 className="text-sm font-semibold text-[#336021] uppercase tracking-wide mb-4">
+    <div className="bg-surface border border-line-strong rounded-2xl p-5">
+      <h3 className="text-sm font-semibold text-brand-primary uppercase tracking-wide mb-4">
         By status
       </h3>
       {total === 0 ? (
-        <p className="text-sm text-gray-400">No tickets yet.</p>
+        <p className="text-sm text-fg-muted">No tickets yet.</p>
       ) : (
         <div className="space-y-3">
           {TICKET_STATUSES.map((s) => {
@@ -22,13 +22,13 @@ export function StatusBreakdown({ byStatus }) {
                 <div className="w-24 shrink-0">
                   <StatusBadge status={s} />
                 </div>
-                <div className="flex-1 h-2.5 bg-gray-100 rounded-full overflow-hidden">
+                <div className="flex-1 h-2.5 bg-surface-2 rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-[#336021] rounded-full"
+                    className="h-full bg-brand-primary rounded-full"
                     style={{ width: `${(count / max) * 100}%` }}
                   />
                 </div>
-                <span className="w-8 text-right text-sm font-bold text-[#336021]">
+                <span className="w-8 text-right text-sm font-bold text-brand-primary">
                   {count}
                 </span>
               </div>

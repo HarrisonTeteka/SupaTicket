@@ -50,12 +50,12 @@ export function LogExportPanel() {
     });
 
   return (
-    <div className="bg-white border border-gray-200 rounded-2xl p-6 space-y-4">
+    <div className="bg-surface border border-line-strong rounded-2xl p-6 space-y-4">
       <div>
-        <h3 className="text-sm font-semibold text-[#336021] uppercase tracking-wide">
+        <h3 className="text-sm font-semibold text-brand-primary uppercase tracking-wide">
           Export system logs
         </h3>
-        <p className="text-xs text-gray-400 mt-0.5">
+        <p className="text-xs text-fg-muted mt-0.5">
           Download a CSV of audit-log entries matching the filters below.
         </p>
       </div>
@@ -66,7 +66,7 @@ export function LogExportPanel() {
         </div>
       )}
 
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <Select
           label="Action type"
           placeholder="All actions"
@@ -90,8 +90,8 @@ export function LogExportPanel() {
         />
       </div>
 
-      <div className="flex items-center justify-between gap-3 pt-2 border-t border-gray-100">
-        <p className="text-xs text-gray-400">
+      <div className="flex items-center justify-between gap-3 pt-2 border-t border-line">
+        <p className="text-xs text-fg-muted">
           {rowCount == null
             ? 'CSV columns: when, action, by, user ID, details.'
             : `Last export: ${rowCount} row${rowCount === 1 ? '' : 's'}.`}

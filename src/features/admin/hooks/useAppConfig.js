@@ -7,6 +7,8 @@ const EMPTY = {
   departments: [],
   custom_fields: [],
   email_sender: { from_name: '', from_email: '', reply_to: null },
+  sla_rules: {},
+  overdue_after_days: 7,
 };
 
 /**
@@ -30,6 +32,8 @@ export function useAppConfig() {
             departments: data.departments ?? [],
             custom_fields: data.custom_fields ?? [],
             email_sender: data.email_sender ?? EMPTY.email_sender,
+            sla_rules: data.sla_rules ?? {},
+            overdue_after_days: data.overdue_after_days ?? EMPTY.overdue_after_days,
           });
         }
       } catch {

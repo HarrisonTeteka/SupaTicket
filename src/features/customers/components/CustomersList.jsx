@@ -44,7 +44,7 @@ export function CustomersList() {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center gap-3">
+      <div className="sticky top-0 z-20 bg-surface py-3 -my-3 shadow-sm flex items-center gap-3">
         <div className="relative flex-1 max-w-md">
           <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-fg-muted" />
           <input

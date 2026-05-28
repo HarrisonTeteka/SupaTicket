@@ -1,7 +1,9 @@
+import { Link } from 'react-router-dom';
 import { StatusBadge } from '../../tickets/components/StatusBadge';
 import { TICKET_STATUSES } from '../../tickets/tickets.utils';
 
-/** Tickets-by-status as proportional CSS bars. */
+/** Tickets-by-status as proportional CSS bars. Each row links to the filtered
+ *  tickets queue (matches the `status` URL param TicketsPage reads). */
 export function StatusBreakdown({ byStatus }) {
   const total = Object.values(byStatus).reduce((s, n) => s + n, 0);
   const max = Math.max(1, ...Object.values(byStatus));
@@ -14,11 +16,15 @@ export function StatusBreakdown({ byStatus }) {
       {total === 0 ? (
         <p className="text-sm text-fg-muted">No tickets yet.</p>
       ) : (
-        <div className="space-y-3">
+        <div className="space-y-1.5">
           {TICKET_STATUSES.map((s) => {
             const count = byStatus[s] || 0;
             return (
-              <div key={s} className="flex items-center gap-3">
+              <Link
+                key={s}
+                to={`/tickets?status=${encodeURIComponent(s)}`}
+                className="flex items-center gap-3 rounded-lg -mx-2 px-2 py-1.5 hover:bg-surface-2 transition-colors"
+              >
                 <div className="w-24 shrink-0">
                   <StatusBadge status={s} />
                 </div>
@@ -31,7 +37,7 @@ export function StatusBreakdown({ byStatus }) {
                 <span className="w-8 text-right text-sm font-bold text-brand-primary">
                   {count}
                 </span>
-              </div>
+              </Link>
             );
           })}
         </div>

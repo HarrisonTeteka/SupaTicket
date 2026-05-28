@@ -1,8 +1,16 @@
-import { Archive, ArchiveRestore, Pencil, Trash2 } from 'lucide-react';
+import { Archive, ArchiveRestore, KeyRound, Pencil, Trash2 } from 'lucide-react';
 import { Badge } from '../../../shared/components/Badge';
 
 /** One profile row in the Staff Directory table. */
-export function StaffRow({ profile, currentUserId, onEdit, onArchive, onRestore, onDelete }) {
+export function StaffRow({
+  profile,
+  currentUserId,
+  onEdit,
+  onArchive,
+  onRestore,
+  onDelete,
+  onResetPassword,
+}) {
   const isSelf = profile.id === currentUserId;
   const archived = profile.status === 'archived';
 
@@ -50,6 +58,16 @@ export function StaffRow({ profile, currentUserId, onEdit, onArchive, onRestore,
           >
             <Pencil size={15} />
           </button>
+          {onResetPassword && (
+            <button
+              type="button"
+              onClick={() => onResetPassword(profile)}
+              className="p-1.5 text-fg-muted hover:text-brand-accent"
+              title="Reset password"
+            >
+              <KeyRound size={15} />
+            </button>
+          )}
           {archived ? (
             <button
               type="button"

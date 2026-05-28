@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Users, UserX } from 'lucide-react';
 import { listAssignees } from '../../tickets/services/ticketsService';
 
@@ -74,6 +75,7 @@ export function AgentWorkload({ byAgent = [], unassigned = 0, totalOpen = 0 }) {
           {rows.map((a) => (
             <WorkloadRow
               key={a.id}
+              to={`/tickets?assigned_to=${encodeURIComponent(a.id)}`}
               avatar={(a.name || '?').charAt(0).toUpperCase()}
               avatarClass="bg-brand-accent text-white"
               name={a.name}
@@ -87,9 +89,9 @@ export function AgentWorkload({ byAgent = [], unassigned = 0, totalOpen = 0 }) {
   );
 }
 
-function WorkloadRow({ avatar, avatarClass, name, count, max, barClass = 'bg-brand-primary', muted }) {
-  return (
-    <div className="flex items-center gap-3">
+function WorkloadRow({ avatar, avatarClass, name, count, max, barClass = 'bg-brand-primary', muted, to }) {
+  const inner = (
+    <>
       <div
         className={`w-7 h-7 rounded-full text-[10px] font-bold flex items-center justify-center shrink-0 ${avatarClass}`}
       >
@@ -111,6 +113,21 @@ function WorkloadRow({ avatar, avatarClass, name, count, max, barClass = 'bg-bra
         </div>
       </div>
       <span className="w-6 text-right text-sm font-bold text-brand-primary">{count}</span>
-    </div>
+    </>
   );
+
+  // Rows for real agents become Links to the filtered queue. The Unassigned
+  // row stays a plain div — listTickets has no `assigned_to IS NULL` filter
+  // yet, so we'd send the user to a misleading list.
+  if (to) {
+    return (
+      <Link
+        to={to}
+        className="flex items-center gap-3 rounded-lg -mx-1 px-1 py-1 hover:bg-surface-2 transition-colors"
+      >
+        {inner}
+      </Link>
+    );
+  }
+  return <div className="flex items-center gap-3 px-1 py-1">{inner}</div>;
 }

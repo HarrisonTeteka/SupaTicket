@@ -23,5 +23,9 @@ export default function TicketDetailPage() {
     );
   }
 
-  return <TicketDetail ticket={ticket} onLocalChange={setTicket} />;
+  return (
+    <div className="pt-4 sm:pt-6 md:pt-8">
+      <TicketDetail ticket={ticket} onLocalChange={setTicket} />
+    </div>
+  );
 }

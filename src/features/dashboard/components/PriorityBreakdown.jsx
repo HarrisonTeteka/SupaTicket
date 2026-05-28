@@ -2,8 +2,7 @@ import { Link } from 'react-router-dom';
 import { PriorityBadge } from '../../tickets/components/PriorityBadge';
 import { TICKET_PRIORITIES } from '../../tickets/tickets.utils';
 
-/** Tickets-by-priority as proportional CSS bars. Each row links to the
- *  filtered tickets queue. */
+/** Tickets-by-priority as proportional CSS bars. */
 export function PriorityBreakdown({ byPriority }) {
   const total = Object.values(byPriority).reduce((s, n) => s + n, 0);
   const max = Math.max(1, ...Object.values(byPriority));

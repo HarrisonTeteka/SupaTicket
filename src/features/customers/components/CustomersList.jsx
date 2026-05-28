@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Building2, Mail, Phone, Pencil, Plus, Search, Trash2, Upload, Users } from 'lucide-react';
+import { Building2, ChevronLeft, ChevronRight, Mail, Phone, Pencil, Plus, Search, Trash2, Upload, Users } from 'lucide-react';
 import { useCustomers } from '../hooks/useCustomers';
 import { useAuth } from '../../auth/components/AuthGate';
 import { deleteCustomer } from '../services/customerService';
@@ -16,7 +16,8 @@ export function CustomersList() {
   const { isAdmin, can } = useAuth();
   const confirm = useConfirm();
   const [search, setSearch] = useState('');
-  const { customers, loading, error } = useCustomers(search);
+  const { customers, loading, error, page, setPage, pageSize, totalCount } = useCustomers(search);
+  const totalPages = Math.max(1, Math.ceil(totalCount / pageSize));
   const [editing, setEditing] = useState(null); // null=closed, {} = create, {id} = edit
   const [importing, setImporting] = useState(false);
   const [opError, setOpError] = useState('');
@@ -164,6 +165,35 @@ export function CustomersList() {
               ))}
             </tbody>
           </table>
+        </div>
+      )}
+
+      {!loading && totalCount > 0 && (
+        <div className="flex items-center justify-between gap-4 border-t border-line pt-4">
+          <p className="text-sm text-fg-secondary">{totalCount} total entries</p>
+          <div className="flex items-center gap-3">
+            <span className="text-sm text-fg-secondary">
+              Page {page + 1} of {totalPages}
+            </span>
+            <button
+              type="button"
+              onClick={() => setPage((p) => Math.max(0, p - 1))}
+              disabled={page === 0}
+              className="rounded p-1 text-fg-muted hover:bg-surface-2 disabled:opacity-40"
+              aria-label="Previous page"
+            >
+              <ChevronLeft size={16} />
+            </button>
+            <button
+              type="button"
+              onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+              disabled={page >= totalPages - 1}
+              className="rounded p-1 text-fg-muted hover:bg-surface-2 disabled:opacity-40"
+              aria-label="Next page"
+            >
+              <ChevronRight size={16} />
+            </button>
+          </div>
         </div>
       )}
 

@@ -66,7 +66,7 @@ export default function AdminPage() {
   const ActiveTab = TABS.find((t) => t.id === active)?.component;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 pt-4 sm:pt-6 md:pt-8">
       <div className="flex flex-wrap gap-1 bg-surface-2 rounded-xl p-1 w-fit">
         {TABS.map((t) => {
           const Icon = t.icon;

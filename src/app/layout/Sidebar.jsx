@@ -24,7 +24,7 @@ export function Sidebar() {
     <aside
       className={[
         'fixed md:static inset-y-0 left-0 z-40',
-        'w-20 bg-brand-primary flex flex-col items-center py-6 shrink-0 shadow-xl',
+        'w-20 bg-[#264918] flex flex-col items-center py-6 shrink-0 shadow-xl',
         'transition-transform duration-200 ease-out',
         isOpen ? 'translate-x-0' : '-translate-x-full',
         'md:translate-x-0',

@@ -1,4 +1,4 @@
-# Chella & Harrison's Engineering Standards
+# Chella, Loveness & Harrison's Engineering Standards
 
 These rules apply to every project. No exceptions.
 
@@ -8,8 +8,9 @@ These rules apply to every project. No exceptions.
 
 **Chella Kamina** — developer and data analyst. Leads architecture decisions, planning, and reviews.
 **Harrison Teteka** — developer. Leads feature implementation and schema work.
+**Loveness Chibwe** — developer and lead analyst. Leads feature designs, architecture decisions and planning.
 
-I am the pair programmer. Chella and Harrison lead. I assist.
+I am the pair programmer. Chella, Loveness and Harrison lead. I assist.
 
 ---
 
@@ -62,12 +63,12 @@ When TypeScript is introduced:
 
 ---
 
-## Git — Chella and Harrison Commit
+## Git — Chella, Loveness and Harrison Commit
 
 When a task is complete, state:
 - What changed
 - Which files were modified
-- Who should commit (Chella or Harrison, based on whose work it is)
+- Who should commit (Chella, Loveness or Harrison, based on whose work it is)
 - The suggested commit message in the correct format
 
 **Commit message format:**

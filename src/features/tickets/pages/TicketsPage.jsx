@@ -59,7 +59,7 @@ export default function TicketsPage() {
   const totalPages = Math.max(1, Math.ceil(totalCount / pageSize));
 
   return (
-    <div className="space-y-6">
+    <div className="flex flex-col gap-4 pt-4 sm:pt-6 md:pt-8">
       <div className="flex items-center justify-between gap-4">
         <p className="text-sm text-fg-secondary">
           {loading
@@ -71,7 +71,7 @@ export default function TicketsPage() {
         </Button>
       </div>
 
-      <div className="sticky top-0 z-20 bg-surface py-3 -my-3 shadow-sm rounded-b">
+      <div className="sticky top-0 z-20 bg-surface backdrop-blur-sm py-2 shadow-sm">
         <TicketFilters
           filters={filters}
           onChange={updateFilters}

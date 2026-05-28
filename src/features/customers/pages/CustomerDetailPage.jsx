@@ -132,7 +132,7 @@ export default function CustomerDetailPage() {
     .join('\n');
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 pt-4 sm:pt-6 md:pt-8">
       <Link
         to="/customers"
         className="inline-flex items-center gap-1.5 text-sm text-fg-secondary hover:text-brand-primary"

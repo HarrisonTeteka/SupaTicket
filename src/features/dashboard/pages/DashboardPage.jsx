@@ -29,13 +29,13 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 pt-4 sm:pt-6 md:pt-8">
       {/* Welcome hero with brand gradient — explicit inline gradient so it
           renders even if Tailwind hasn't generated the gradient utility yet. */}
       <div
-        className="relative overflow-hidden rounded-2xl p-5 sm:p-6 md:p-7 shadow-xl shadow-brand-primary/20"
+        className="relative overflow-hidden rounded-2xl p-5 sm:p-6 md:p-7"
         style={{
-          background: 'linear-gradient(135deg, #336021 0%, #264918 60%, #1a3014 100%)',
+          background: 'linear-gradient(135deg, #2d5a1e 0%, #264918 60%, #1a3014 100%)',
         }}
       >
         <div className="relative z-10">

@@ -13,12 +13,14 @@ const COLUMNS =
 
 const SEARCH_COLUMNS = 'id, external_id, name, email, company';
 
-/** List customers, newest first, with optional substring filter (name/email/company/external_id). */
-export async function listCustomers({ search } = {}) {
+/** List customers, newest first, with optional substring filter (name/email/company/external_id).
+ *  Server-paginated; returns { customers, totalCount }. */
+export async function listCustomers({ search, page = 0, pageSize = 25 } = {}) {
   let query = supabase
     .from('customers')
-    .select(COLUMNS)
-    .order('created_at', { ascending: false });
+    .select(COLUMNS, { count: 'exact' })
+    .order('created_at', { ascending: false })
+    .range(page * pageSize, (page + 1) * pageSize - 1);
 
   if (search && search.trim()) {
     const q = `%${search.trim()}%`;
@@ -27,9 +29,9 @@ export async function listCustomers({ search } = {}) {
     );
   }
 
-  const { data, error } = await query;
+  const { data, error, count } = await query;
   if (error) throw error;
-  return data ?? [];
+  return { customers: data ?? [], totalCount: count ?? 0 };
 }
 
 export async function getCustomer(id) {

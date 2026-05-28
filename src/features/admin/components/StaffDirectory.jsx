@@ -6,19 +6,23 @@ import { archiveStaff, deleteStaff, restoreStaff } from '../services/adminServic
 import { StaffRow } from './StaffRow';
 import { EditProfileModal } from './EditProfileModal';
 import { CreateUserModal } from './CreateUserModal';
+import { ResetPasswordModal } from './ResetPasswordModal';
 import { EmptyState } from '../../../shared/components/EmptyState';
 import { Button } from '../../../shared/components/Button';
 import { useConfirm } from '../../../shared/components/ConfirmProvider';
 
-/** Staff Directory tab: lists every profile with edit / archive / delete. */
+/** Staff Directory tab: lists every profile with edit / archive / delete /
+ *  reset password (gated by users.reset_password). */
 export function StaffDirectory() {
   const { staff, loading } = useStaff();
   const { user, can } = useAuth();
   const confirm = useConfirm();
   const [editing, setEditing] = useState(null);
   const [creating, setCreating] = useState(false);
+  const [resetting, setResetting] = useState(null);
   const [error, setError] = useState('');
   const canCreate = can && can('users.create');
+  const canResetPassword = can && can('users.reset_password');
 
   const run = async (fn) => {
     setError('');
@@ -90,6 +94,7 @@ export function StaffDirectory() {
                 onArchive={handleArchive}
                 onRestore={handleRestore}
                 onDelete={handleDelete}
+                onResetPassword={canResetPassword ? setResetting : undefined}
               />
             ))}
           </tbody>
@@ -107,6 +112,13 @@ export function StaffDirectory() {
       )}
 
       {creating && <CreateUserModal onClose={() => setCreating(false)} />}
+
+      {resetting && (
+        <ResetPasswordModal
+          profile={resetting}
+          onClose={() => setResetting(null)}
+        />
+      )}
     </div>
   );
 }

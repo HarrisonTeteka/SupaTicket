@@ -42,9 +42,14 @@ export async function listTickets(filters = {}) {
   if (filters.status) query = query.eq('status', filters.status);
   if (filters.priority) query = query.eq('priority', filters.priority);
   if (filters.assigned_to) query = query.eq('assigned_to', filters.assigned_to);
+  if (filters.created_by) query = query.eq('created_by', filters.created_by);
   if (filters.category) query = query.eq('category', filters.category);
   if (filters.tag) query = query.contains('tags', [filters.tag]);
   if (filters.customer_id) query = query.eq('customer_id', filters.customer_id);
+  // Date range against `created_at`. `since` is inclusive (start-of-day);
+  // `before` is also inclusive (end-of-day) — callers pass YYYY-MM-DD.
+  if (filters.since) query = query.gte('created_at', `${filters.since}T00:00:00`);
+  if (filters.before) query = query.lte('created_at', `${filters.before}T23:59:59`);
 
   if (filters.parentId === null) query = query.is('parent_id', null);
   else if (filters.parentId) query = query.eq('parent_id', filters.parentId);

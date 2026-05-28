@@ -1,13 +1,14 @@
+import { Link } from 'react-router-dom';
 import { StatusBadge } from '../../tickets/components/StatusBadge';
 import { TICKET_STATUSES } from '../../tickets/tickets.utils';
 
 const STATUS_BAR = {
-  'Open':        'bg-blue-500',
-  'Pending':     'bg-gray-400',
+  'Open': 'bg-blue-500',
+  'Pending': 'bg-gray-400',
   'In Progress': 'bg-amber-500',
-  'Escalated':   'bg-[#9E2A2B]',
-  'Resolved':    'bg-[#336021]',
-  'Closed':      'bg-gray-500',
+  'Escalated': 'bg-[#9E2A2B]',
+  'Resolved': 'bg-[#336021]',
+  'Closed': 'bg-gray-500',
 };
 
 /** Tickets-by-status as proportional CSS bars. */
@@ -23,11 +24,15 @@ export function StatusBreakdown({ byStatus }) {
       {total === 0 ? (
         <p className="text-sm text-fg-muted">No tickets yet.</p>
       ) : (
-        <div className="space-y-3">
+        <div className="space-y-1.5">
           {TICKET_STATUSES.map((s) => {
             const count = byStatus[s] || 0;
             return (
-              <div key={s} className="flex items-center gap-3">
+              <Link
+                key={s}
+                to={`/tickets?status=${encodeURIComponent(s)}`}
+                className="flex items-center gap-3 rounded-lg -mx-2 px-2 py-1.5 hover:bg-surface-2 transition-colors"
+              >
                 <div className="w-24 shrink-0">
                   <StatusBadge status={s} />
                 </div>
@@ -40,7 +45,7 @@ export function StatusBreakdown({ byStatus }) {
                 <span className="w-8 text-right text-sm font-bold text-brand-primary">
                   {count}
                 </span>
-              </div>
+              </Link>
             );
           })}
         </div>

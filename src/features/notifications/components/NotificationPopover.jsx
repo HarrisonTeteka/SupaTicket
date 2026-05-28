@@ -12,6 +12,7 @@ export function NotificationPopover({
   onMarkRead,
   onMarkAllRead,
   onRemove,
+  onOpen,
 }) {
   return (
     <div className="absolute right-0 mt-2 w-80 bg-surface rounded-xl border border-line-strong shadow-xl overflow-hidden z-50">
@@ -43,6 +44,7 @@ export function NotificationPopover({
               notification={n}
               onMarkRead={onMarkRead}
               onRemove={onRemove}
+              onOpen={onOpen}
             />
           ))
         )}

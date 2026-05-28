@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
   ArrowLeft,
@@ -15,10 +15,15 @@ import { useCustomer } from '../hooks/useCustomer';
 import { useTickets } from '../../tickets/hooks/useTickets';
 import { useAuth } from '../../auth/components/AuthGate';
 import { useNewTicketModal } from '../../tickets/hooks/useNewTicketModal';
+import { useAppConfig } from '../../admin/hooks/useAppConfig';
 import { deleteCustomer } from '../services/customerService';
+import { listAssignees } from '../../tickets/services/ticketsService';
+import { TICKET_STATUSES } from '../../tickets/tickets.utils';
 import { CustomerEditModal } from '../components/CustomerEditModal';
 import { TicketRow } from '../../tickets/components/TicketRow';
 import { Button } from '../../../shared/components/Button';
+import { Select } from '../../../shared/components/Select';
+import { Input } from '../../../shared/components/Input';
 import { EmptyState } from '../../../shared/components/EmptyState';
 import { useConfirm } from '../../../shared/components/ConfirmProvider';
 
@@ -30,16 +35,46 @@ export default function CustomerDetailPage() {
   const confirm = useConfirm();
   const { customer, loading, error } = useCustomer(id);
   const { openNewTicket } = useNewTicketModal();
+  const { config } = useAppConfig();
+
+  const [extraFilters, setExtraFilters] = useState({});
+  const [creators, setCreators] = useState([]);
+
+  // Roster of staff who could be a creator. listAssignees is staff-only by
+  // design, so customer-raised tickets won't appear in this dropdown; that's
+  // a known limitation — a "creator_role" filter could cover it later.
+  useEffect(() => {
+    let cancelled = false;
+    listAssignees()
+      .then((data) => {
+        if (!cancelled) setCreators(data);
+      })
+      .catch(() => {
+        if (!cancelled) setCreators([]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const ticketFilters = useMemo(
-    () => ({ customer_id: id, parentId: null }),
-    [id]
+    () => ({ customer_id: id, parentId: null, ...extraFilters }),
+    [id, extraFilters]
   );
   const {
     tickets,
     loading: ticketsLoading,
     error: ticketsError,
   } = useTickets(ticketFilters);
+
+  const setFilter = (key) => (e) => {
+    const next = { ...extraFilters };
+    if (e.target.value) next[key] = e.target.value;
+    else delete next[key];
+    setExtraFilters(next);
+  };
+
+  const hasExtraFilters = Object.keys(extraFilters).length > 0;
 
   const [editing, setEditing] = useState(false);
   const [opError, setOpError] = useState('');
@@ -207,6 +242,53 @@ export default function CustomerDetailPage() {
             <Button onClick={() => openNewTicket({ customer })}>
               <Plus size={14} /> Raise ticket
             </Button>
+          </div>
+
+          <div className="sticky top-0 z-20 bg-surface py-3 -my-3 shadow-sm rounded-b space-y-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+              <Select
+                label="Status"
+                placeholder="All statuses"
+                options={TICKET_STATUSES}
+                value={extraFilters.status || ''}
+                onChange={setFilter('status')}
+              />
+              <Select
+                label="Type"
+                placeholder="All types"
+                options={config.categories}
+                value={extraFilters.category || ''}
+                onChange={setFilter('category')}
+              />
+              <Select
+                label="Created by"
+                placeholder="Anyone"
+                options={creators.map((c) => ({ value: c.id, label: c.name }))}
+                value={extraFilters.created_by || ''}
+                onChange={setFilter('created_by')}
+              />
+              <Input
+                label="Since"
+                type="date"
+                name="since"
+                value={extraFilters.since || ''}
+                onChange={setFilter('since')}
+              />
+              <Input
+                label="Before"
+                type="date"
+                name="before"
+                value={extraFilters.before || ''}
+                onChange={setFilter('before')}
+              />
+            </div>
+            {hasExtraFilters && (
+              <div className="flex justify-end">
+                <Button variant="ghost" onClick={() => setExtraFilters({})}>
+                  Clear filters
+                </Button>
+              </div>
+            )}
           </div>
 
           {ticketsLoading ? (

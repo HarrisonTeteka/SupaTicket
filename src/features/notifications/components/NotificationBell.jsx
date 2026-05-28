@@ -1,8 +1,28 @@
 import { useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Bell } from 'lucide-react';
 import { useNotifications } from '../hooks/useNotifications';
 import { useDisclosure } from '../../../shared/hooks/useDisclosure';
 import { NotificationPopover } from './NotificationPopover';
+import { searchTickets } from '../../tickets/services/ticketsService';
+
+/**
+ * Notification messages are produced by DB triggers in migration 0005 and all
+ * contain a `#<ticket_number>` token. We extract that on click and resolve to
+ * a ticket id via the same searchTickets() the topbar uses; on a miss we fall
+ * back to the tickets list.
+ */
+async function resolveTarget(message) {
+  const match = message?.match(/#(\d+)/);
+  if (!match) return '/tickets';
+  try {
+    const results = await searchTickets(match[1]);
+    if (results.length > 0) return `/tickets/${results[0].id}`;
+  } catch {
+    // ignore — fall through to the list view
+  }
+  return '/tickets';
+}
 
 /**
  * Topbar notifications bell. Owns the single useNotifications() subscription,
@@ -12,6 +32,7 @@ export function NotificationBell() {
   const { notifications, unreadCount, loading, markRead, markAllRead, remove } =
     useNotifications();
   const { isOpen, toggle, close } = useDisclosure();
+  const navigate = useNavigate();
   const ref = useRef(null);
 
   useEffect(() => {
@@ -22,6 +43,13 @@ export function NotificationBell() {
     document.addEventListener('mousedown', onClick);
     return () => document.removeEventListener('mousedown', onClick);
   }, [isOpen, close]);
+
+  const handleOpen = async (notification) => {
+    if (!notification.read) markRead(notification.id);
+    close();
+    const target = await resolveTarget(notification.message);
+    navigate(target);
+  };
 
   return (
     <div ref={ref} className="relative">
@@ -47,6 +75,7 @@ export function NotificationBell() {
           onMarkRead={markRead}
           onMarkAllRead={markAllRead}
           onRemove={remove}
+          onOpen={handleOpen}
         />
       )}
     </div>

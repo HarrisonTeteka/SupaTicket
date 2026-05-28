@@ -3,7 +3,7 @@ import { supabase } from '../../../lib/supabase';
 /** Network-touching operations for ticket comments. */
 
 const COMMENT_COLUMNS =
-  'id, ticket_id, text, internal, author_id, author_name, created_at, updated_at';
+  'id, ticket_id, text, internal, original_text, edited_at, author_id, author_name, created_at, updated_at';
 
 export async function listComments(ticketId) {
   const { data, error } = await supabase
@@ -35,15 +35,46 @@ export async function addComment({ ticketId, text, internal = false }, actor) {
   return data;
 }
 
+/**
+ * Edit a comment's body. Captures the pre-edit text into `original_text`
+ * on the first edit only (subsequent edits leave it alone), and stamps
+ * `edited_at`. Two round-trips (read + update) — fine for a human-triggered
+ * action. Migration 0021 added the columns.
+ *
+ * Robustness notes:
+ * - maybeSingle() so a missing/RLS-hidden row produces a clean error
+ *   instead of PostgREST's "cannot coerce the result" message.
+ * - The UPDATE no longer chains `.select().single()`: when RLS allows
+ *   UPDATE but the RETURNING row is hidden by the SELECT policy, the
+ *   returned rowset is empty and `.single()` errors. The useComments()
+ *   realtime channel re-fetches on UPDATE anyway, so the UI refreshes
+ *   without us round-tripping the row.
+ */
 export async function updateComment(id, text) {
-  const { data, error } = await supabase
+  const { data: existing, error: fetchError } = await supabase
     .from('comments')
-    .update({ text: text.trim() })
+    .select('text, original_text')
     .eq('id', id)
-    .select(COMMENT_COLUMNS)
-    .single();
+    .maybeSingle();
+  if (fetchError) throw fetchError;
+  if (!existing) throw new Error('Comment not found (it may have been deleted).');
+
+  const update = {
+    text: text.trim(),
+    edited_at: new Date().toISOString(),
+  };
+  if (!existing.original_text) {
+    update.original_text = existing.text;
+  }
+
+  const { error, count } = await supabase
+    .from('comments')
+    .update(update, { count: 'exact' })
+    .eq('id', id);
   if (error) throw error;
-  return data;
+  if (count === 0) {
+    throw new Error("You can't edit this comment — only the author can.");
+  }
 }
 
 export async function deleteComment(id) {

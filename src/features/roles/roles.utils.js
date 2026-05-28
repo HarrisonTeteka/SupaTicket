@@ -29,11 +29,12 @@ export const PERMISSION_CATEGORIES = {
     { key: 'customers.import', label: 'Import customers from CSV' },
   ],
   'Users & roles': [
-    { key: 'users.create',      label: 'Create users' },
-    { key: 'users.edit',        label: 'Edit users' },
-    { key: 'users.delete',      label: 'Delete users' },
-    { key: 'users.assign_role', label: 'Change a user’s role' },
-    { key: 'roles.manage',      label: 'Manage roles & permissions' },
+    { key: 'users.create',         label: 'Create users' },
+    { key: 'users.edit',           label: 'Edit users' },
+    { key: 'users.delete',         label: 'Delete users' },
+    { key: 'users.reset_password', label: 'Reset user passwords' },
+    { key: 'users.assign_role',    label: 'Change a user’s role' },
+    { key: 'roles.manage',         label: 'Manage roles & permissions' },
   ],
   Configuration: [
     { key: 'config.categories',    label: 'Edit categories' },

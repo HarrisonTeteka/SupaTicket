@@ -2,20 +2,24 @@ import { Check, X } from 'lucide-react';
 import { formatRelative } from '../../tickets/tickets.utils';
 
 /** One row in the notifications popover. */
-export function NotificationItem({ notification, onMarkRead, onRemove }) {
+export function NotificationItem({ notification, onMarkRead, onRemove, onOpen }) {
   const { id, message, read, created_at } = notification;
 
   return (
     <div
-      className={`group flex items-start gap-2 px-4 py-3 border-b border-line last:border-0 ${
+      className={`group flex items-stretch gap-2 px-4 py-3 border-b border-line last:border-0 ${
         read ? 'bg-surface' : 'bg-brand-accent/5'
       }`}
     >
       {!read && <span className="mt-1.5 w-2 h-2 rounded-full bg-brand-accent shrink-0" />}
-      <div className={`flex-1 min-w-0 ${read ? 'pl-4' : ''}`}>
+      <button
+        type="button"
+        onClick={() => onOpen?.(notification)}
+        className={`flex-1 min-w-0 text-left rounded ${read ? 'pl-4' : ''} hover:bg-surface-2 focus:bg-surface-2 focus:outline-none px-1 -mx-1`}
+      >
         <p className="text-sm text-fg">{message}</p>
         <p className="text-[11px] text-fg-muted mt-0.5">{formatRelative(created_at)}</p>
-      </div>
+      </button>
       <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
         {!read && (
           <button

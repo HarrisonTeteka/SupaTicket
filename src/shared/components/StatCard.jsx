@@ -14,7 +14,7 @@ const TONES = {
 /** Compact KPI card: an icon chip, a big value and a label. */
 export function StatCard({ icon: Icon, label, value, hint, tone = 'tangerine' }) {
   return (
-    <div className="bg-surface border border-line-strong rounded-2xl p-4 sm:p-5 flex items-center gap-3 sm:gap-4 hover:-translate-y-0.5 transition-all">
+    <div className="bg-surface border border-line-strong rounded-2xl p-4 sm:p-5 flex items-center gap-3 sm:gap-4 hover:-translate-y-0.5 transition-all h-full">
       {Icon && (
         <div
           className={cn(

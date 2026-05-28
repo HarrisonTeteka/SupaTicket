@@ -244,7 +244,7 @@ export default function CustomerDetailPage() {
             </Button>
           </div>
 
-          <div className="sticky top-0 z-20 bg-surface py-3 -my-3 shadow-sm rounded-b space-y-3">
+          <div className="sticky top-0 z-10 py-3 bg-app space-y-3">
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
               <Select
                 label="Status"

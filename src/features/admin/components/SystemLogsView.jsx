@@ -29,7 +29,7 @@ export function SystemLogsView() {
 
   return (
     <div className="space-y-4">
-      <div className="sticky top-0 z-20 bg-surface py-3 -my-3 shadow-sm flex flex-wrap items-end gap-3">
+      <div className="sticky top-0 z-10 -mx-4 sm:-mx-6 md:-mx-8 px-4 sm:px-6 md:px-8 py-3 bg-app flex flex-wrap items-end gap-3">
         <div className="w-52">
           <Select
             label="Action type"

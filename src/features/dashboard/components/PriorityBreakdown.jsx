@@ -1,7 +1,9 @@
+import { Link } from 'react-router-dom';
 import { PriorityBadge } from '../../tickets/components/PriorityBadge';
 import { TICKET_PRIORITIES } from '../../tickets/tickets.utils';
 
-/** Tickets-by-priority as proportional CSS bars. */
+/** Tickets-by-priority as proportional CSS bars. Each row links to the
+ *  filtered tickets queue. */
 export function PriorityBreakdown({ byPriority }) {
   const total = Object.values(byPriority).reduce((s, n) => s + n, 0);
   const max = Math.max(1, ...Object.values(byPriority));
@@ -14,11 +16,15 @@ export function PriorityBreakdown({ byPriority }) {
       {total === 0 ? (
         <p className="text-sm text-fg-muted">No tickets yet.</p>
       ) : (
-        <div className="space-y-3">
+        <div className="space-y-1.5">
           {TICKET_PRIORITIES.map((p) => {
             const count = byPriority[p] || 0;
             return (
-              <div key={p} className="flex items-center gap-3">
+              <Link
+                key={p}
+                to={`/tickets?priority=${encodeURIComponent(p)}`}
+                className="flex items-center gap-3 rounded-lg -mx-2 px-2 py-1.5 hover:bg-surface-2 transition-colors"
+              >
                 <div className="w-24 shrink-0">
                   <PriorityBadge priority={p} />
                 </div>
@@ -31,7 +37,7 @@ export function PriorityBreakdown({ byPriority }) {
                 <span className="w-8 text-right text-sm font-bold text-brand-primary">
                   {count}
                 </span>
-              </div>
+              </Link>
             );
           })}
         </div>

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Plus, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTickets } from '../hooks/useTickets';
 import { useNewTicketModal } from '../hooks/useNewTicketModal';
@@ -7,12 +8,37 @@ import { TicketList } from '../components/TicketList';
 import { TicketFilters } from '../components/TicketFilters';
 import { Button } from '../../../shared/components/Button';
 
+// Filter keys that round-trip through the URL. Anything not in this list
+// (e.g. `parentId`, internal pagination) stays local.
+const URL_FILTER_KEYS = ['status', 'priority', 'category', 'assigned_to', 'tag'];
+
 /** Tickets queue: filter row + paginated list of top-level tickets. */
 export default function TicketsPage() {
-  const [filters, setFilters] = useState({});
+  const [searchParams, setSearchParams] = useSearchParams();
+  // Seed initial filter state from the URL so dashboard widgets and other
+  // pages can deep-link with `/tickets?status=...&priority=...`.
+  const [filters, setFilters] = useState(() => {
+    const seed = {};
+    URL_FILTER_KEYS.forEach((k) => {
+      const v = searchParams.get(k);
+      if (v) seed[k] = v;
+    });
+    return seed;
+  });
   const { openNewTicket } = useNewTicketModal();
   const [assignees, setAssignees] = useState([]);
   const [allTags, setAllTags] = useState([]);
+
+  // Keep the URL in sync when filters change, so the bar is shareable and
+  // the back button restores the previous filter set.
+  const updateFilters = (next) => {
+    setFilters(next);
+    const params = new URLSearchParams();
+    URL_FILTER_KEYS.forEach((k) => {
+      if (next[k]) params.set(k, next[k]);
+    });
+    setSearchParams(params, { replace: true });
+  };
 
   // Only top-level tickets here — sub-tickets show under their parent.
   const queryFilters = useMemo(() => ({ ...filters, parentId: null }), [filters]);
@@ -58,12 +84,14 @@ export default function TicketsPage() {
         </Button>
       </div>
 
-      <TicketFilters
-        filters={filters}
-        onChange={setFilters}
-        assignees={assignees}
-        tags={allTags}
-      />
+      <div className="sticky top-0 z-20 bg-surface py-3 -my-3 shadow-sm rounded-b">
+        <TicketFilters
+          filters={filters}
+          onChange={updateFilters}
+          assignees={assignees}
+          tags={allTags}
+        />
+      </div>
       <TicketList tickets={tickets} loading={loading} error={error} />
 
       {!loading && totalCount > 0 && (

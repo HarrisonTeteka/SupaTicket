@@ -9,6 +9,7 @@ import {
   Shield,
   SlidersHorizontal,
   Tags,
+  Timer,
   Users,
 } from 'lucide-react';
 
@@ -39,6 +40,9 @@ const EmailSettingsEditor = lazy(() =>
 const SystemLogsView = lazy(() =>
   import('../components/SystemLogsView').then((m) => ({ default: m.SystemLogsView }))
 );
+const SlaRulesEditor = lazy(() =>
+  import('../components/SlaRulesEditor').then((m) => ({ default: m.SlaRulesEditor }))
+);
 const ReportsPage = lazy(() => import('../../reports/pages/ReportsPage'));
 
 const TABS = [
@@ -48,6 +52,7 @@ const TABS = [
   { id: 'categories', label: 'Categories', icon: Tags, component: CategoriesEditor },
   { id: 'departments', label: 'Departments', icon: Building2, component: DepartmentsEditor },
   { id: 'fields', label: 'Custom Fields', icon: SlidersHorizontal, component: CustomFieldsBuilder },
+  { id: 'sla', label: 'SLA', icon: Timer, component: SlaRulesEditor },
   { id: 'email', label: 'Email', icon: Mail, component: EmailSettingsEditor },
   { id: 'reports', label: 'Reports', icon: FileBarChart2, component: ReportsPage },
   { id: 'logs', label: 'Logs', icon: ScrollText, component: SystemLogsView },

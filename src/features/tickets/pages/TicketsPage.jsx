@@ -60,18 +60,17 @@ export default function TicketsPage() {
 
   return (
     <div className="flex flex-col gap-4 pt-4 sm:pt-6 md:pt-8">
-      <div className="flex items-center justify-between gap-4">
-        <p className="text-sm text-fg-secondary">
-          {loading
-            ? 'Loading tickets...'
-            : `${totalCount} ticket${totalCount === 1 ? '' : 's'}`}
-        </p>
-        <Button onClick={() => openNewTicket()}>
-          <Plus size={15} /> Raise ticket
-        </Button>
-      </div>
-
-      <div className="sticky top-0 z-20 bg-surface backdrop-blur-sm py-2 shadow-sm">
+      <div className="sticky top-0 z-10 -mx-4 sm:-mx-6 md:-mx-8 px-4 sm:px-6 md:px-8 py-3 bg-app space-y-4">
+        <div className="flex items-center justify-between gap-4">
+          <p className="text-sm text-fg-secondary">
+            {loading
+              ? 'Loading tickets...'
+              : `${totalCount} ticket${totalCount === 1 ? '' : 's'}`}
+          </p>
+          <Button onClick={() => openNewTicket()}>
+            <Plus size={15} /> Raise ticket
+          </Button>
+        </div>
         <TicketFilters
           filters={filters}
           onChange={updateFilters}
@@ -79,6 +78,7 @@ export default function TicketsPage() {
           tags={allTags}
         />
       </div>
+
       <TicketList tickets={tickets} loading={loading} error={error} />
 
       {!loading && totalCount > 0 && (

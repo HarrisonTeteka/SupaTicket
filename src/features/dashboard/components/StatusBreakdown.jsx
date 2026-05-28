@@ -2,8 +2,7 @@ import { Link } from 'react-router-dom';
 import { StatusBadge } from '../../tickets/components/StatusBadge';
 import { TICKET_STATUSES } from '../../tickets/tickets.utils';
 
-/** Tickets-by-status as proportional CSS bars. Each row links to the filtered
- *  tickets queue (matches the `status` URL param TicketsPage reads). */
+/** Tickets-by-status as proportional CSS bars. */
 export function StatusBreakdown({ byStatus }) {
   const total = Object.values(byStatus).reduce((s, n) => s + n, 0);
   const max = Math.max(1, ...Object.values(byStatus));

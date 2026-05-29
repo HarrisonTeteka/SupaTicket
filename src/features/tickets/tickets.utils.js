@@ -21,28 +21,28 @@ export const TERMINAL_STATUSES = ['Resolved', 'Closed'];
 export const MAX_ATTACHMENT_BYTES = 10 * 1024 * 1024;
 
 const STATUS_STYLES = {
-  Open: 'bg-blue-100 text-blue-700',
-  Pending: 'bg-brand-pending text-brand-danger',
-  'In Progress': 'bg-amber-100 text-amber-700',
-  Overdue: 'bg-orange-100 text-orange-700',
-  Escalated: 'bg-red-100 text-red-700',
-  Resolved: 'bg-emerald-100 text-emerald-700',
-  Closed: 'bg-surface-2 text-fg-secondary',
+  Open:         'text-blue-600',
+  Pending:      'text-amber-600',
+  'In Progress':'text-orange-500',
+  Overdue:      'text-red-500',
+  Escalated:    'text-[#9E2A2B]',
+  Resolved:     'text-emerald-600',
+  Closed:       'text-gray-400',
 };
 
 const PRIORITY_STYLES = {
-  Low: 'bg-surface-2 text-fg',
-  Medium: 'bg-sky-100 text-sky-700',
-  High: 'bg-orange-100 text-orange-700',
-  Urgent: 'bg-red-100 text-red-700',
+  Low:    'text-gray-400',
+  Medium: 'text-sky-600',
+  High:   'text-orange-500',
+  Urgent: 'text-[#9E2A2B]',
 };
 
 export function statusColor(status) {
-  return STATUS_STYLES[status] || 'bg-surface-2 text-fg';
+  return STATUS_STYLES[status] || 'text-fg-secondary';
 }
 
 export function priorityColor(priority) {
-  return PRIORITY_STYLES[priority] || 'bg-surface-2 text-fg';
+  return PRIORITY_STYLES[priority] || 'text-fg-secondary';
 }
 
 /** 100123 -> "#100123" */
@@ -127,11 +127,11 @@ export function slaState(ticket) {
 }
 
 const SLA_STYLES = {
-  'on-track': 'bg-emerald-100 text-emerald-700',
-  'at-risk': 'bg-amber-100 text-amber-700',
-  breached: 'bg-brand-danger/15 text-brand-danger',
-  done: 'bg-surface-2 text-fg-secondary',
-  unknown: 'bg-surface-2 text-fg-muted',
+  'on-track': 'text-emerald-600',
+  'at-risk':  'text-amber-500',
+  breached:   'text-[#9E2A2B]',
+  done:       'text-fg-secondary',
+  unknown:    'text-fg-muted',
 };
 
 const SLA_LABELS = {

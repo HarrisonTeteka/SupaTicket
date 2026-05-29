@@ -66,8 +66,8 @@ function NavItem({ to, icon: Icon, label }) {
       className={({ isActive }) =>
         `p-3 rounded-xl transition-all ${
           isActive
-            ? 'bg-brand-accent text-white shadow-md shadow-brand-accent/30'
-            : 'text-white/60 hover:text-white hover:bg-surface/10'
+            ? 'bg-white/10 text-white'
+            : 'text-white/50 hover:text-white hover:bg-white/10'
         }`
       }
     >
